@@ -36,7 +36,12 @@ public class Graphe<E> {
 		return true ;
 	}
 	
-
+	public Noeud<E> getNoeud( E content) {
+		if ( this.noeuds.containsKey( content ) )
+			return this.noeuds.get( content );
+		else	
+			return null ;
+	}
 	
 	ArrayList<Arete<E>> djikstra() {
 
