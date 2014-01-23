@@ -16,6 +16,7 @@ public class Arete<E> {
 		this.weight = weight ;
 		
 		this.origine.enregistrer( this );
+		this.destination.enregistrer_inverse( this );
 		
 	}
 	
