@@ -2,6 +2,8 @@ package SIMULATION.Graphe;
 
 import java.util.HashMap;
 
+// CLASS DONE
+
 public class Noeud<E> {
 
 	private E content ;
@@ -20,8 +22,10 @@ public class Noeud<E> {
 		this.aretes.put( arete.getDestination().getContent() , arete ) ;
 	}
 
-	public void supprimmer( Arete<E> arete ) {
+	public boolean supprimmer( Arete<E> arete ) {
+		boolean suppression_effectuee = this.aretes.containsValue( arete ) ;
 		this.aretes.remove(arete) ;
+		return suppression_effectuee ;
 	}
 	
 	public HashMap<E,Arete<E>> getAretes() {

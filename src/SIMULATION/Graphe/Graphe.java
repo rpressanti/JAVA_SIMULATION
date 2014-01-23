@@ -7,22 +7,26 @@ public class Graphe<E> {
 
 	protected HashMap<E,Noeud<E>> noeuds ;
 	
+	// DONE
 	public Graphe() {
 		this.noeuds = new HashMap<E,Noeud<E>> () ;
 	}
 
+	
+	// DONE
 	public Noeud<E> add( E content ) {
 		Noeud<E> node = new Noeud<E>( content ) ;
 		this.noeuds.put( content , node ) ;
 		return node ;
 	}
 	
+	// DONE
 	public boolean add( Noeud<E> node ) {
 		this.noeuds.put( node.getContent() , node ) ;
 		return true ;
 	}
 	
-	
+	// DONE
 	public boolean add( Arete<E> arete ) {
 		
 		Noeud<E> origine     = arete.getOrigine();
@@ -36,6 +40,8 @@ public class Graphe<E> {
 		return true ;
 	}
 	
+	
+	// DONE
 	public Noeud<E> getNoeud( E content) {
 		if ( this.noeuds.containsKey( content ) )
 			return this.noeuds.get( content );
@@ -43,10 +49,31 @@ public class Graphe<E> {
 			return null ;
 	}
 	
-	ArrayList<Arete<E>> djikstra() {
+	// TODO
+	public ArrayList<Arete<E>> djikstra() {
 
 		return null ;
 	}
 
+	public boolean filtrer( double distance ) {
+		
+		boolean suppression_realisee = false ;
+		
+		for( Noeud<E> noeud : this.noeuds.values() )
+			for( Arete<E> arete : noeud.getAretes().values() )
+				if ( arete.getWeight() > distance )
+					suppression_realisee |= noeud.supprimmer(arete);
+		
+		return suppression_realisee ;
+	}
 	
+	// TODO
+	public Graphe<E> clone() {
+		
+		// Copier les noueds
+		
+		// Recreer les aretes
+		
+		return this ;
+	}
 }
