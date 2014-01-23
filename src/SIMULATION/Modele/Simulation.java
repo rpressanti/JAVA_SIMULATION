@@ -179,16 +179,18 @@ public class Simulation {
 		for( Arete<Point> arete : aerodrome.getAretes().values() )
 			if ( arete.getWeight() < this.distance_max ) 
 			{
-				Noeud<Point> nouvelle_destination = graphe_buffer.getNoeud( arete.getDestination().getContent() ) ;
-				Arete<Point> nouvelle_arete = new Arete<Point>( aerodrome , arete.getDestination() , arete.getWeight() ) ;
+				//Noeud<Point> destination = graphe_buffer.getNoeud( arete.getDestination().getContent() ) ;
+				//Arete<Point> nouvelle_arete = new Arete<Point>( aerodrome , destination , arete.getWeight() ) ;
+				graphe_buffer.add( aerodrome.getContent() , arete.getDestination().getContent() , arete.getWeight() ) ;
 			}
 		
 		// Idem pour les dependances inverses
 		for( Arete<Point> arete : aerodrome.getAretesInverses().values() )
 			if ( arete.getWeight() < this.distance_max )
 			{
-				Noeud<Point> nouvelle_origine = graphe_buffer.getNoeud( arete.getOrigine().getContent() ) ;
-				Arete<Point> nouvelle_arete = new Arete<Point>( nouvelle_origine , aerodrome , arete.getWeight() ) ;
+				//Noeud<Point> origine = graphe_buffer.getNoeud( arete.getOrigine().getContent() ) ;
+				//Arete<Point> nouvelle_arete = new Arete<Point>( origine , aerodrome , arete.getWeight() ) ;
+				graphe_buffer.add( arete.getOrigine().getContent() , aerodrome.getContent() , arete.getWeight() ) ;
 			}
 		
 	}

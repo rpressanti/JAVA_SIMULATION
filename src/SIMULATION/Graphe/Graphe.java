@@ -41,6 +41,24 @@ public class Graphe<E> {
 	}
 	
 	
+	
+	// DONE
+	public boolean add( E origine , E destination , double weight ) {
+		
+		boolean result = true ;
+		
+		Noeud<E> noeud_origine = this.noeuds.get( origine ) ;
+		Noeud<E> noeud_destination = this.noeuds.get( destination ) ;
+		
+		if( noeud_origine != null && noeud_destination != null )
+			this.add( new Arete<E>( noeud_origine , noeud_destination , weight ) ) ;
+		else
+			result = false ;
+		
+		return result ;
+	}
+	
+	
 	// DONE
 	public Noeud<E> getNoeud( E content) {
 		if ( this.noeuds.containsKey( content ) )
