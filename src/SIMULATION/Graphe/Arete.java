@@ -32,4 +32,7 @@ public class Arete<E> {
 		return this.weight ;
 	}
 
+	public boolean isTrivial() {
+		return this.getOrigine() == this.getDestination() ;
+	}
 }

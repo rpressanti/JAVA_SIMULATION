@@ -120,8 +120,10 @@ public class Graphe<E> {
 		{	
 			// On commence par récupérer ceux allant à la destination parmi les sous-chemins les plus courts
 			while( (chemin_courant = a_traiter.poll()).last() != destination )
+			{	
+				chemin_courant.untrivial();
 				plus_courts.add( chemin_courant ) ;
-			
+			}
 			// S'il y en a, le traitement est fini
 			if( ! plus_courts.isEmpty() )
 				return plus_courts ;

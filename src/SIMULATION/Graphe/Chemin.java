@@ -44,6 +44,16 @@ public class Chemin<E> extends ArrayList<Arete<E>> {
 	}
 	
 	
+	public boolean untrivial() {
+		
+		boolean result = false ;
+		
+		for( Arete<E> arete : this )
+			if( arete.isTrivial() ) 
+				this.remove( arete ) ;
+		
+		return result ;
+	}
 	
 	public Chemin<E> clone() {
 		
