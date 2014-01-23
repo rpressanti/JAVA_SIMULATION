@@ -3,10 +3,12 @@ package SIMULATION.Datatypes;
 import java.util.Scanner;
 import java.util.regex.MatchResult;
 
+import SIMULATION.Graphe.Distance;
 
 
 
-public class Point {
+
+public class Point implements Distance<Point> {
 	
 	static final int metres_par_NM = 1852 ;
 	
@@ -116,5 +118,6 @@ public class Point {
 		//p1=new Point("")
 
 	}
+
 
 }

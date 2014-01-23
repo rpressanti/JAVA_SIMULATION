@@ -1,5 +1,7 @@
 package SIMULATION.Graphe;
 
+//CLASS DONE
+
 public class Arete<E> {
 	
 	private Noeud<E> origine ;

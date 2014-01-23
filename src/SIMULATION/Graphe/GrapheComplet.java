@@ -1,6 +1,6 @@
 package SIMULATION.Graphe;
 
-public class GrapheComplet<E extends Distance> extends Graphe<E> {
+public class GrapheComplet< E extends Distance<E>> extends Graphe<E> {
 
 
 	public void complet() {

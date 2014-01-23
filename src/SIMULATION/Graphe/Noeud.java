@@ -18,6 +18,10 @@ public class Noeud<E> {
 		return this.content ;
 	}
 	
+	public boolean equals( Noeud<E> other_node) {
+		return this.getContent().equals( other_node.getContent() ) ;
+	}
+	
 	public void enregistrer( Arete<E> arete ) {
 		this.aretes.put( arete.getDestination().getContent() , arete ) ;
 	}

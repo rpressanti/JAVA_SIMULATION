@@ -1,5 +1,5 @@
 package SIMULATION.Graphe;
 
-public interface Distance {
-	abstract <E> double distanceTo( E other) ;
+public interface Distance<E> {
+	abstract double distanceTo( E other) ;
 }
