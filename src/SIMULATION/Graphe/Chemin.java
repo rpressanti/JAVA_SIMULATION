@@ -13,6 +13,10 @@ public class Chemin<E> extends ArrayList<Arete<E>> {
 		this.length = 0 ;
 	}
 	
+	public double getLength() {
+		return this.length ;
+	}
+	
 	public boolean add( Arete<E> arete ) {
 		
 		boolean result = super.add( arete ) ;
@@ -25,7 +29,7 @@ public class Chemin<E> extends ArrayList<Arete<E>> {
 		
 		Chemins<E> result = new Chemins<E>() ;
 		
-		for( Arete<E> arete : this.last().getDestination().getAretes().values() )
+		for( Arete<E> arete : this.last().getAretes().values() )
 		{
 			Chemin<E> tmp = this.clone() ;
 			tmp.add( arete ) ;
@@ -35,8 +39,8 @@ public class Chemin<E> extends ArrayList<Arete<E>> {
 		return result ;
 	}
 	
-	public Arete<E> last() {
-		return this.get( this.size() -1 ) ;
+	public Noeud<E> last() {
+		return this.get( this.size() -1 ).getDestination() ;
 	}
 	
 	

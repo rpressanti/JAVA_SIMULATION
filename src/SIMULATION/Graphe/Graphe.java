@@ -75,24 +75,30 @@ public class Graphe<E> {
 		
 		PriorityQueue<Chemin<E>> a_traiter = new PriorityQueue<Chemin<E>>() ;
 		// Initialisation de la Queue de priorite
-		//a_traiter.add()
-		
+		Chemin<E> chemin_trivial = new Chemin<E>() ;
+		chemin_trivial.add( new Arete<E>( origine , origine , 0) ) ;
+		a_traiter.add( chemin_trivial ) ;
+
 		Chemin<E> chemin_courant = null ;
 		
 		while ( ! a_traiter.isEmpty() )
-		{
+		{	
 			// On commence par récupérer ceux allant à la destination parmi les sous-chemins les plus courts
-			while( (chemin_courant = a_traiter.poll()).last().getDestination() != destination )
+			while( (chemin_courant = a_traiter.poll()).last() != destination )
 				plus_courts.add( chemin_courant ) ;
 			
 			// S'il y en a, le traitement est fini
 			if( ! plus_courts.isEmpty() )
 				return plus_courts ;
 
+			distance_connue.put( chemin_courant.last() , chemin_courant.getLength() ) ;
+			
 			// Sinon, on itere
 			for( Chemin<E> nouveau : chemin_courant.successeurs() )
-				a_traiter.add( nouveau ) ;		
-		}
+				if( ! distance_connue.containsKey( nouveau.last() ) )
+					a_traiter.add( nouveau ) ;		
+		} 
+		//while ( ! a_traiter.isEmpty() ) ; 
 		
 		return plus_courts ;
 	}
