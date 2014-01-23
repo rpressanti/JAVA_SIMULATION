@@ -1,11 +1,42 @@
 package SIMULATION.Graphe;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
 public class Graphe<E> {
 
 	protected HashMap<E,Noeud<E>> noeuds ;
+	
+	private class DestinationFirst implements Comparator<Chemin<E>> {
+		
+		private Noeud<E> destination ;
+		
+		public DestinationFirst( Noeud<E> destination ) {
+			this.destination = destination ;
+		}
+
+		@Override
+		public int compare(Chemin<E> chemin_1, Chemin<E> chemin_2) {
+			
+			if( chemin_1 == chemin_2 )
+				return 0 ;
+			
+			if( chemin_1.getLength() < chemin_2.getLength() )
+				return -1 ;
+			else if ( chemin_1.getLength() > chemin_2.getLength() )
+				return 1 ;
+			else if ( chemin_1.last() == this.destination )
+				return -1 ;
+			else if ( chemin_2.last() == this.destination )
+				return 1 ;
+			else
+				return 0 ;
+			}
+		
+	}
+	
+	
 	
 	// DONE
 	public Graphe() {
@@ -67,13 +98,17 @@ public class Graphe<E> {
 			return null ;
 	}
 	
+	
+	
+	
+	
 	// TODO
 	public Chemins<E> djikstra( Noeud<E> origine , Noeud<E> destination) {
 
 		Chemins<E> plus_courts = new Chemins<E>() ;
 		HashMap<Noeud<E>,Double> distance_connue = new HashMap<Noeud<E>,Double>() ;
 		
-		PriorityQueue<Chemin<E>> a_traiter = new PriorityQueue<Chemin<E>>() ;
+		PriorityQueue<Chemin<E>> a_traiter = new PriorityQueue<Chemin<E>>( 0 , new DestinationFirst( destination ) ) ;
 		// Initialisation de la Queue de priorite
 		Chemin<E> chemin_trivial = new Chemin<E>() ;
 		chemin_trivial.add( new Arete<E>( origine , origine , 0) ) ;
