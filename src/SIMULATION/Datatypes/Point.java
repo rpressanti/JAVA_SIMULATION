@@ -11,6 +11,8 @@ import SIMULATION.Graphe.Distance;
 public class Point implements Distance<Point> {
 	
 	static final int metres_par_NM = 1852 ;
+	static final int rayon_terre=6378000;
+
 	
 	public static final String regexp_point = Coordonnees.regexp_latitude 
 				+ " " + Coordonnees.regexp_longitude;
@@ -85,10 +87,10 @@ public class Point implements Distance<Point> {
 	public double distanceTo( Point p )
 	{
 		double a,b,c,d,e,f,g,h,i;
-		a=p.longitude.getValue();
-		b=p.latitude.getValue();
-		c=this.longitude.getValue();
-		d=this.latitude.getValue();
+		a=Coordonnees.decimalToRadian(p.longitude.getValue());
+		b=Coordonnees.decimalToRadian(p.latitude.getValue());
+		c=Coordonnees.decimalToRadian(this.longitude.getValue());
+		d=Coordonnees.decimalToRadian(this.latitude.getValue());
 		double d1=a-c;
 		e=Math.sin(d);
 		f=Math.sin(b);
@@ -96,7 +98,7 @@ public class Point implements Distance<Point> {
 		h=Math.cos(b);
 		i=Math.cos(d1);
 		// Calcul en m puis conversion en NM
-		return Math.acos((e*f)+(g*h*i)) / Point.metres_par_NM ; 
+		return Point.rayon_terre*Math.acos((e*f)+(g*h*i)) / Point.metres_par_NM ; 
 	}
 	
 	// TODO
@@ -115,8 +117,22 @@ public class Point implements Distance<Point> {
 	}
 
 	public static void main(String[] args) {
-		p1=new Point("") ;
-
+		Point p1=new Point("4°56'24,0\" N 4°56'24,0\" E") ;
+		Point p2= new Point(-4.42194 , 48.44722); //Brest
+		Point p3=new Point(-1.73222, 48.07194); //Rennes
+		Point p4=new Point(3.08694, 50.56361); //Lille
+		Point p5=new Point(1.36778, 43.63528); //Toulouse
+		Point p6=new Point(1.37833, 44.02750); //Montauban
+		double d1=p2.distanceTo(p3);
+		System.out.println(d1*1.852+" distance entre Brest et Rennes en km");
+		System.out.println(p2.longitude+ " longitude de Brest");
+		System.out.println(p2.latitude+ " latitude de Brest");
+		System.out.println(p3.longitude+ " longitude de Rennes");
+		System.out.println(p3.latitude+ " latitude de Rennes");
+		double d2=p4.distanceTo(p5);
+		System.out.println(d2*1.852+" distance entre Lille et Toulouse en km");
+		double d3=p5.distanceTo(p6);
+		System.out.println(d3*1.852+" distance entre Montauban et Toulouse en km");
 	}
 
 
