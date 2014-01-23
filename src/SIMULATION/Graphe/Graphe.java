@@ -1,6 +1,7 @@
 package SIMULATION.Graphe;
 
 import java.util.HashMap;
+import java.util.PriorityQueue;
 
 public class Graphe<E> {
 
@@ -70,8 +71,28 @@ public class Graphe<E> {
 	public Chemins<E> djikstra( Noeud<E> origine , Noeud<E> destination) {
 
 		Chemins<E> plus_courts = new Chemins<E>() ;
-		
 		HashMap<Noeud<E>,Double> distance_connue = new HashMap<Noeud<E>,Double>() ;
+		
+		PriorityQueue<Chemin<E>> a_traiter = new PriorityQueue<Chemin<E>>() ;
+		// Initialisation de la Queue de priorite
+		//a_traiter.add()
+		
+		Chemin<E> chemin_courant = null ;
+		
+		while ( ! a_traiter.isEmpty() )
+		{
+			// On commence par récupérer ceux allant à la destination parmi les sous-chemins les plus courts
+			while( (chemin_courant = a_traiter.poll()).last().getDestination() != destination )
+				plus_courts.add( chemin_courant ) ;
+			
+			// S'il y en a, le traitement est fini
+			if( ! plus_courts.isEmpty() )
+				return plus_courts ;
+
+			// Sinon, on itere
+			for( Chemin<E> nouveau : chemin_courant.successeurs() )
+				a_traiter.add( nouveau ) ;		
+		}
 		
 		return plus_courts ;
 	}

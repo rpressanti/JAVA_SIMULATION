@@ -25,7 +25,7 @@ public class Chemin<E> extends ArrayList<Arete<E>> {
 		
 		Chemins<E> result = new Chemins<E>() ;
 		
-		for( Arete<E> arete : this )
+		for( Arete<E> arete : this.last().getDestination().getAretes().values() )
 		{
 			Chemin<E> tmp = this.clone() ;
 			tmp.add( arete ) ;
@@ -34,6 +34,12 @@ public class Chemin<E> extends ArrayList<Arete<E>> {
 		
 		return result ;
 	}
+	
+	public Arete<E> last() {
+		return this.get( this.size() -1 ) ;
+	}
+	
+	
 	
 	public Chemin<E> clone() {
 		
@@ -44,4 +50,5 @@ public class Chemin<E> extends ArrayList<Arete<E>> {
 		
 		return result ;
 	}
+	
 }

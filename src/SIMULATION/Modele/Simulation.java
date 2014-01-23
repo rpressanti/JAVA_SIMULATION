@@ -160,18 +160,21 @@ public class Simulation {
 		{
 			Graphe<Point> graphe_buffer = this.grapheFiltre.clone() ;
 			
-			if( avion.getDepart() instanceof Aerodrome)
-				this.ajouterAerodrome( graphe_buffer , this.grapheComplet.getNoeud( (Point) avion.getDepart() )  );
-			if( avion.getArrivee() instanceof Aerodrome)
-				this.ajouterAerodrome( graphe_buffer , this.grapheComplet.getNoeud( (Point) avion.getArrivee() )  );
+			Noeud<Point >noeud_depart  = this.grapheComplet.getNoeud( (Point) avion.getDepart()  ) ;
+			Noeud<Point> noeud_arrivee = this.grapheComplet.getNoeud( (Point) avion.getArrivee() ) ;
 			
-			avion.setTrajectoire( graphe_buffer.djikstra().minimizeNbBalises().random() ) ;
+			if( avion.getDepart() instanceof Aerodrome)
+				this.ajouterAerodrome( graphe_buffer , noeud_depart );
+			if( avion.getArrivee() instanceof Aerodrome)
+				this.ajouterAerodrome( graphe_buffer , noeud_arrivee );
+			
+			avion.setTrajectoire( graphe_buffer.djikstra( noeud_depart , noeud_arrivee ).minimizeNbBalises().random() ) ;
 		}
 		
 		return result ;
 	}
 
-	// TODO
+	// DONE
 	private void ajouterAerodrome( Graphe<Point> graphe_buffer , Noeud<Point> aerodrome ) {
 		
 		Noeud<Point> copie = aerodrome.clone() ;
@@ -179,6 +182,7 @@ public class Simulation {
 		for( Arete<Point> arete : aerodrome.getAretes().values() )
 			if ( arete.getWeight() < this.distance_max ) 
 			{
+				// TODO RM
 				//Noeud<Point> destination = graphe_buffer.getNoeud( arete.getDestination().getContent() ) ;
 				//Arete<Point> nouvelle_arete = new Arete<Point>( aerodrome , destination , arete.getWeight() ) ;
 				graphe_buffer.add( aerodrome.getContent() , arete.getDestination().getContent() , arete.getWeight() ) ;
@@ -188,6 +192,7 @@ public class Simulation {
 		for( Arete<Point> arete : aerodrome.getAretesInverses().values() )
 			if ( arete.getWeight() < this.distance_max )
 			{
+				// TODO RM
 				//Noeud<Point> origine = graphe_buffer.getNoeud( arete.getOrigine().getContent() ) ;
 				//Arete<Point> nouvelle_arete = new Arete<Point>( origine , aerodrome , arete.getWeight() ) ;
 				graphe_buffer.add( arete.getOrigine().getContent() , aerodrome.getContent() , arete.getWeight() ) ;
