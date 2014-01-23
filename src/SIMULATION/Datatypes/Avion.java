@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.ListIterator;
 
 import SIMULATION.Graphe.Arete;
+import SIMULATION.Graphe.Chemin;
 
 public class Avion {
 
@@ -69,7 +70,7 @@ public class Avion {
 	}
 	
 	// DONE
-	public boolean setTrajectoire( ArrayList<Arete<Point>> trajectoire ) {
+	public boolean setTrajectoire( Chemin<Point> trajectoire ) {
 		this.trajectoire = trajectoire.listIterator() ;
 		boolean result = true ;	
 		

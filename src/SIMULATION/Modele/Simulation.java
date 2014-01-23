@@ -110,7 +110,7 @@ public class Simulation {
 			// TODO ajouter les reperes de depart et arrivee
 			
 			
-			avion.setTrajectoire( graphe_buffer.djikstra() ) ;
+			avion.setTrajectoire( graphe_buffer.djikstra().minimizeNbBalises().random() ) ;
 		}
 		
 		return result ;

@@ -50,7 +50,7 @@ public class Graphe<E> {
 	}
 	
 	// TODO
-	public ArrayList<Arete<E>> djikstra() {
+	public Chemins<E> djikstra() {
 
 		return null ;
 	}
