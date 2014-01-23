@@ -1,6 +1,5 @@
 package SIMULATION.Graphe;
 
-//import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Graphe<E> {
@@ -73,6 +72,8 @@ public class Graphe<E> {
 		return null ;
 	}
 
+	
+	// DONE
 	public boolean filtrer( double distance ) {
 		
 		boolean suppression_realisee = false ;
@@ -85,13 +86,20 @@ public class Graphe<E> {
 		return suppression_realisee ;
 	}
 	
-	// TODO
+	// DONE
 	public Graphe<E> clone() {
 		
+		Graphe<E> result = new Graphe<E>() ;
+		
 		// Copier les noueds
-		
+		for( Noeud<E> noeud : this.noeuds.values() )
+			result.add( noeud ) ;
+
 		// Recreer les aretes
+		for( Noeud<E> noeud : this.noeuds.values() )
+			for( Arete<E> arete : noeud.getAretes().values() )
+				result.add( arete.getOrigine().getContent() , arete.getDestination().getContent() , arete.getWeight() ) ;
 		
-		return this ;
+		return result ;
 	}
 }
