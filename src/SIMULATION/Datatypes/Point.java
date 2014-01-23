@@ -115,7 +115,7 @@ public class Point implements Distance<Point> {
 	}
 
 	public static void main(String[] args) {
-		//p1=new Point("")
+		p1=new Point("") ;
 
 	}
 
