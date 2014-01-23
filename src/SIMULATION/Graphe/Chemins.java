@@ -2,6 +2,7 @@ package SIMULATION.Graphe;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("serial")
 public class Chemins<E> extends ArrayList<Chemin<E>> {
 
 	

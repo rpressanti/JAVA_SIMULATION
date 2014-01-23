@@ -12,5 +12,9 @@ public class Balise extends Point implements Repere {
 	public String getIndicatif() {
 		return this.indicatif ;
 	}
+
+	public Balise clone() {
+		return new Balise( this.getIndicatif() , super.toString() ) ;
+	}
 	
 }

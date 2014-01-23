@@ -1,6 +1,6 @@
 package SIMULATION.Datatypes;
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.Date;
 import java.util.ListIterator;
 
@@ -12,9 +12,7 @@ public class Avion {
 	@SuppressWarnings("unused")
 	private Date heure_depart ;
 	
-	@SuppressWarnings("unused")
 	final private Repere depart ;
-	@SuppressWarnings("unused")
 	final private Repere arrivee ;
 	@SuppressWarnings("unused")
 	final private int flight_level ;
@@ -34,6 +32,14 @@ public class Avion {
 		
 		this.trajectoire = null ;
 		
+	}
+	
+	public Repere getDepart() {
+		return this.depart ;
+	}
+	
+	public Repere getArrivee() {
+		return this.arrivee ;
 	}
 	
 	// TODO UPDATE POSITION

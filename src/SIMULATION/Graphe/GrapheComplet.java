@@ -1,9 +1,11 @@
 package SIMULATION.Graphe;
 
+// CLASS DONE
+
 public class GrapheComplet< E extends Distance<E>> extends Graphe<E> {
 
 
-	public void complet() {
+	public void generer() {
 		
 		for( Noeud<E> noeud_1 : this.noeuds.values() )
 			for( Noeud<E> noeud_2 : this.noeuds.values() )
