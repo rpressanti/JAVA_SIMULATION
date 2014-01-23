@@ -1,5 +1,16 @@
 package SIMULATION.Datatypes;
 
-public class Balise extends Point {
+public class Balise extends Point implements Repere {
 
+	private String indicatif ;
+	
+	public Balise( String indicatif , String coordonnees) {
+		super( coordonnees ) ;
+		this.indicatif = indicatif ;
+	}
+	
+	public String getIndicatif() {
+		return this.indicatif ;
+	}
+	
 }
