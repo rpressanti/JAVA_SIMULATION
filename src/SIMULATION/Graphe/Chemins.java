@@ -8,8 +8,8 @@ import java.util.PriorityQueue;
 public class Chemins<E> extends PriorityQueue<Chemin<E>> {
 
 	
-	public Chemins( /*Comparator<Chemin<E>> comparator*/) {
-		super( 0 , /*comparator*/ new OrderByBalisesNb<E>()) ;
+	public Chemins() {
+		super( 0 , new OrderByBalisesNb<E>()) ;
 	}
 	
 		
