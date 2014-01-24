@@ -6,7 +6,7 @@ import SIMULATION.Graphe.Chemin;
 @SuppressWarnings("serial")
 public class Trajectoire extends Chemin<Point> {
 	
-	// TODO
+	// TODO EXPORT :: IMPORTANT
 	public boolean exporter( String ficname ) {
 		
 		

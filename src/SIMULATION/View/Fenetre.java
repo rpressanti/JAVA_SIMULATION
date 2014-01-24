@@ -168,7 +168,7 @@ public class Fenetre extends JFrame
 		System.exit(0);
 	}
 	
-	// TODO CODE
+	// TODO DEMANDER FICNAME
 	private String demander_nom_fichier()
 	{
 			
@@ -254,29 +254,4 @@ public class Fenetre extends JFrame
 	}
 	
 	
-}// end class
-	
-	
-/*	
-	
-	public class ActionPerso implements ItemListener
-	{
-		public void itemStateChanged(ItemEvent evt)
-		{
-			String s=(String)jc.getSelectedItem();
-			Iterator <Personne> i=a.iterator();
-			boolean b=false;
-			while(i.hasNext() && !b)
-			{
-				Personne p=i.next();
-				if (s==p.getNom())
-				{
-					jta.setText(p.toString());
-					b=true;
-				}
-			}
-		}
-	}
-	*/
-	
-
+}

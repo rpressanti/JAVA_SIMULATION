@@ -55,6 +55,8 @@ public class Avion {
 			this.distanceIntraSegment *= -1 ;
 		}
 		
+		// UPDATE POINT ATTRIBUTES
+		
 		return true ;
 	}
 
@@ -64,7 +66,7 @@ public class Avion {
 	}
 	
 	
-	// TODO
+	// DONE
 	@SuppressWarnings("unused")
 	private Vecteur getDeplacement( double intervalle_de_temps ) {	
 	

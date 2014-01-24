@@ -5,7 +5,7 @@ import java.util.regex.MatchResult;
 
 import SIMULATION.Graphe.Distance;
 
-
+// CLASS DONE
 
 
 public class Point implements Distance<Point> {
@@ -17,10 +17,6 @@ public class Point implements Distance<Point> {
 	public static final String regexp_point = Coordonnees.regexp_latitude 
 				+ " " + Coordonnees.regexp_longitude;
 	
-	// RMQ : Pour balise
-	// regexp "([A-Z]{3}) (.*)"
-	// nom = result.group( 1 )
-	// point = result.group(2 ) ;
 	
 	protected Latitude latitude;
 	protected Longitude longitude;
@@ -83,7 +79,7 @@ public class Point implements Distance<Point> {
 		
 	}
 		
-	// TODO Verifier formule
+	
 	public double distanceTo( Point p )
 	{
 		double a,b,c,d,e,f,g,h,i;
@@ -101,7 +97,7 @@ public class Point implements Distance<Point> {
 		return Point.rayon_terre*Math.acos((e*f)+(g*h*i)) / Point.metres_par_NM ; 
 	}
 	
-	// TODO
+	
 	public void deplacerDe( Vecteur v ) //utiliser Coordonnes.add()
 	{
 		this.longitude.add(v.longitude.getValue());

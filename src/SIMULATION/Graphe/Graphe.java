@@ -102,7 +102,7 @@ public class Graphe<E> {
 	
 	
 	
-	// TODO
+	// DONE
 	public Chemins<E> djikstra( Noeud<E> origine , Noeud<E> destination) {
 
 		Chemins<E> plus_courts = new Chemins<E>() ;

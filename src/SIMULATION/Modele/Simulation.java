@@ -74,7 +74,7 @@ public class Simulation {
 		return result ;
 	}
 	
-	// TODO
+	// TODO DETECTER CONFLITS
 	public boolean detecter_conflits() {
 		
 		
@@ -82,7 +82,7 @@ public class Simulation {
 	}
 	
 	
-	// TODO
+	// TODO PHASE POSSIBLE
 	public boolean phasePossible( PHASE phase ) {
 		
 		boolean ready = true ;
@@ -108,7 +108,7 @@ public class Simulation {
 	}
 	
 	
-	// TODO
+	// TODO IMPORT BALISES
 	public boolean charger_balises( String ficname ) {
 		// ITERER SUR LES LIGNES DU FICHIER
 		// CREER BALISES
@@ -120,14 +120,14 @@ public class Simulation {
 	}
 	
 	
-	// TODO
+	// TODO IMPORT AERODROMES
 	public boolean charger_aerodromes( String ficname ) {
 		// IDEM BALISES
 		
 		return true ;
 	}
 	
-	// TODO
+	// TODO IMPORT AVIONS
 	public boolean charger_avions( String ficname) {
 		
 		
@@ -181,22 +181,12 @@ public class Simulation {
 		graphe_buffer.add( copie ) ;
 		for( Arete<Point> arete : aerodrome.getAretes().values() )
 			if ( arete.getWeight() < this.distance_max ) 
-			{
-				// TODO RM
-				//Noeud<Point> destination = graphe_buffer.getNoeud( arete.getDestination().getContent() ) ;
-				//Arete<Point> nouvelle_arete = new Arete<Point>( aerodrome , destination , arete.getWeight() ) ;
 				graphe_buffer.add( aerodrome.getContent() , arete.getDestination().getContent() , arete.getWeight() ) ;
-			}
 		
 		// Idem pour les dependances inverses
 		for( Arete<Point> arete : aerodrome.getAretesInverses().values() )
 			if ( arete.getWeight() < this.distance_max )
-			{
-				// TODO RM
-				//Noeud<Point> origine = graphe_buffer.getNoeud( arete.getOrigine().getContent() ) ;
-				//Arete<Point> nouvelle_arete = new Arete<Point>( origine , aerodrome , arete.getWeight() ) ;
 				graphe_buffer.add( arete.getOrigine().getContent() , aerodrome.getContent() , arete.getWeight() ) ;
-			}
 		
 	}
 	
