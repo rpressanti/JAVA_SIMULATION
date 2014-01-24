@@ -15,6 +15,7 @@ public class Vecteur extends Point{
 	
 	// TODO
 	public void setModule( double module) {
+		this.module=module;
 		
 	}
 	

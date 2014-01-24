@@ -133,6 +133,7 @@ public class Point implements Distance<Point> {
 		System.out.println(d2*1.852+" distance entre Lille et Toulouse en km");
 		double d3=p5.distanceTo(p6);
 		System.out.println(d3*1.852+" distance entre Montauban et Toulouse en km");
+	
 	}
 
 
