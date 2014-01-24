@@ -3,6 +3,7 @@ package SIMULATION.View;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,17 +12,28 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+//import javax.swing.JLayeredPane;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+//import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
  
 @SuppressWarnings({ "serial", "unused" })
 public class Fenetre extends JFrame
 {	
+	// Constantes
+	static final int height_panel = 600 ;
+	static final int width_panel = 600 ;
+	
+	static final int height_buttons = 150 ;
+	static final int width_buttons = 150 ;
+	
+	
+	
 	//attributs//
 	private JMenuBar jmenubar;
 	private JMenu jfichier,jcharger;
@@ -39,26 +51,57 @@ public class Fenetre extends JFrame
 	public Fenetre()
 	{
 		JFrame jf= new JFrame("simulation");
+		this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);
+		jf.setSize(Fenetre.width_panel + Fenetre.width_buttons ,
+				Fenetre.height_panel + Fenetre.height_buttons );
+		
 		// conteneur pan
 		Container pan = jf.getContentPane();
 		pan.setLayout( new BorderLayout() );
 
-		// panel		
+		// panel	contient le menu	
 		JPanel pan_button = new JPanel();
-		pan_button.setBackground(Color.ORANGE);   
+		pan_button.setBackground(Color.ORANGE);
+		//pan_button.setSize( Fenetre.width_buttons , Fenetre.height_buttons );
 		pan_button.setLayout(new GridLayout(2,3));
 		pan.add(pan_button,"North");
-		
-		//JPanel pan_principal = new JPanel();
+					
+		// Jlayered pour la superposition des Jpanel ad et balise
 		JLayeredPane pan_principal = new JLayeredPane();
-		pan_principal.setBackground(Color.BLUE);  
-		pan.add(pan_principal , BorderLayout.CENTER);
-	
-		//JLabel test1 =new JLabel("test1");
-	 	//pan_principal.add(test1);
-	//	JScrollPane  j_scroll=new JScrollPane();
-	//	pan_principal.add(j_scroll, BorderLayout.SOUTH);
+		pan_principal.setPreferredSize( 
+				new Dimension( Fenetre.width_panel , Fenetre.height_panel )
+			);
+		pan.add(pan_principal);
 		
+		JPanel jpanel_aero =new JPanel();
+		jpanel_aero.setBounds( 0 , 0 , Fenetre.width_panel/2 , Fenetre.height_panel/2 );
+		jpanel_aero.setBackground(Color.BLUE);
+		//jpanel_aero.setSize(250,500);
+		
+		JLabel test =new JLabel("aerodrome");
+		jpanel_aero.add( test);
+		// panel ad est la couche 0
+		pan_principal.setLayer(jpanel_aero,JLayeredPane.DEFAULT_LAYER);
+		pan_principal.add(jpanel_aero,JLayeredPane.DEFAULT_LAYER);
+		
+		// TODO Utiliser la classe dans laquelle 
+		//      PaintComponent( Graphics g ) est redéfinie	 	
+	 	JPanel jpanel_balise =new JPanel();
+		jpanel_balise.setBackground(Color.RED); //test
+	//	jpanel_balise.setOpaque( false ); //superposition
+		jpanel_balise.setBounds( Fenetre.width_panel/4 , Fenetre.height_panel/4 ,
+				Fenetre.width_panel/2 , Fenetre.height_panel/2 );
+			
+				JLabel test1 =new JLabel("balise");
+		test1.setBounds( Fenetre.width_panel/4 , Fenetre.height_panel/4 ,
+				Fenetre.width_panel/2 , Fenetre.height_panel/2 );
+		jpanel_balise.add( test1);	
+	 	pan_principal.add(jpanel_balise,new Integer(1));
+			
+	 // TODO  placer ascenseur
+		/*JScrollPane  j_scroll=new JScrollPane();
+		//pan_principal.add(j_scroll, BorderLayout.SOUTH);
+		*/
 		
 		JPanel pan_secondaire= new JPanel();
 		pan_secondaire.setBackground(Color.GREEN);  
@@ -66,17 +109,9 @@ public class Fenetre extends JFrame
 	 	//JLabel test =new JLabel("test0");
 	 	//pan_secondaire.add(test);
 		jb_quit=new JButton("Quitter");
-		pan_secondaire.add(jb_quit,BorderLayout.EAST);
+		pan_secondaire.add(jb_quit);//,BorderLayout.EAST);//a verifier
 		jb_quit.addActionListener(new ActionQuitter());
-		
-		
-	  // visualisation de la fenetre
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	  	jf.setSize(500,400);
-	  //	jf.pack();
-	  	jf.setVisible(true);           
-	  		
-	     
+				
 	    // Menu bar
 	    jmenubar =new JMenuBar();
 	
@@ -88,8 +123,7 @@ public class Fenetre extends JFrame
 		
 		jcharger= new JMenu("Charger");
 		jfichier.add(jcharger);
-	
-		
+			
 	    jquitter= new JMenuItem("Quitter");
 		jfichier.add(jquitter);
 	    jquitter.addActionListener(new ActionQuitter());
@@ -103,7 +137,6 @@ public class Fenetre extends JFrame
 		jcharger.add(jbal);
 		jbal.addActionListener(new ActionChargerBalises());
 		
-		
 		//**** menu pdv		
 		jpdv=new JMenu("Plan de Vol");
 		jmenubar.add(jpdv);
@@ -115,7 +148,9 @@ public class Fenetre extends JFrame
 		
 		jsaisie_pdv= new JMenuItem("Saisie_PDV");
 		jpdv.add(jsaisie_pdv);
+		// TODO  Listener ActionSaisiePdv()
 		//jsaisie_pdv.addActionListener(new ActionSaisiePdv());
+		
 		
 			
 		//**** menu trajectoire		
@@ -130,15 +165,18 @@ public class Fenetre extends JFrame
 		//jaff_traj.addActionListener(new ActionAfficherTrajectoire());
 		this.jsave_traj= new JMenuItem("Sauvegarder");
 		trajectoire.add(jsave_traj);
+		// TODO  Listener ActionSauvegarderTrajectoire()
 		//jaff_traj.addActionListener(new ActionSauvegarderTrajectoire());
 		
 		//boutons
 		jb_execution=new JButton("Execution Automatique");
 		pan_button.add(jb_execution);
+		// TODO  Listener ActionExecuter()
 		//jb_execution.addActionListener(new ActionExecuter());
 		
 		jb_iterer=new JButton("Pas à Pas");
 		pan_button.add(jb_iterer);
+		// TODO  Listener ActionIterer()
 		//jb_iterer.addActionListener(new ActionIterer());
 		
 		jb_stop=new JButton("Pause");
@@ -152,23 +190,32 @@ public class Fenetre extends JFrame
 		
 		jtf_dbmax=new JTextField("Distance max");
 		pan_button.add(jtf_dbmax);
+		// TODO  Listener ActionDistanceDbmax()
 		//jtf_dbmax.addItemListener(new ActionDistanceDbmax())
 				
+		// TODO fusionner avec pause
 		jb_recommencer=new JButton("Recommencer");
 		pan_button.add(jb_recommencer);
+		// TODO  Listener ActionRecommencer
 		//	jb.addActionListener(new ActionRecommencer());
 		
-	 } // fin constructeur       fenetre 		
+	 
+		// visualisation de la fenetre
+		jf.pack();
+		jf.setVisible(true);   
+	
+	
+	} // fin constructeur       fenetre 		
 		
 		 
-	// methode
+	// methodes
 	public void quitter()
 	{
 		 System.out.println("Fin ...");
-		System.exit(0);
+		 System.exit(0);
 	}
 	
-	// TODO DEMANDER FICNAME
+	// TODO CODE DEMANDER NOM FICHIER
 	private String demander_nom_fichier()
 	{
 			
@@ -192,7 +239,6 @@ public class Fenetre extends JFrame
 					e1.printStackTrace();
 				}*/
 
-		 
 		 
 	
 	//// listener
@@ -253,5 +299,9 @@ public class Fenetre extends JFrame
 		}
 	}
 	
+	public static void main(String[] args) {
+		
+		Fenetre fen = new Fenetre();
+	}
 	
-}
+}// end class
