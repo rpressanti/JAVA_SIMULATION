@@ -108,7 +108,7 @@ public class Graphe<E> {
 		Chemins<E> plus_courts = new Chemins<E>() ;
 		HashMap<Noeud<E>,Double> distance_connue = new HashMap<Noeud<E>,Double>() ;
 		
-		PriorityQueue<Chemin<E>> a_traiter = new PriorityQueue<Chemin<E>>( 0 , new DestinationFirst( destination ) ) ;
+		PriorityQueue<Chemin<E>> a_traiter = new PriorityQueue<Chemin<E>>( 1 , new DestinationFirst( destination ) ) ;
 		// Initialisation de la Queue de priorite
 		Chemin<E> chemin_trivial = new Chemin<E>() ;
 		chemin_trivial.add( new Arete<E>( origine , origine , 0) ) ;
@@ -118,7 +118,7 @@ public class Graphe<E> {
 		
 		while ( ! a_traiter.isEmpty() )
 		{	
-			// On commence par rŽcupŽrer ceux allant ˆ la destination parmi les sous-chemins les plus courts
+			// On commence par rï¿½cupï¿½rer ceux allant ï¿½ la destination parmi les sous-chemins les plus courts
 			while( (chemin_courant = a_traiter.poll()).last() != destination )
 			{	
 				chemin_courant.untrivial();

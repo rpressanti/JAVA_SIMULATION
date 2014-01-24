@@ -1,18 +1,39 @@
 package SIMULATION.Graphe;
 
-import java.util.ArrayList;
+import java.util.PriorityQueue;
+
+// CLASS DONE
 
 @SuppressWarnings("serial")
-public class Chemins<E> extends ArrayList<Chemin<E>> {
+public class Chemins<E> extends PriorityQueue<Chemin<E>> {
 
 	
-	public Chemins<E> minimizeNbBalises() {
+	public Chemins( /*Comparator<Chemin<E>> comparator*/) {
+		super( 0 , /*comparator*/ new OrderByBalisesNb<E>()) ;
+	}
+	
 		
-		return this ;
+	public Chemins<E> minimizeNbBalises() {	
+		Chemins<E> result = new Chemins<E>() ;
+
+		Chemin<E> current_elem =this.poll()  ;
+		double length = current_elem.getLength() ;
+		
+		while( (current_elem = this.poll() ).getLength() == length )
+			result.add( current_elem ) ;
+		
+		return result ;
 	}
 	
 	public Chemin<E> random() {
-		return this.get( (int) ( Math.random() * this.size())  ) ;
+		
+		Chemin<E> result = new Chemin<E>() ;
+		int nb_iter = (int) ( Math.random() * this.size()) , i = 0 ;
+		
+		for( i = 0 ; i < nb_iter ; i++ )
+			result = this.poll() ;
+
+		return result ;
 	}
 	
 	
