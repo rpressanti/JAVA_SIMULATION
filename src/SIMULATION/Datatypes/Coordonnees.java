@@ -124,6 +124,11 @@ public class Coordonnees {
 		return (v*Math.PI)/180;
 	}
 	
+	public static double radianToDecimal( double v )
+	{
+		return ( v * 180 ) / Math.PI ;
+	}
+	
 	public static void main( String args[] )
 	{
 		//double test_result = 0 ;
@@ -155,5 +160,11 @@ public class Coordonnees {
 	public void add(double v)
 	{
 		this.value+=v;
+	}
+	
+	public double multiply( double mult )
+	{
+		this.value *= mult ;
+		return this.value ;
 	}
 }

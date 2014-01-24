@@ -19,7 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
  
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "unused" })
 public class Fenetre extends JFrame
 {	
 	//attributs//
