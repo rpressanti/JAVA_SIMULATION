@@ -81,6 +81,12 @@ public class Simulation {
 	}
 	
 	// DONE
+	public ArrayList<Trajectoire> getTrajectoires() {
+		return this.trajectoires ;
+	}
+	
+	
+	// DONE
 	public boolean iterer() {
 
 		boolean result = true ;

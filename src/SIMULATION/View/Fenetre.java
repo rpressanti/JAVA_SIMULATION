@@ -7,6 +7,9 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Component;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -49,13 +52,68 @@ public class Fenetre extends JFrame implements ViewSimulation
 	
 	private JTextField jtf_dbmax;
 	private JButton jb_execution,jb_iterer,jb_stop,jb_recommencer,jb_quit;
+	
+	private AerodromesPanel aerodromes ;
+	private BalisesPanel balises ;
+	private TrajectoiresPanel trajectoires ;
+	private AvionsPanel avions ;
+	
+	
+	private class Resizer implements ComponentListener {
 
+		@Override
+		public void componentResized(ComponentEvent e) {
+			// TODO Auto-generated method stub
+			Dimension dim = ( (Component) e.getSource()).getSize() ;
+			
+			Fenetre.this.balises.setSize( dim );
+			Fenetre.this.balises.revalidate();
+			Fenetre.this.balises.repaint();
+			
+			Fenetre.this.aerodromes.setSize( dim ) ;
+			Fenetre.this.aerodromes.revalidate();
+			Fenetre.this.aerodromes.repaint();
+			
+			Fenetre.this.trajectoires.setSize( dim ) ;
+			Fenetre.this.trajectoires.revalidate();
+			Fenetre.this.trajectoires.repaint();
+			
+			
+			Fenetre.this.avions.setSize( dim );
+			Fenetre.this.avions.revalidate();
+			Fenetre.this.avions.repaint();
+			
+		}
+
+		@Override
+		public void componentMoved(ComponentEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void componentShown(ComponentEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void componentHidden(ComponentEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+	
 	
 	//constructeurs
-	public Fenetre( Simulation modele)
+	public Fenetre( Simulation modele )
 	{
+		super() ;
+		
 		this.modele =  modele ;
-		this.modele.enregistrer( this ) ;
+		// TODO CORRECT ENREGISTRER
+		//this.modele.enregistrer( this ) ;
 		
 		JFrame jf= new JFrame("simulation");
 		this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);
@@ -80,35 +138,63 @@ public class Fenetre extends JFrame implements ViewSimulation
 			);
 		pan.add(pan_principal);
 		
-		JPanel jpanel_aero =new JPanel();
-		jpanel_aero.setBounds( 0 , 0 , Fenetre.width_panel/2 , Fenetre.height_panel/2 );
-		jpanel_aero.setBackground(Color.BLUE);
-		//jpanel_aero.setSize(250,500);
-		
-		JLabel test =new JLabel("aerodrome");
-		jpanel_aero.add( test);
-		// panel ad est la couche 0
-		pan_principal.setLayer(jpanel_aero,JLayeredPane.DEFAULT_LAYER);
-		pan_principal.add(jpanel_aero,JLayeredPane.DEFAULT_LAYER);
-		
-		// TODO Utiliser la classe dans laquelle 
-		//      PaintComponent( Graphics g ) est redéfinie	 	
-	 	JPanel jpanel_balise =new JPanel();
-		jpanel_balise.setBackground(Color.RED); //test
-	//	jpanel_balise.setOpaque( false ); //superposition
-		jpanel_balise.setBounds( Fenetre.width_panel/4 , Fenetre.height_panel/4 ,
-				Fenetre.width_panel/2 , Fenetre.height_panel/2 );
-			
-				JLabel test1 =new JLabel("balise");
-		test1.setBounds( Fenetre.width_panel/4 , Fenetre.height_panel/4 ,
-				Fenetre.width_panel/2 , Fenetre.height_panel/2 );
-		jpanel_balise.add( test1);	
-	 	pan_principal.add(jpanel_balise,new Integer(1));
-			
+		//
+		// <TEST>
+//		JPanel jpanel_aero =new JPanel();
+//		jpanel_aero.setBounds( 0 , 0 , Fenetre.width_panel/2 , Fenetre.height_panel/2 );
+//		jpanel_aero.setBackground(Color.BLUE);
+//		//jpanel_aero.setSize(250,500);
+//		
+//		JLabel test =new JLabel("aerodrome");
+//		jpanel_aero.add( test);
+//		// panel ad est la couche 0
+//		pan_principal.setLayer(jpanel_aero,JLayeredPane.DEFAULT_LAYER);
+//		pan_principal.add(jpanel_aero,JLayeredPane.DEFAULT_LAYER);
+//		
+//		// TODO Utiliser la classe dans laquelle 
+//		//      PaintComponent( Graphics g ) est redéfinie	 	
+//	 	JPanel jpanel_balise =new JPanel();
+//		jpanel_balise.setBackground(Color.RED); //test
+//	//	jpanel_balise.setOpaque( false ); //superposition
+//		jpanel_balise.setBounds( Fenetre.width_panel/4 , Fenetre.height_panel/4 ,
+//				Fenetre.width_panel/2 , Fenetre.height_panel/2 );
+//			
+//				JLabel test1 =new JLabel("balise");
+//		test1.setBounds( Fenetre.width_panel/4 , Fenetre.height_panel/4 ,
+//				Fenetre.width_panel/2 , Fenetre.height_panel/2 );
+//		jpanel_balise.add( test1);	
+//	 	pan_principal.add(jpanel_balise,new Integer(1));
+//		
+//	 	
+	 	//
+	 	// </TEST>
+	 	// 
+	 	
 	 // TODO  placer ascenseur
 		/*JScrollPane  j_scroll=new JScrollPane();
 		//pan_principal.add(j_scroll, BorderLayout.SOUTH);
 		*/
+		
+		
+		// Panels a rafraichir apres chaque changement du modele
+		this.aerodromes = new AerodromesPanel( this.modele.getAerodromes() ) ;
+		pan_principal.setLayer( this.aerodromes , JLayeredPane.DEFAULT_LAYER ) ;
+		pan_principal.add( this.aerodromes , JLayeredPane.DEFAULT_LAYER ) ;
+		
+		this.balises = new BalisesPanel( this.modele.getBalises() ) ;
+		pan_principal.setLayer( this.balises , new Integer(1) ) ;
+		pan_principal.add( this.balises , new Integer( 1) ) ;
+		
+		this.trajectoires = new TrajectoiresPanel( this.modele.getTrajectoires() ) ;
+		pan_principal.setLayer( this.trajectoires , new Integer(2) );
+		pan_principal.add( this.trajectoires , new Integer( 2) ) ;
+		
+		this.avions = new AvionsPanel( this.modele.getAvions() ) ;
+		pan_principal.setLayer( this.avions , new Integer( 3) ) ;
+		pan_principal.add( this.avions ,new Integer( 3 ) ) ;
+		
+		pan_principal.addComponentListener( new Resizer() );
+		
 		
 		JPanel pan_secondaire= new JPanel();
 		pan_secondaire.setBackground(Color.GREEN);  
@@ -314,7 +400,8 @@ public class Fenetre extends JFrame implements ViewSimulation
 	
 	public static void main(String[] args) {
 		
-		Fenetre fen = new Fenetre( new Simulation() );
+		Simulation modele = new Simulation() ;
+		Fenetre fen = new Fenetre( modele );
 	}
 	
 }// end class

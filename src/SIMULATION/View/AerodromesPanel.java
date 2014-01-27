@@ -6,10 +6,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.HashMap;
 
-import javax.swing.JPanel;
-
 @SuppressWarnings("serial")
-public class AerodromesPanel extends JPanel {
+public class AerodromesPanel extends PanelAffichage {
 
 	
 	@SuppressWarnings("unused")
@@ -18,6 +16,9 @@ public class AerodromesPanel extends JPanel {
 	public AerodromesPanel(HashMap<String,Aerodrome> model ) {
 		super() ;
 		this.model = model ;
+		
+		this.setOpaque( false ) ;
+		//this.setBackground( Color.BLUE );
 	}
 	
 	
