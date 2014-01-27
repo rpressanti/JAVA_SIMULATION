@@ -6,9 +6,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+import javax.swing.JPanel;
+
 
 @SuppressWarnings("serial")
-public class TrajectoiresPanel extends PanelAffichage {
+public class TrajectoiresPanel extends JPanel {
 
 	@SuppressWarnings("unused")
 	private ArrayList<Trajectoire> model ;

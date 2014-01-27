@@ -6,9 +6,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.HashMap;
 
+import javax.swing.JPanel;
+
 
 @SuppressWarnings("serial")
-public class AvionsPanel extends PanelAffichage {
+public class AvionsPanel extends JPanel {
 
 	@SuppressWarnings("unused")
 	private HashMap<String,Avion> model ;

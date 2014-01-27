@@ -6,9 +6,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.HashMap;
 
+import javax.swing.JPanel;
+
 
 @SuppressWarnings("serial")
-public class BalisesPanel extends PanelAffichage {
+public class BalisesPanel extends JPanel {
 
 	@SuppressWarnings("unused")
 	private HashMap<String,Balise> model ;
@@ -36,7 +38,7 @@ public class BalisesPanel extends PanelAffichage {
 		int[] x_points = new int[] { base_x -5 , base_x , base_x+5 } ;
 		int[] y_points = new int[] { base_y , base_y - 7 , base_y } ;
 	
-		g.drawPolygon(x_points , y_points , 3);
+		g2d.drawPolygon(x_points , y_points , 3);
 	}
 	
 	

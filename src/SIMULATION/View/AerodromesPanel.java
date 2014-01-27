@@ -6,8 +6,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.HashMap;
 
+import javax.swing.JPanel;
+
 @SuppressWarnings("serial")
-public class AerodromesPanel extends PanelAffichage {
+public class AerodromesPanel extends JPanel {
 
 	
 	@SuppressWarnings("unused")
