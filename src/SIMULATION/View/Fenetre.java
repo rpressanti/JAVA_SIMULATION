@@ -21,9 +21,12 @@ import javax.swing.JScrollPane;
 //import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import SIMULATION.Modele.Simulation;
+import SIMULATION.Modele.ViewSimulation;
+
  
 @SuppressWarnings({ "serial", "unused" })
-public class Fenetre extends JFrame
+public class Fenetre extends JFrame implements ViewSimulation
 {	
 	// Constantes
 	static final int height_panel = 600 ;
@@ -32,9 +35,10 @@ public class Fenetre extends JFrame
 	static final int height_buttons = 150 ;
 	static final int width_buttons = 150 ;
 	
+	// Modele
+	private Simulation modele ;
 	
-	
-	//attributs//
+	//attributs graphiques
 	private JMenuBar jmenubar;
 	private JMenu jfichier,jcharger;
 	private JMenuItem jquitter;
@@ -48,8 +52,11 @@ public class Fenetre extends JFrame
 
 	
 	//constructeurs
-	public Fenetre()
+	public Fenetre( Simulation modele)
 	{
+		this.modele =  modele ;
+		this.modele.enregistrer( this ) ;
+		
 		JFrame jf= new JFrame("simulation");
 		this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);
 		jf.setSize(Fenetre.width_panel + Fenetre.width_buttons ,
@@ -291,17 +298,23 @@ public class Fenetre extends JFrame
 			System.out.println("chargt Plan de vol");
 			String ficname = Fenetre.this.demander_nom_fichier() ;
 			System.err.println( ficname ) ;		
-			// TODO UNCOMMENT
-			//this.modele.chargerPlanDeVol( ficname ) ;
+			
+			Fenetre.this.modele.charger_avions( ficname ) ;
 			
 			System.out.println("fin chargt Plan de vol");
 						
 		}
 	}
 	
+	// TODO RAFRAICHIR
+	public boolean rafraichir() {
+		
+		return true ;
+	}
+	
 	public static void main(String[] args) {
 		
-		Fenetre fen = new Fenetre();
+		Fenetre fen = new Fenetre( new Simulation() );
 	}
 	
 }// end class

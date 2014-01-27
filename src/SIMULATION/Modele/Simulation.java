@@ -9,7 +9,12 @@ import SIMULATION.Graphe.* ;
 @SuppressWarnings("unused")
 public class Simulation {
 
-	public enum PHASE { CHARGEMENT_REPERES, CHARGEMENT_AVION , CALCUL_TRAJECTOIRES , DEMARRAGE } ;
+	// TODO PHASE
+	public enum PHASE { CHARGEMENT_REPERES_MOITIE , CHARGEMENT_REPERES , CHARGEMENT_AVION ,
+						CALCUL_TRAJECTOIRES , DEMARRAGE } ;
+	private PHASE phase_prete ;
+	
+	private ArrayList<ViewSimulation> vues ;
 	
 	private HashMap<String,Balise> balises ;
 	private HashMap<String , Aerodrome> aerodromes ;
@@ -22,6 +27,7 @@ public class Simulation {
 	
 	private double distance_max ;
 	private double intervalle_d_iteration ;
+	private double distanceEntreAvions ;
 	
 	// DONE
 	public Simulation () {
@@ -37,8 +43,21 @@ public class Simulation {
 		
 		this.distance_max = 0 ;
 		
+		this.phase_prete = PHASE.CHARGEMENT_REPERES_MOITIE ;
 	}
 	
+	public boolean enregistrer( ViewSimulation vue) {
+		return this.vues.add( vue ) ;
+	}
+	
+	private boolean rafraichir() {
+		
+		boolean result = true ;
+		for( ViewSimulation vue : this.vues )
+			result &= vue.rafraichir() ;
+		return result ;
+		
+	}
 	
 	// DONE
 	public void setDistanceMax( float distance )  {
@@ -65,47 +84,68 @@ public class Simulation {
 	public boolean iterer() {
 
 		boolean result = true ;
+
+		if( this.phase_prete != PHASE.DEMARRAGE )
+			return false ;
 		
+		// On bouge les avions
 		for( Avion avion : this.avions.values() )
 			result &= avion.iterer( this.intervalle_d_iteration ) ;
 	
+		// On detecte les conflits
 		result &= this.detecter_conflits() ;
+		// On rafraichit les vues
+		result &= this.rafraichir() ;
 		
 		return result ;
 	}
 	
-	// TODO DETECTER CONFLITS
+	// DONE
 	public boolean detecter_conflits() {
 		
+		boolean en_conflit = false ;
+		
+		for( Avion avion_1 : this.avions.values() )
+			for( Avion avion_2 : this.avions.values() )
+				if ( avion_1 != avion_2 )
+				{
+					en_conflit = false ;
+					
+					for( Plot plot_1 : avion_1.getPlots() )
+						for( Plot plot_2 : avion_1.getPlots() )
+							en_conflit |= ( plot_1.distanceTo( plot_2) < this.distanceEntreAvions ) ;
+								
+					avion_1.setEnConflit( true ) ;
+				}
 		
 		return true ;
 	}
 	
 	
-	// TODO PHASE POSSIBLE
-	public boolean phasePossible( PHASE phase ) {
-		
-		boolean ready = true ;
-		
-		switch( phase ) {
-		
-			case DEMARRAGE :
-				ready &= ! this.trajectoires.isEmpty() ; 
-				
-			case CALCUL_TRAJECTOIRES :
-				ready &=  ! this.avions.isEmpty() ;
-				
-			case CHARGEMENT_AVION :
-				ready &= ! this.balises.isEmpty() ;
-				ready &= ! this.aerodromes.isEmpty() ;
-				
-			case CHARGEMENT_REPERES :
-		
-				
-		}
-		
-		return ready ;
-	}
+	// TODO RM :: PHASE POSSIBLE
+//	public boolean phasePossible( PHASE phase ) {
+//		
+//		boolean ready = true ;
+//		
+//		switch( phase ) {
+//		
+//			case DEMARRAGE :
+//				ready &= ! this.trajectoires.isEmpty() ; 
+//				
+//			case CALCUL_TRAJECTOIRES :
+//				ready &=  ! this.avions.isEmpty() ;
+//				
+//			case CHARGEMENT_AVION :
+//				ready &= ! this.balises.isEmpty() ;
+//				ready &= ! this.aerodromes.isEmpty() ;
+//				
+//			case CHARGEMENT_REPERES :
+//		
+//				
+//		}
+//		
+//		return ready ;
+//	}
 	
 	
 	// TODO IMPORT BALISES
@@ -130,7 +170,8 @@ public class Simulation {
 	// TODO IMPORT AVIONS
 	public boolean charger_avions( String ficname) {
 		
-		
+		if ( this.phase_prete != PHASE.CHARGEMENT_AVION )
+			return false ;
 		
 		return true ;
 	}

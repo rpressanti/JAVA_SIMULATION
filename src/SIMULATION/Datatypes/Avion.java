@@ -1,6 +1,7 @@
 package SIMULATION.Datatypes;
 
 //import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.ListIterator;
 
@@ -23,6 +24,8 @@ public class Avion {
 	private Arete<Point> segment_courant ;
 	private double distanceIntraSegment ;
 	
+	private boolean en_conflit ;
+	
 	public Avion( Repere depart , Repere arrivee , int flight_level , double vitesse ) {
 		
 		this.arrivee = arrivee ;
@@ -31,7 +34,7 @@ public class Avion {
 		this.vitesse = vitesse ;
 		
 		this.trajectoire = null ;
-		
+		this.en_conflit = false ;
 	}
 	
 	public Repere getDepart() {
@@ -90,4 +93,16 @@ public class Avion {
 		return result ;
 	}
 	
+	public ArrayList< Plot > getPlots() {
+		
+		return null ;
+	}
+	
+	public void setEnConflit( boolean en_conflit )  {
+		this.en_conflit = en_conflit ;
+	}
+	
+	public boolean getEnConflit()  {
+		return this.en_conflit ;
+	}
 }
