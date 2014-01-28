@@ -1,7 +1,14 @@
 package SIMULATION.Modele;
 
+
+
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner ;
+import java.util.regex.MatchResult;
+
 
 import SIMULATION.Datatypes.*;
 import SIMULATION.Graphe.* ;
@@ -156,21 +163,91 @@ public class Simulation {
 //	}
 	
 	
-	// TODO IMPORT BALISES
+	// DONE
 	public boolean charger_balises( String ficname ) {
-		// ITERER SUR LES LIGNES DU FICHIER
-		// CREER BALISES
-		// L'AJOUTER A :
-		// 	  1) this.balises
-		//    2) this.grapheComplet
 				
+		Scanner scan_balise = null ;
+		String indicatif = "" , coord = "" ;
+		Balise new_balise =  null ;
+		
+		try {
+			
+			BufferedReader is = new BufferedReader( new FileReader( ficname ) ) ;
+			Balise tmp = null ;
+			do {
+
+				String tmp_line = is.readLine() ;
+				
+				if( tmp_line != null )
+				{
+				
+					scan_balise = new Scanner( tmp_line );
+					scan_balise.findInLine(  "(\\w{1,3}) (\\w+)" ) ;
+					MatchResult result = scan_balise.match();
+					
+					indicatif = result.group( 1 ) ;
+					coord = result.group( 2 ) ;
+				
+					scan_balise.close() ;
+					
+					// DEBUG
+					//new_balise = new Balise( indicatif , coord ) ;
+					//this.balises.put( indicatif , new_balise ) ;
+					this.grapheComplet.add( new_balise ) ;
+				}
+				
+			} while (tmp != null) ; 
+				
+			is.close();
+			
+		} catch ( Exception e) {
+			System.err.println("Erreur de chargement") ; 
+		}
+		
 		return true ;
 	}
 	
-	
-	// TODO IMPORT AERODROMES
+	// DONE
 	public boolean charger_aerodromes( String ficname ) {
-		// IDEM BALISES
+		
+		Scanner scan_ad = null ;
+		String nom = "" ;
+		Double longitude = null , latitude = null ;
+		Aerodrome new_ad =  null ;
+		
+		try {
+			
+			BufferedReader is = new BufferedReader( new FileReader( ficname ) ) ;
+			Balise tmp = null ;
+			do {
+
+				String tmp_line = is.readLine() ;
+				
+				if( tmp_line != null )
+				{
+				
+					scan_ad = new Scanner( tmp_line ) ;
+					scan_ad.findInLine( "([\\d\\.]), ([\\d\\.]), \"(\\w+)\"" ) ;
+					MatchResult result = scan_ad.match();
+					
+					longitude = Double.parseDouble( result.group( 1 ) ) ;
+					latitude  = Double.parseDouble( result.group( 2 ) ) ;
+					nom = result.group( 3 ) ;
+					
+					new_ad = new Aerodrome( nom , longitude , latitude ) ;
+					this.aerodromes.put( nom , new_ad ) ;
+					this.grapheComplet.add( new_ad ) ;
+					
+					scan_ad.close();
+				}
+				
+			} while (tmp != null) ; 
+				
+			is.close();
+			
+		} catch ( Exception e) {
+			System.err.println("Erreur de chargement") ; 
+		}
 		
 		return true ;
 	}
@@ -238,5 +315,15 @@ public class Simulation {
 				graphe_buffer.add( arete.getOrigine().getContent() , aerodrome.getContent() , arete.getWeight() ) ;
 		
 	}
+	
+	
+	
+	public static void main( String args[] ) {
+		
+		Simulation simulation = new Simulation() ;
+		simulation.charger_balises( "~/PROJET_JAVA/balises_fr.txt" ) ;
+		
+	}
+	
 	
 }
