@@ -8,6 +8,10 @@ import SIMULATION.Graphe.Arete;
 import SIMULATION.Graphe.Chemin;
 
 public class Avion {
+	
+	
+	static final Integer NbPlots = 4  ;
+	
 
 	@SuppressWarnings("unused")
 	private Date heure_depart ;
