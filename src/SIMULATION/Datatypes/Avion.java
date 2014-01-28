@@ -10,7 +10,7 @@ import SIMULATION.Graphe.Chemin;
 public class Avion {
 	
 	
-	static final Integer NbPlots = 4  ;
+	public static final Integer NbPlots = 4  ;
 	
 
 	@SuppressWarnings("unused")
