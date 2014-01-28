@@ -64,7 +64,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 		
 		this.modele =  modele ;
 		// TODO CORRECT ENREGISTRER
-		//this.modele.enregistrer( this ) ;
+		this.modele.enregistrer( this ) ;
 		
 		JFrame jf= new JFrame("simulation");
 		this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);

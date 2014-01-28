@@ -44,6 +44,8 @@ public class Simulation {
 		this.distance_max = 0 ;
 		
 		this.phase_prete = PHASE.CHARGEMENT_REPERES_MOITIE ;
+		this.vues = new ArrayList<ViewSimulation>() ;
+		
 	}
 	
 	public boolean enregistrer( ViewSimulation vue) {
