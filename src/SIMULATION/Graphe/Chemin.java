@@ -1,5 +1,7 @@
 package SIMULATION.Graphe;
 
+// CLASS DONE
+
 import java.util.ArrayList;
 
 @SuppressWarnings("serial")

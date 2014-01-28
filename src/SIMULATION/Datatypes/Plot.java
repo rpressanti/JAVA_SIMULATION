@@ -1,5 +1,7 @@
 package SIMULATION.Datatypes;
 
+// CLASS DONE
+
 public class Plot extends Point {
 
 	private int order ;

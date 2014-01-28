@@ -157,11 +157,15 @@ public class Coordonnees {
 		return Coordonnees.decimalToRadian( this.value ) ;
 	}
 	
+	// TODO RENAME CARTESIAN  COORDINATES
 	public void add(double v)
 	{
 		this.value+=v;
 	}
 	
+	// TODO ADD 'ADD' WITH LOXODROMY
+	
+	// DONE
 	public double multiply( double mult )
 	{
 		this.value *= mult ;

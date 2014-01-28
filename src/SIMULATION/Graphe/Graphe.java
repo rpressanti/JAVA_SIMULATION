@@ -1,5 +1,7 @@
 package SIMULATION.Graphe;
 
+// CLASS DONE
+
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.PriorityQueue;

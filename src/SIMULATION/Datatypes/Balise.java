@@ -1,5 +1,7 @@
 package SIMULATION.Datatypes;
 
+// CLASS DONE
+
 public class Balise extends Point implements Repere {
 
 	private String indicatif ;

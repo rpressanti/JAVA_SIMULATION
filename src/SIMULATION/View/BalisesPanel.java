@@ -29,7 +29,6 @@ public class BalisesPanel extends JPanel {
 	{
 		super.paintComponent( g ) ;
 		
-		@SuppressWarnings("unused")
 		Graphics2D g2d = (Graphics2D) g ;
 		
 		int base_x = 50 ;

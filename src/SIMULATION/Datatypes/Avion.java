@@ -1,6 +1,5 @@
 package SIMULATION.Datatypes;
 
-//import java.util.ArrayList;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ListIterator;
@@ -58,7 +57,7 @@ public class Avion {
 			this.distanceIntraSegment *= -1 ;
 		}
 		
-		// UPDATE POINT ATTRIBUTES
+		// TODO UPDATE POINT ATTRIBUTES
 		
 		return true ;
 	}
@@ -93,6 +92,8 @@ public class Avion {
 		return result ;
 	}
 	
+	
+	// TODO GET PLOTS
 	public ArrayList< Plot > getPlots() {
 		
 		return null ;
