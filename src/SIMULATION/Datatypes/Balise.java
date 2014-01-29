@@ -8,6 +8,7 @@ public class Balise extends Point implements Repere {
 	
 	public Balise( String indicatif , String coordonnees) {
 		super( coordonnees ) ;
+		//System.out.println( "Point créé" ) ;
 		this.indicatif = indicatif ;
 	}
 	

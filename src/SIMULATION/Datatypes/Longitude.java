@@ -45,7 +45,7 @@ public class Longitude extends Coordonnees{
 		
 			case OUEST :
 				//System.out.println(":OUEST:");
-				str += "O" ;
+				str += "W" ;
 				break ;
 		}
 		

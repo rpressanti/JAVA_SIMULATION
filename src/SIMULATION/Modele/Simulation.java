@@ -167,41 +167,49 @@ public class Simulation {
 	public boolean charger_balises( String ficname ) {
 				
 		Scanner scan_balise = null ;
-		String indicatif = "" , coord = "" ;
+		String indicatif = "" , coord = "" , tmp_line = "";
 		Balise new_balise =  null ;
 		
 		try {
 			
-			BufferedReader is = new BufferedReader( new FileReader( ficname ) ) ;
-			Balise tmp = null ;
+			FileReader fr = new FileReader( ficname ) ;
+			//System.out.println( "Fichier ouvert: "  + ficname ) ;
+			BufferedReader is = new BufferedReader( fr ) ;
+			//System.out.println( "Buffer ouvert: "  + ficname ) ;
+			
 			do {
 
-				String tmp_line = is.readLine() ;
+				tmp_line = is.readLine() ;
 				
 				if( tmp_line != null )
 				{
-				
+					//System.out.println( "Line:" + tmp_line ) ;
 					scan_balise = new Scanner( tmp_line );
-					scan_balise.findInLine(  "(\\w{1,3}) (\\w+)" ) ;
+					
+					scan_balise.findInLine(  "(\\w{1,3}) (.+)" ) ;
 					MatchResult result = scan_balise.match();
 					
 					indicatif = result.group( 1 ) ;
+					//System.out.println( "indicatif:" + indicatif ) ;
 					coord = result.group( 2 ) ;
-				
+					//System.out.println( "coord:" + coord ) ;
+					
 					scan_balise.close() ;
 					
 					// DEBUG
-					//new_balise = new Balise( indicatif , coord ) ;
-					//this.balises.put( indicatif , new_balise ) ;
+					new_balise = new Balise( indicatif , coord ) ;
+					//System.out.println( "Balise créée" );
+					this.balises.put( indicatif , new_balise ) ;
 					this.grapheComplet.add( new_balise ) ;
 				}
 				
-			} while (tmp != null) ; 
+			} while (tmp_line != "" ) ; 
 				
 			is.close();
 			
 		} catch ( Exception e) {
-			System.err.println("Erreur de chargement") ; 
+			System.err.println("Erreur de chargement") ;
+			e.printStackTrace() ;
 		}
 		
 		return true ;
@@ -247,6 +255,7 @@ public class Simulation {
 			
 		} catch ( Exception e) {
 			System.err.println("Erreur de chargement") ; 
+			e.printStackTrace() ;
 		}
 		
 		return true ;
@@ -321,7 +330,7 @@ public class Simulation {
 	public static void main( String args[] ) {
 		
 		Simulation simulation = new Simulation() ;
-		simulation.charger_balises( "~/PROJET_JAVA/balises_fr.txt" ) ;
+		simulation.charger_balises( "/home/eleve/IESSA/pressari/balises_fr.txt" ) ;
 		
 	}
 	

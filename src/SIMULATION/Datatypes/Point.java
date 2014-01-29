@@ -120,7 +120,7 @@ public class Point implements Distance<Point> {
 
 	public static void main(String[] args) {
 		@SuppressWarnings("unused")
-		Point p1=new Point("4°56'24,0\" N 4°56'24,0\" E") ;
+		Point p1=new Point("4°56'24.0\" N 004°56'24.0\" E") ;
 		Point p2= new Point(-4.42194 , 48.44722); //Brest
 		Point p3=new Point(-1.73222, 48.07194); //Rennes
 		Point p4=new Point(3.08694, 50.56361); //Lille

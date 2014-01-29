@@ -9,9 +9,9 @@ public class Coordonnees {
 	
 	// Expressions rationnelles
 	// Utilisées pour les aérodromes
-	public static final String regexp_coord = "([0-9]{1,3})°([0-9]{1,2})'(?:([0-9]{1,2})(?:,([0-9])([0-9])?)?\")? " ;
+	public static final String regexp_coord = "([0-9]{1,3})°([0-9]{1,2})'(?:([0-9]{1,2})(?:\\.([0-9])([0-9])?)?\")? " ;
 	public static final String regexp_latitude = Coordonnees.regexp_coord + "([NS])" ;
-	public static final String regexp_longitude =Coordonnees.regexp_coord + "([EO])" ;
+	public static final String regexp_longitude =Coordonnees.regexp_coord + "([EW])" ;
 			
 	private double  value ;
 	
