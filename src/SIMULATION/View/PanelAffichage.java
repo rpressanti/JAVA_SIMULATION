@@ -5,9 +5,9 @@ import java.awt.Dimension;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
+
 import javax.swing.JLayeredPane;
 
-import SIMULATION.Datatypes.Coordonnees;
 import SIMULATION.Datatypes.Point;
 import SIMULATION.Modele.Simulation;
 
@@ -15,10 +15,8 @@ import SIMULATION.Modele.Simulation;
 public class PanelAffichage extends JLayeredPane {
 
 	// TODO ATTRIBUTS COORDONNEES GPS
-	@SuppressWarnings("unused")
-	private Coordonnees gauche_haut ;
-	@SuppressWarnings("unused")
-	private Coordonnees droit_bas ;
+	private Point gauche_haut ;
+	private Point droit_bas ;
 	
 	private Simulation modele ;
 	
@@ -29,12 +27,19 @@ public class PanelAffichage extends JLayeredPane {
 	
 	
 	
-	private class Resizer implements ComponentListener {
+	
+	
+	
+	
+	public class Resizer implements ComponentListener {
 
 		@Override
 		public void componentResized(ComponentEvent e) {
 			// TODO Auto-generated method stub
+			@SuppressWarnings("unused")
+			JLayeredPane source = ( JLayeredPane) e.getSource() ;
 			Dimension dim = ( (Component) e.getSource()).getSize() ;
+						
 			
 			PanelAffichage.this.balises.setSize( dim );
 			PanelAffichage.this.balises.revalidate();
@@ -81,9 +86,17 @@ public class PanelAffichage extends JLayeredPane {
 	
 	
 	
-	public PanelAffichage( Simulation modele) {
-		this.modele = modele ;
 	
+	
+	
+	public PanelAffichage( Simulation modele) {
+
+		this.modele = modele ;
+		// TODO IMPLEMENTER CADRE DANS MODELE
+		this.gauche_haut = null ;
+		this.droit_bas = null ;
+		
+		
 		// Panels a rafraichir apres chaque changement du modele
 		this.aerodromes = new AerodromesPanel( this.modele.getAerodromes() ) ;
 		this.setLayer( this.aerodromes , JLayeredPane.DEFAULT_LAYER ) ;
@@ -106,13 +119,20 @@ public class PanelAffichage extends JLayeredPane {
 	}
 	
 	
-	
-	// TODO  METHODE CALCULER COORD_IHM d'un POINT A PARTIR
-	// TODO DES COORDONNEES DU CADRE
 	public Dimension coordonnees_IHM( Point p ) {
-	
+
+		int x = ( int ) ( 
+				( p.getLongitude().getValue() - this.gauche_haut.getLongitude().getValue() ) 
+				/ 
+				( this.droit_bas.getLongitude().getValue() - this.gauche_haut.getLongitude().getValue() ) 
+			) ;
+		int y = ( int ) ( 
+				( p.getLatitude().getValue() - this.gauche_haut.getLatitude().getValue() )
+				/ 
+				( this.droit_bas.getLatitude().getValue() - this.gauche_haut.getLatitude().getValue() ) 
+			) ; 
 		
-		return new Dimension(0 ,0 ) ;
+		return new Dimension( x , y ) ;
 	}
 
 }

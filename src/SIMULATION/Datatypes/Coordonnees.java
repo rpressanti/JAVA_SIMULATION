@@ -29,7 +29,9 @@ public class Coordonnees {
 		this.value =  Coordonnees.sexagedecimalToDecimal( string , type ) ;
 		//System.out.println( "Constructeur : " + this.value) ;
 	}
-		
+	
+
+	
 	public String toString()
 	{
 		double tmp = Math.abs( value ) ;

@@ -183,21 +183,22 @@ public class Simulation {
 				
 				if( tmp_line != null )
 				{
+					
 					scan_balise = new Scanner( tmp_line );
 					
-					scan_balise.findInLine(  "(\\w{1,3}) (.+)" ) ;
-					MatchResult result = scan_balise.match();
+					try  {
+						scan_balise.findInLine(  "(\\w{1,3}) (.+)" ) ;
+						MatchResult result = scan_balise.match();
+						
+						indicatif = result.group( 1 ) ;
+						coord = result.group( 2 ) ;
+						
+						scan_balise.close() ;
+						
+						new_balise = new Balise( indicatif , coord ) ;
+						this.balises.put( indicatif , new_balise ) ;
+						this.grapheComplet.add( new_balise ) ;
 					
-					indicatif = result.group( 1 ) ;
-					coord = result.group( 2 ) ;
-					
-					scan_balise.close() ;
-					
-					try
-					{
-					new_balise = new Balise( indicatif , coord ) ;
-					this.balises.put( indicatif , new_balise ) ;
-					this.grapheComplet.add( new_balise ) ;
 					} catch( Exception e)
 					{
 						System.out.println( "Erreur création balise:" + indicatif + coord );
@@ -213,7 +214,7 @@ public class Simulation {
 			e.printStackTrace() ;
 		}
 		
-		return true ;
+		return this.rafraichir() ;
 	}
 	
 	// DONE
@@ -242,25 +243,27 @@ public class Simulation {
 				
 				if( tmp_line != null )
 				{
-					System.out.println( tmp_line ) ;
-					//tmp_line = "1.83, 50.123, (B)" ;
 					scan_ad = new Scanner( tmp_line ) ;
-					System.out.println( "Ligne:" + tmp_line );
-					scan_ad.findInLine( "(-?\\d+\\.\\d+), (-?\\d+\\.\\d+), \"(.+)(?: \\((?:code )?([^\\d]{4})\\))?\"" ) ;
-					MatchResult result = scan_ad.match();
 					
-					longitude = Double.parseDouble( result.group( 1 ) ) ;
-					System.out.println( longitude ) ;
-					latitude  = Double.parseDouble( result.group( 2 ) ) ;
-					System.out.println( latitude ) ;
-					nom = result.group( 3 ) ;
-					System.out.println( nom ) ;
-					code_OACI = result.group( 4 ) ;
-					System.out.println( code_OACI ) ;
+					try {
+						
+						scan_ad.findInLine( "(-?\\d+\\.\\d+), (-?\\d+\\.\\d+), \"(.+)(?: \\((?:code )?([^\\d]{4})\\))?\"" ) ;
+						MatchResult result = scan_ad.match();
+						
+						longitude = Double.parseDouble( result.group( 1 ) ) ;
+						latitude  = Double.parseDouble( result.group( 2 ) ) ;
+						nom = result.group( 3 ) ;
+						code_OACI = result.group( 4 ) ;
+						
+						
+						new_ad = new Aerodrome( nom , code_OACI , longitude , latitude ) ;
+						this.aerodromes.put( nom , new_ad ) ;
+						this.grapheComplet.add( new_ad ) ;
 					
-					new_ad = new Aerodrome( nom , code_OACI , longitude , latitude ) ;
-					this.aerodromes.put( nom , new_ad ) ;
-					this.grapheComplet.add( new_ad ) ;
+					} catch ( Exception e) {
+						System.out.println( "Erreur création aérodrome" );
+					}
+					
 					
 					scan_ad.close();
 				}
@@ -274,7 +277,7 @@ public class Simulation {
 			e.printStackTrace() ;
 		}
 		
-		return true ;
+		return this.rafraichir() ;
 	}
 	
 	// TODO IMPORT AVIONS

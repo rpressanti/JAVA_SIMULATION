@@ -22,6 +22,7 @@ public class Longitude extends Coordonnees{
 		super( degre , minute , sec , dix_sec , cent_sec , direction ) ;		
 	}
 	
+	
 	public Longitude.LONGITUDE getDirection() {
 		if ( this.estPositif() )
 			return Longitude.LONGITUDE.EST ;
