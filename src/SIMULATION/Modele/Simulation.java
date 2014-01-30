@@ -183,24 +183,25 @@ public class Simulation {
 				
 				if( tmp_line != null )
 				{
-					//System.out.println( "Line:" + tmp_line ) ;
 					scan_balise = new Scanner( tmp_line );
 					
 					scan_balise.findInLine(  "(\\w{1,3}) (.+)" ) ;
 					MatchResult result = scan_balise.match();
 					
 					indicatif = result.group( 1 ) ;
-					//System.out.println( "indicatif:" + indicatif ) ;
 					coord = result.group( 2 ) ;
-					//System.out.println( "coord:" + coord ) ;
 					
 					scan_balise.close() ;
 					
-					// DEBUG
+					try
+					{
 					new_balise = new Balise( indicatif , coord ) ;
-					//System.out.println( "Balise créée" );
 					this.balises.put( indicatif , new_balise ) ;
 					this.grapheComplet.add( new_balise ) ;
+					} catch( Exception e)
+					{
+						System.out.println( "Erreur cr�ation balise:" + indicatif + coord );
+					}
 				}
 				
 			} while (tmp_line != "" ) ; 
@@ -219,37 +220,52 @@ public class Simulation {
 	public boolean charger_aerodromes( String ficname ) {
 		
 		Scanner scan_ad = null ;
-		String nom = "" ;
+		String tmp_line = "" , nom = "" , code_OACI = "" ;
 		Double longitude = null , latitude = null ;
 		Aerodrome new_ad =  null ;
 		
 		try {
 			
 			BufferedReader is = new BufferedReader( new FileReader( ficname ) ) ;
-			Balise tmp = null ;
+		
+			
+			
+			// On ignore l'en-tete et les lignes vides suivantes
+			do { 
+				tmp_line = is.readLine() ; 
+			} while ( tmp_line == "" || tmp_line.startsWith( ";" ) ) ;
+			
+			
 			do {
 
-				String tmp_line = is.readLine() ;
+				tmp_line = is.readLine() ;
 				
 				if( tmp_line != null )
 				{
-				
+					System.out.println( tmp_line ) ;
+					//tmp_line = "1.83, 50.123, (B)" ;
 					scan_ad = new Scanner( tmp_line ) ;
-					scan_ad.findInLine( "([\\d\\.]), ([\\d\\.]), \"(\\w+)\"" ) ;
+					System.out.println( "Ligne:" + tmp_line );
+					scan_ad.findInLine( "(-?\\d+\\.\\d+), (-?\\d+\\.\\d+), \"(.+)(?: \\((?:code )?([^\\d]{4})\\))?\"" ) ;
 					MatchResult result = scan_ad.match();
 					
 					longitude = Double.parseDouble( result.group( 1 ) ) ;
+					System.out.println( longitude ) ;
 					latitude  = Double.parseDouble( result.group( 2 ) ) ;
+					System.out.println( latitude ) ;
 					nom = result.group( 3 ) ;
+					System.out.println( nom ) ;
+					code_OACI = result.group( 4 ) ;
+					System.out.println( code_OACI ) ;
 					
-					new_ad = new Aerodrome( nom , longitude , latitude ) ;
+					new_ad = new Aerodrome( nom , code_OACI , longitude , latitude ) ;
 					this.aerodromes.put( nom , new_ad ) ;
 					this.grapheComplet.add( new_ad ) ;
 					
 					scan_ad.close();
 				}
 				
-			} while (tmp != null) ; 
+			} while (tmp_line != null) ; 
 				
 			is.close();
 			
@@ -330,7 +346,8 @@ public class Simulation {
 	public static void main( String args[] ) {
 		
 		Simulation simulation = new Simulation() ;
-		simulation.charger_balises( "/home/eleve/IESSA/pressari/balises_fr.txt" ) ;
+		//simulation.charger_balises( "/home/eleve/IESSA/pressari/balises_fr.txt" ) ;
+		simulation.charger_aerodromes( "/Users/richard/Desktop/aerodromes_fr.txt" ) ;
 		
 	}
 	
