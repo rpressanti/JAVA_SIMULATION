@@ -17,6 +17,7 @@ public class PanelAffichage extends JLayeredPane {
 	// TODO ATTRIBUTS COORDONNEES GPS
 	private Point gauche_haut ;
 	private Point droit_bas ;
+	private Point centre ;
 	
 	private Simulation modele ;
 	
@@ -95,7 +96,11 @@ public class PanelAffichage extends JLayeredPane {
 		// TODO IMPLEMENTER CADRE DANS MODELE
 		this.gauche_haut = new Point( -10 , 55 ) ;
 		this.droit_bas =   new Point(  10 , 40 ) ;
-		
+		this.centre = new Point(
+				( this.droit_bas.getLongitude().getValue() - this.gauche_haut.getLongitude().getValue() ) / 2
+				,
+				( this.droit_bas.getLatitude().getValue() - this.gauche_haut.getLatitude().getValue() ) / 2
+				) ;
 		
 		// Panels a rafraichir apres chaque changement du modele
 		this.aerodromes = new AerodromesPanel( this ) ;
@@ -120,6 +125,29 @@ public class PanelAffichage extends JLayeredPane {
 	
 	public Simulation modele() {
 		return this.modele ;
+	}
+	
+	
+	public boolean zoomer( double niveau_de_zoom ) {
+		
+		double demi_largeur = this.droit_bas.getLongitude().getValue() - this.centre.getLongitude().getValue() ; 
+		double demi_hauteur = this.droit_bas.getLatitude().getValue()  - this.centre.getLatitude().getValue()  ;
+		
+		demi_largeur /= niveau_de_zoom ;
+		demi_hauteur /= niveau_de_zoom ;
+		
+		this.gauche_haut = new Point( 
+				this.centre.getLongitude().getValue() - demi_largeur
+				,
+				this.centre.getLatitude().getValue() - demi_hauteur
+				) ;
+		this.droit_bas = new Point( 
+				this.centre.getLongitude().getValue() + demi_largeur
+				,
+				this.centre.getLatitude().getValue() + demi_hauteur
+				) ;
+		
+		return true ;
 	}
 	
 	
