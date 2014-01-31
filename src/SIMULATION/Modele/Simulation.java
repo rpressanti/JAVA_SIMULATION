@@ -247,7 +247,7 @@ public class Simulation {
 					
 					try {
 						
-						scan_ad.findInLine( "(-?\\d+\\.\\d+), (-?\\d+\\.\\d+), \"(.+)(?: \\((?:code )?([^\\d]{4})\\))?\"" ) ;
+						scan_ad.findInLine( "(-?\\d+\\.\\d+), (-?\\d+\\.\\d+), \"(.+)(?: \\((?:code )?([\\w]{4})\\))?\"" ) ;
 						MatchResult result = scan_ad.match();
 						
 						longitude = Double.parseDouble( result.group( 1 ) ) ;
@@ -261,7 +261,7 @@ public class Simulation {
 						this.grapheComplet.add( new_ad ) ;
 					
 					} catch ( Exception e) {
-						System.out.println( "Erreur cr�ation a�rodrome" );
+						System.out.println( "Erreur création aérodrome" );
 					}
 					
 					
@@ -277,6 +277,7 @@ public class Simulation {
 			e.printStackTrace() ;
 		}
 		
+		System.out.println( "Chargement aérodrome terminé" ) ;
 		return this.rafraichir() ;
 	}
 	
@@ -351,7 +352,7 @@ public class Simulation {
 		Simulation simulation = new Simulation() ;
 		//simulation.charger_balises( "/home/eleve/IESSA/pressari/balises_fr.txt" ) ;
 		//simulation.charger_aerodromes( "/Users/richard/Desktop/aerodromes_fr.txt" ) ;
-		
+		simulation.charger_aerodromes( "/home/eleve/IESSA/pressari/PROJET_JAVA/aerodromes_fr.txt" ) ;
 		
 	}
 	

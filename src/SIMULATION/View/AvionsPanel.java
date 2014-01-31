@@ -1,10 +1,10 @@
 package SIMULATION.View;
 
 import SIMULATION.Datatypes.* ;
+import SIMULATION.Modele.Simulation;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.HashMap;
 
 import javax.swing.JPanel;
 
@@ -12,12 +12,15 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class AvionsPanel extends JPanel {
 
+
+	private PanelAffichage parent ;
 	@SuppressWarnings("unused")
-	private HashMap<String,Avion> model ;
+	private Simulation model ;
 	
-	public AvionsPanel(HashMap<String,Avion> model ) {
+	public AvionsPanel( PanelAffichage parent) {
 		super() ;
-		this.model = model ;
+		this.parent = parent ;
+		this.model = this.parent.modele() ;
 		
 		this.setOpaque( false );
 		

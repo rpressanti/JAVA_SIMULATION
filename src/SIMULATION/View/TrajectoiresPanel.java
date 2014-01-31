@@ -1,23 +1,25 @@
 package SIMULATION.View;
 
 import SIMULATION.Datatypes.* ;
+import SIMULATION.Modele.Simulation;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
+
 
 import javax.swing.JPanel;
 
 
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "unused" })
 public class TrajectoiresPanel extends JPanel {
 
-	@SuppressWarnings("unused")
-	private ArrayList<Trajectoire> model ;
+	private PanelAffichage parent ;
+	private Simulation model ;
 	
-	public TrajectoiresPanel( ArrayList<Trajectoire> model ) {
+	public TrajectoiresPanel( PanelAffichage parent ) {
 		super() ;
-		this.model = model ;
+		this.parent = parent ;
+		this.model = this.parent.modele() ;
 		
 		this.setOpaque( false ) ;
 	}
@@ -30,7 +32,6 @@ public class TrajectoiresPanel extends JPanel {
 	{
 		super.paintComponent( g ) ;
 		
-		@SuppressWarnings("unused")
 		Graphics2D g2d = (Graphics2D) g ;
 	
 	

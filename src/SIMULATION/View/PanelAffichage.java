@@ -93,29 +93,33 @@ public class PanelAffichage extends JLayeredPane {
 
 		this.modele = modele ;
 		// TODO IMPLEMENTER CADRE DANS MODELE
-		this.gauche_haut = null ;
-		this.droit_bas = null ;
+		this.gauche_haut = new Point( -10 , 55 ) ;
+		this.droit_bas =   new Point(  10 , 40 ) ;
 		
 		
 		// Panels a rafraichir apres chaque changement du modele
-		this.aerodromes = new AerodromesPanel( this.modele.getAerodromes() ) ;
+		this.aerodromes = new AerodromesPanel( this ) ;
 		this.setLayer( this.aerodromes , JLayeredPane.DEFAULT_LAYER ) ;
 		this.add( this.aerodromes , JLayeredPane.DEFAULT_LAYER ) ;
 				
-		this.balises = new BalisesPanel( this.modele.getBalises() ) ;
+		this.balises = new BalisesPanel( this ) ;
 		this.setLayer( this.balises , new Integer(1) ) ;
 		this.add( this.balises , new Integer( 1) ) ;
 				
-		this.trajectoires = new TrajectoiresPanel( this.modele.getTrajectoires() ) ;
+		this.trajectoires = new TrajectoiresPanel( this ) ;
 		this.setLayer( this.trajectoires , new Integer(2) );
 		this.add( this.trajectoires , new Integer( 2) ) ;
 				
-		this.avions = new AvionsPanel( this.modele.getAvions() ) ;
+		this.avions = new AvionsPanel( this ) ;
 		this.setLayer( this.avions , new Integer( 3) ) ;
 		this.add( this.avions ,new Integer( 3 ) ) ;
 				
 		this.addComponentListener( new Resizer() );
 		
+	}
+	
+	public Simulation modele() {
+		return this.modele ;
 	}
 	
 	

@@ -303,7 +303,12 @@ public class Fenetre extends JFrame implements ViewSimulation
 	public static void main(String[] args) {
 		
 		Simulation modele = new Simulation() ;
-		Fenetre fen = new Fenetre( modele );
+		
+		Fenetre fen_1 = new Fenetre( modele );
+		//Fenetre fen_2 = new Fenetre( modele );
+		
+		modele.charger_balises( "/home/eleve/IESSA/pressari/PROJET_JAVA/balises_fr.txt" ) ;
+		//modele.charger_aerodromes( "/home/eleve/IESSA/pressari/PROJET_JAVA/aerodromes_fr.txt" ) ;
 	}
 	
 }// end class

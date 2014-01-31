@@ -1,23 +1,24 @@
 package SIMULATION.View;
 
 import SIMULATION.Datatypes.* ;
+import SIMULATION.Modele.Simulation;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.HashMap;
+
 
 import javax.swing.JPanel;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "unused" })
 public class AerodromesPanel extends JPanel {
 
+	private PanelAffichage parent ;
+	private Simulation model ;
 	
-	@SuppressWarnings("unused")
-	private HashMap<String,Aerodrome> model ;
-	
-	public AerodromesPanel(HashMap<String,Aerodrome> model ) {
+	public AerodromesPanel( PanelAffichage parent ) {
 		super() ;
-		this.model = model ;
+		this.parent = parent ;
+		this.model = this.parent.modele() ;
 		
 		this.setOpaque( false ) ;
 		//this.setBackground( Color.BLUE );
@@ -31,7 +32,6 @@ public class AerodromesPanel extends JPanel {
 	{
 		super.paintComponent( g ) ;
 		
-		@SuppressWarnings("unused")
 		Graphics2D g2d = (Graphics2D) g ;
 		// 2 traits paralleles pour aerodrme piste
 		int base_x = 150 ;
