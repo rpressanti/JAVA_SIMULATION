@@ -94,13 +94,15 @@ public class PanelAffichage extends JLayeredPane {
 
 		this.modele = modele ;
 		// TODO IMPLEMENTER CADRE DANS MODELE
-		this.gauche_haut = new Point( -10 , 55 ) ;
-		this.droit_bas =   new Point(  10 , 40 ) ;
+		this.gauche_haut = new Point( -5 , 55 ) ;
+		this.droit_bas =   new Point(  8 , 40 ) ;
 		this.centre = new Point(
-				( this.droit_bas.getLongitude().getValue() - this.gauche_haut.getLongitude().getValue() ) / 2
+				( this.droit_bas.getLongitude().getValue() + this.gauche_haut.getLongitude().getValue() ) / 2
 				,
-				( this.droit_bas.getLatitude().getValue() - this.gauche_haut.getLatitude().getValue() ) / 2
+				( this.droit_bas.getLatitude().getValue() + this.gauche_haut.getLatitude().getValue() ) / 2
 				) ;
+		
+		System.out.println( this.centre ) ;
 		
 		// Panels a rafraichir apres chaque changement du modele
 		this.aerodromes = new AerodromesPanel( this ) ;
@@ -133,6 +135,10 @@ public class PanelAffichage extends JLayeredPane {
 		double demi_largeur = this.droit_bas.getLongitude().getValue() - this.centre.getLongitude().getValue() ; 
 		double demi_hauteur = this.droit_bas.getLatitude().getValue()  - this.centre.getLatitude().getValue()  ;
 		
+		System.out.println( "Gauche Haut:" + this.gauche_haut ) ;
+		System.out.println( "Droit Bas  :" + this.droit_bas ) ;
+		System.out.println( this.centre ) ;
+		
 		demi_largeur /= niveau_de_zoom ;
 		demi_hauteur /= niveau_de_zoom ;
 		
@@ -146,6 +152,10 @@ public class PanelAffichage extends JLayeredPane {
 				,
 				this.centre.getLatitude().getValue() + demi_hauteur
 				) ;
+		
+		System.out.println( "Gauche Haut:" + this.gauche_haut ) ;
+		System.out.println( "Droit Bas  :" + this.droit_bas ) ;
+		System.out.println( this.centre ) ;
 		
 		return true ;
 	}

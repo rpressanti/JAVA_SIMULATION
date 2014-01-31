@@ -56,6 +56,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 
 	private PanelAffichage pan_principal ;
 	
+	private Double niveauDeZoom ;
 	
 	//constructeurs
 	public Fenetre( Simulation modele )
@@ -64,6 +65,8 @@ public class Fenetre extends JFrame implements ViewSimulation
 		
 		this.modele =  modele ;
 		this.modele.enregistrer( this ) ;
+		
+		this.niveauDeZoom = 2.0 ;
 		
 		JFrame jf= new JFrame("simulation");
 		this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);
@@ -100,10 +103,10 @@ public class Fenetre extends JFrame implements ViewSimulation
 		pan.add(pan_secondaire,BorderLayout.SOUTH );
 		
 		JButton jb_zoom_p = new JButton( "+" ) ;
-		//jb_zoom_p.addActionListener( new ActionZoomP() );
+		jb_zoom_p.addActionListener( new ActionZoomP() );
 		pan_secondaire .add( jb_zoom_p ) ;
 		JButton jb_zoom_m = new JButton( "-" ) ;
-		//jb_zoom_m.addActionListener( new ActionZoomM() );
+		jb_zoom_m.addActionListener( new ActionZoomM() );
 		pan_secondaire.add( jb_zoom_m ) ;
 		
 	 	//JLabel test =new JLabel("test0");
@@ -306,15 +309,28 @@ public class Fenetre extends JFrame implements ViewSimulation
 		{
 			System.out.println("zoom");
 			
-			Fenetre.this.pan_principal.zoomer(2) ;
+			Fenetre.this.pan_principal.zoomer( Fenetre.this.niveauDeZoom ) ;
+			Fenetre.this.rafraichir();
+			}
+	}
+	
+	public class ActionZoomM implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			System.out.println("zoom");
+			
+			Fenetre.this.pan_principal.zoomer( 1 / Fenetre.this.niveauDeZoom ) ;
 			Fenetre.this.rafraichir();
 			}
 	}
 	
 	
-	
 	// TODO RAFRAICHIR
 	public boolean rafraichir() {
+		
+		this.pan_principal.revalidate();
+		this.pan_principal.repaint();
 		
 		return true ;
 	}
@@ -324,7 +340,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 		Simulation modele = new Simulation() ;
 		
 		Fenetre fen_1 = new Fenetre( modele );
-		Fenetre fen_2 = new Fenetre( modele );
+		//Fenetre fen_2 = new Fenetre( modele );
 		modele.charger_balises( "/home/eleve/IESSA/pressari/PROJET_JAVA/balises_fr.txt" ) ;
 		//modele.charger_aerodromes( "/home/eleve/IESSA/pressari/PROJET_JAVA/aerodromes_fr.txt" ) ;
 	}
