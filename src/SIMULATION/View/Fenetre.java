@@ -54,7 +54,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 	private JTextField jtf_dbmax;
 	private JButton jb_execution,jb_iterer,jb_stop,jb_recommencer,jb_quit;
 
-
+	private PanelAffichage pan_principal ;
 	
 	
 	//constructeurs
@@ -82,21 +82,18 @@ public class Fenetre extends JFrame implements ViewSimulation
 		pan.add(pan_button,"North");
 					
 		// Jlayered pour la superposition des Jpanel ad et balise
-		PanelAffichage pan_principal = new PanelAffichage( this.modele ) ;
-		pan_principal.setPreferredSize( 
+		this.pan_principal = new PanelAffichage( this.modele ) ;
+		this.pan_principal.setPreferredSize( 
 				new Dimension( Fenetre.width_panel , Fenetre.height_panel )
 			);
-		pan.add(pan_principal);
+		pan.add(this.pan_principal);
 		
 	 	
 	 // TODO  placer ascenseur
 		/*JScrollPane  j_scroll=new JScrollPane();
 		//pan_principal.add(j_scroll, BorderLayout.SOUTH);
 		*/
-		
-		
-		
-		
+			
 		
 		JPanel pan_secondaire= new JPanel();
 		pan_secondaire.setBackground(Color.GREEN);  
@@ -302,6 +299,20 @@ public class Fenetre extends JFrame implements ViewSimulation
 		}
 	}
 	
+
+	public class ActionZoomP implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			System.out.println("zoom");
+			
+			Fenetre.this.pan_principal.zoomer(2) ;
+			Fenetre.this.rafraichir();
+			}
+	}
+	
+	
+	
 	// TODO RAFRAICHIR
 	public boolean rafraichir() {
 		
@@ -314,9 +325,9 @@ public class Fenetre extends JFrame implements ViewSimulation
 		
 		Fenetre fen_1 = new Fenetre( modele );
 		Fenetre fen_2 = new Fenetre( modele );
-		
 		modele.charger_balises( "/home/eleve/IESSA/pressari/PROJET_JAVA/balises_fr.txt" ) ;
 		//modele.charger_aerodromes( "/home/eleve/IESSA/pressari/PROJET_JAVA/aerodromes_fr.txt" ) ;
 	}
+	
 	
 }// end class
