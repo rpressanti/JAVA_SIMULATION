@@ -183,6 +183,7 @@ public class Simulation {
 				
 				if( tmp_line != null )
 				{
+					//System.out.println("tmp_line:" + tmp_line);
 					
 					scan_balise = new Scanner( tmp_line );
 					
@@ -192,6 +193,8 @@ public class Simulation {
 						
 						indicatif = result.group( 1 ) ;
 						coord = result.group( 2 ) ;
+				
+						//System.out.println("indicatif:" + indicatif + "|coord:" + coord) ;
 						
 						scan_balise.close() ;
 						
@@ -205,7 +208,7 @@ public class Simulation {
 					}
 				}
 				
-			} while (tmp_line != "" ) ; 
+			} while (tmp_line != null ) ; 
 				
 			is.close();
 			
@@ -214,6 +217,7 @@ public class Simulation {
 			e.printStackTrace() ;
 		}
 		
+		System.out.println( "Chargement balises terminé." );
 		return this.rafraichir() ;
 	}
 	
@@ -352,8 +356,9 @@ public class Simulation {
 		Simulation simulation = new Simulation() ;
 		//simulation.charger_balises( "/home/eleve/IESSA/pressari/balises_fr.txt" ) ;
 		//simulation.charger_aerodromes( "/Users/richard/Desktop/aerodromes_fr.txt" ) ;
-		simulation.charger_aerodromes( "/home/eleve/IESSA/pressari/PROJET_JAVA/aerodromes_fr.txt" ) ;
-		
+		//simulation.charger_aerodromes( "/home/eleve/IESSA/pressari/PROJET_JAVA/aerodromes_fr.txt" ) ;
+		simulation.charger_aerodromes( "C:/Users/nono/git/JAVA_SIMULATION/fichiers/aerodromes_fr.txt" ) ;
+		simulation.charger_balises( "C:/Users/nono/git/JAVA_SIMULATION/fichiers/balises_fr.txt" ) ;
 	}
 	
 	

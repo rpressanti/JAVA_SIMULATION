@@ -44,8 +44,8 @@ public class AerodromesPanel extends JPanel {
 			
 			
 			// 2 traits paralleles pour aerodrme piste
-			g.drawLine(base_x, base_y, base_x+20, base_y-15);
-			g.drawLine(base_x+10, base_y, base_x+30, base_y-15);
+			g.drawLine(base_x, base_y, base_x+10, base_y-5);
+			g.drawLine(base_x+5, base_y, base_x+15, base_y-5);
 		}
 		
 	}

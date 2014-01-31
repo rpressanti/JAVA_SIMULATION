@@ -228,7 +228,6 @@ public class Fenetre extends JFrame implements ViewSimulation
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			//System.exit(0);
 			Fenetre.this.quitter();
 		}
 	}
@@ -242,8 +241,8 @@ public class Fenetre extends JFrame implements ViewSimulation
 			
 			String ficname = Fenetre.this.demander_nom_fichier() ;
 			System.err.println( ficname ) ;
-			// TODO UNCOMMENT
-			//this.modele.chargerAerodromes( ficname ) ;
+			
+			Fenetre.this.modele.charger_aerodromes( ficname ) ;
 			
 			System.out.println("fin chargt ad");						
 		}
@@ -257,8 +256,8 @@ public class Fenetre extends JFrame implements ViewSimulation
 			
 			String ficname = Fenetre.this.demander_nom_fichier() ;
 			System.err.println( ficname ) ;
-			// TODO UNCOMMENT
-			//this.modele.chargerBalises( ficname ) ;
+			
+			Fenetre.this.modele.charger_balises( ficname ) ;
 			
 			System.out.println("fin chargt balises");
 						
@@ -305,7 +304,6 @@ public class Fenetre extends JFrame implements ViewSimulation
 	}
 	
 	
-	// TODO RAFRAICHIR
 	public boolean rafraichir() {
 		
 		this.pan_principal.revalidate();
@@ -320,8 +318,10 @@ public class Fenetre extends JFrame implements ViewSimulation
 		
 		Fenetre fen_1 = new Fenetre( modele );
 		//Fenetre fen_2 = new Fenetre( modele );
-		modele.charger_balises( "/home/eleve/IESSA/pressari/PROJET_JAVA/balises_fr.txt" ) ;
+		//modele.charger_balises( "/home/eleve/IESSA/pressari/PROJET_JAVA/balises_fr.txt" ) ;
 		//modele.charger_aerodromes( "/home/eleve/IESSA/pressari/PROJET_JAVA/aerodromes_fr.txt" ) ;
+		modele.charger_balises( "C:/Users/nono/git/JAVA_SIMULATION/fichiers/balises_fr.txt" ) ;
+		modele.charger_aerodromes( "C:/Users/nono/git/JAVA_SIMULATION/fichiers/aerodromes_fr.txt" ) ;
 	}
 	
 	

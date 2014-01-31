@@ -94,15 +94,16 @@ public class PanelAffichage extends JLayeredPane {
 
 		this.modele = modele ;
 		// TODO IMPLEMENTER CADRE DANS MODELE
-		this.gauche_haut = new Point( -5 , 55 ) ;
-		this.droit_bas =   new Point(  8 , 40 ) ;
+		this.gauche_haut = new Point( -10 , 55 ) ;
+		this.droit_bas =   new Point(  15 , 40 ) ;
 		this.centre = new Point(
 				( this.droit_bas.getLongitude().getValue() + this.gauche_haut.getLongitude().getValue() ) / 2
 				,
 				( this.droit_bas.getLatitude().getValue() + this.gauche_haut.getLatitude().getValue() ) / 2
 				) ;
 		
-		System.out.println( this.centre ) ;
+		// TODO RM
+		//System.out.println( this.centre ) ;
 		
 		// Panels a rafraichir apres chaque changement du modele
 		this.aerodromes = new AerodromesPanel( this ) ;
