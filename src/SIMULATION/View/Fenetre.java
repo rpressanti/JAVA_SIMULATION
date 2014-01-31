@@ -92,11 +92,6 @@ public class Fenetre extends JFrame implements ViewSimulation
 		pan.add(this.pan_principal);
 		
 	 	
-	 // TODO  placer ascenseur
-		/*JScrollPane  j_scroll=new JScrollPane();
-		//pan_principal.add(j_scroll, BorderLayout.SOUTH);
-		*/
-			
 		
 		JPanel pan_secondaire= new JPanel();
 		pan_secondaire.setBackground(Color.GREEN);  
@@ -225,23 +220,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 		return "" ;
 	} 
 				 
-			 // TODO Deplacer dans modele
-			 /*	
-			 Scanner scan=null;
-				try {
-					scan = new Scanner(new FileReader(ficname));
-					 while(scan.hasNext()) { // on lit le fichier ligne par ligne. une ligne = une personne.
-						Scanner ps=new Scanner(scan.next()); 
-						//ps.useDelimiter(";|\n");
-						ps.useDelimiter(",||\n");
-						System.out.println(ps);
-						//liste.add(new Personne(ps.next(),ps.next(),ps.next()));
-					 }
-					 scan.close();
-				} catch (FileNotFoundException e1) {
-					e1.printStackTrace();
-				}*/
-
+	
 		 
 	
 	//// listener
