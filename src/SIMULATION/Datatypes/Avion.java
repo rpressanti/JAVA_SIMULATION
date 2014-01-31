@@ -13,6 +13,7 @@ public class Avion {
 	public static final Integer NbPlots = 4  ;
 	
 
+	private String nom ;
 	@SuppressWarnings("unused")
 	private Date heure_depart ;
 	
@@ -29,16 +30,23 @@ public class Avion {
 	
 	private boolean en_conflit ;
 	
-	public Avion( Repere depart , Repere arrivee , int flight_level , double vitesse ) {
+	public Avion( String nom , Repere depart , Repere arrivee , int flight_level , double vitesse , Date heure_depart) {
 		
+		this.nom = nom ;
 		this.arrivee = arrivee ;
 		this.depart = depart ;
 		this.flight_level = flight_level ;
 		this.vitesse = vitesse ;
+		this.heure_depart = heure_depart ;
 		
 		this.trajectoire = null ;
 		this.en_conflit = false ;
 	}
+	
+	public String getNom() {
+		return this.nom ;
+	}
+	
 	
 	public Repere getDepart() {
 		return this.depart ;

@@ -5,10 +5,10 @@ package SIMULATION.Modele;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Scanner ;
 import java.util.regex.MatchResult;
-
 
 import SIMULATION.Datatypes.*;
 import SIMULATION.Graphe.* ;
@@ -294,6 +294,17 @@ public class Simulation {
 		return true ;
 	}
 
+	
+	// TODO Créer avion
+	public boolean creer_avion( String nom , Repere depart , Repere arrivee , int flight_level , double vitesse , Date heure_depart) {
+		
+		Avion new_avion = new Avion( nom , depart , arrivee , flight_level , vitesse , heure_depart) ;
+		
+		this.avions.put( nom , new_avion ) ;
+		
+		return true ;
+	}
+	
 	// TODO Verifier Phase
 	private boolean genererGrapheTotal() {
 		this.grapheComplet.generer() ; 
