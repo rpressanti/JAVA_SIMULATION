@@ -3,9 +3,9 @@ package SIMULATION.View;
 import SIMULATION.Datatypes.* ;
 import SIMULATION.Modele.Simulation;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
 
 import javax.swing.JPanel;
 
@@ -33,14 +33,21 @@ public class AerodromesPanel extends JPanel {
 		super.paintComponent( g ) ;
 		
 		Graphics2D g2d = (Graphics2D) g ;
-		// 2 traits paralleles pour aerodrme piste
-		int base_x = 150 ;
-		int base_y = 150 ;
 		
-		// TODO INSERER DANS ITERATION SUR LE MODELE
-		g.drawLine(base_x, base_y, base_x+20, base_y-15);
-		g.drawLine(base_x+10, base_y, base_x+30, base_y-15);
-	
+		for ( Aerodrome aerodrome : this.model.getAerodromes().values() )
+		{
+			
+			Dimension dim = parent.coordonnees_IHM( aerodrome ) ;
+			
+			int base_x = dim.width ;
+			int base_y = dim.height ;
+			
+			
+			// 2 traits paralleles pour aerodrme piste
+			g.drawLine(base_x, base_y, base_x+20, base_y-15);
+			g.drawLine(base_x+10, base_y, base_x+30, base_y-15);
+		}
+		
 	}
 
 }
