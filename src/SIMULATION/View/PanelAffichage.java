@@ -121,12 +121,14 @@ public class PanelAffichage extends JLayeredPane {
 	
 	public Dimension coordonnees_IHM( Point p ) {
 
-		int x = ( int ) ( 
+		Dimension dim = this.getSize() ;
+		
+		int x = ( int ) ( dim.width *
 				( p.getLongitude().getValue() - this.gauche_haut.getLongitude().getValue() ) 
 				/ 
 				( this.droit_bas.getLongitude().getValue() - this.gauche_haut.getLongitude().getValue() ) 
 			) ;
-		int y = ( int ) ( 
+		int y = ( int ) ( dim.height *
 				( p.getLatitude().getValue() - this.gauche_haut.getLatitude().getValue() )
 				/ 
 				( this.droit_bas.getLatitude().getValue() - this.gauche_haut.getLatitude().getValue() ) 

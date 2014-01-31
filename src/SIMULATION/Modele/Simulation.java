@@ -201,7 +201,7 @@ public class Simulation {
 					
 					} catch( Exception e)
 					{
-						System.out.println( "Erreur crŽation balise:" + indicatif + coord );
+						System.out.println( "Erreur crï¿½ation balise:" + indicatif + coord );
 					}
 				}
 				
@@ -261,7 +261,7 @@ public class Simulation {
 						this.grapheComplet.add( new_ad ) ;
 					
 					} catch ( Exception e) {
-						System.out.println( "Erreur crŽation aŽrodrome" );
+						System.out.println( "Erreur crï¿½ation aï¿½rodrome" );
 					}
 					
 					
@@ -350,7 +350,8 @@ public class Simulation {
 		
 		Simulation simulation = new Simulation() ;
 		//simulation.charger_balises( "/home/eleve/IESSA/pressari/balises_fr.txt" ) ;
-		simulation.charger_aerodromes( "/Users/richard/Desktop/aerodromes_fr.txt" ) ;
+		//simulation.charger_aerodromes( "/Users/richard/Desktop/aerodromes_fr.txt" ) ;
+		
 		
 	}
 	
