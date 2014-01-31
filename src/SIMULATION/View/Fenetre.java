@@ -53,7 +53,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 	
 	private JTextField jtf_dbmax;
 	private JButton jb_execution,jb_iterer,jb_stop,jb_recommencer,jb_quit;
-	
+
 
 	
 	
@@ -101,6 +101,14 @@ public class Fenetre extends JFrame implements ViewSimulation
 		JPanel pan_secondaire= new JPanel();
 		pan_secondaire.setBackground(Color.GREEN);  
 		pan.add(pan_secondaire,BorderLayout.SOUTH );
+		
+		JButton jb_zoom_p = new JButton( "+" ) ;
+		//jb_zoom_p.addActionListener( new ActionZoomP() );
+		pan_secondaire .add( jb_zoom_p ) ;
+		JButton jb_zoom_m = new JButton( "-" ) ;
+		//jb_zoom_m.addActionListener( new ActionZoomM() );
+		pan_secondaire.add( jb_zoom_m ) ;
+		
 	 	//JLabel test =new JLabel("test0");
 	 	//pan_secondaire.add(test);
 		jb_quit=new JButton("Quitter");
