@@ -7,15 +7,29 @@ import java.util.ArrayList;
 @SuppressWarnings("serial")
 public class Chemin<E> extends ArrayList<Arete<E>> {
 
-	private double length ;
+	private Double length ;
 	
 	
 	public Chemin() {
 		super() ;
-		this.length = 0 ;
+		this.length = new Double( 0.0 ) ;
 	}
 	
-	public double getLength() {
+	public String toString() {
+		String string = "Chemin de longueur " + this.getLength().toString() + "\n" ;
+		Integer indice_arete = 0 ;
+		
+		for( Arete<E> arete : this )
+		{
+			indice_arete ++ ;
+			string += "Arete d'indice: " + indice_arete.toString() + "\n" ;
+			string += arete.toString(); 
+		}
+		
+		return string ;
+	}
+	
+	public Double getLength() {
 		return this.length ;
 	}
 	
@@ -45,6 +59,10 @@ public class Chemin<E> extends ArrayList<Arete<E>> {
 		return this.get( this.size() -1 ).getDestination() ;
 	}
 	
+	
+	public boolean isTrivial() {
+		return ( this.size() == 1 ) && this.get( 0 ).isTrivial() ;
+	}
 	
 	public boolean untrivial() {
 		

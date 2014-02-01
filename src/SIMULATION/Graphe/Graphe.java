@@ -36,6 +36,7 @@ public class Graphe<E> {
 				return 0 ;
 			}
 		
+		
 	}
 	
 	
@@ -45,6 +46,18 @@ public class Graphe<E> {
 		this.noeuds = new HashMap<E,Noeud<E>> () ;
 	}
 
+	
+	public String toString() {
+		String string = "Graphe:" + "\n" ;
+	
+		for( Noeud<E> noeud : this.noeuds.values() )
+			string += noeud.toString() ;
+			
+		return string ;
+	}
+	
+	
+	
 	
 	// DONE
 	public Noeud<E> add( E content ) {
@@ -102,8 +115,6 @@ public class Graphe<E> {
 	
 	
 	
-	
-	
 	// DONE
 	public Chemins<E> djikstra( Noeud<E> origine , Noeud<E> destination) {
 
@@ -116,26 +127,34 @@ public class Graphe<E> {
 		chemin_trivial.add( new Arete<E>( origine , origine , 0) ) ;
 		a_traiter.add( chemin_trivial ) ;
 
-		Chemin<E> chemin_courant = null ;
+		Chemin<E> chemin_courant = new Chemin<E>() ;
+		
+		System.out.println( "Debut algo" ) ;
 		
 		while ( ! a_traiter.isEmpty() )
 		{	
+			System.out.println( "EntrŽe dans la boucle" ) ;
+			
 			// On commence par rï¿½cupï¿½rer ceux allant ï¿½ la destination parmi les sous-chemins les plus courts
-			while( (chemin_courant = a_traiter.poll()).last() != destination )
+			while( (! a_traiter.isEmpty() ) && (chemin_courant = a_traiter.poll()).last().equals( destination ) )
 			{	
-				chemin_courant.untrivial();
+				System.out.println( "plus court trouvŽ");
+				if ( chemin_courant.isTrivial() )
+					chemin_courant.untrivial();
 				plus_courts.add( chemin_courant ) ;
 			}
 			// S'il y en a, le traitement est fini
 			if( ! plus_courts.isEmpty() )
 				return plus_courts ;
-
+	
 			distance_connue.put( chemin_courant.last() , chemin_courant.getLength() ) ;
+			System.out.println( "Last" + chemin_courant.last().getContent() ) ;
 			
 			// Sinon, on itere
 			for( Chemin<E> nouveau : chemin_courant.successeurs() )
 				if( ! distance_connue.containsKey( nouveau.last() ) )
 					a_traiter.add( nouveau ) ;		
+
 		} 
 		//while ( ! a_traiter.isEmpty() ) ; 
 		
@@ -172,4 +191,12 @@ public class Graphe<E> {
 		
 		return result ;
 	}
+	
+	
+
+	
+	
+ 	
+	
+	
 }

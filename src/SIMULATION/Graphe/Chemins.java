@@ -9,7 +9,22 @@ public class Chemins<E> extends PriorityQueue<Chemin<E>> {
 
 	
 	public Chemins() {
-		super( 0 , new OrderByBalisesNb<E>()) ;
+		super( 1 , new OrderByBalisesNb<E>()) ;
+	}
+	
+	public String toString() {
+		String string = this.size() + " chemins" + "\n" ;
+		Integer indice_chemin = new Integer( 0 ) ;
+		
+		for( Chemin<E> chemin : this )
+		{
+			indice_chemin ++ ;
+			string += "Chemin d'indice " + indice_chemin.toString() + "\n" ;
+			string += chemin.toString() ;
+		}
+			
+	
+		return string ;
 	}
 	
 		

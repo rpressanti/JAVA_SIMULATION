@@ -6,7 +6,7 @@ public class Arete<E> {
 	
 	private Noeud<E> origine ;
 	private Noeud<E> destination ;
-	private double weight ;
+	private Double weight ;
 	
 	
 	public Arete ( Noeud<E> origine , Noeud<E> destination , double weight ) {
@@ -20,6 +20,10 @@ public class Arete<E> {
 		
 	}
 	
+	public String toString() {
+		return this.getWeight().toString() + " : " + this.getOrigine().getContent().toString() + " => " + this.getDestination().getContent().toString() ;
+	}
+	
 	public Noeud<E> getOrigine() {
 		return this.origine ;
 	}
@@ -28,7 +32,7 @@ public class Arete<E> {
 		return this.destination ;
 	}
 
-	public double getWeight() {
+	public Double getWeight() {
 		return this.weight ;
 	}
 
