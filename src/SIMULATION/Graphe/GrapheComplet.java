@@ -10,11 +10,8 @@ public class GrapheComplet< E extends Distance<E>> extends Graphe<E> {
 		for( Noeud<E> noeud_1 : this.noeuds.values() )
 			for( Noeud<E> noeud_2 : this.noeuds.values() )
 				if ( ! noeud_1.equals( noeud_2 ) )
-				{
-					Arete<E> new_arete = new Arete<E>( noeud_1 , noeud_2 , noeud_1.getContent().distanceTo( noeud_2.getContent() ) ) ; 
-					noeud_1.enregistrer( new_arete ) ;
-					noeud_2.enregistrer_inverse( new_arete ) ;
-				}		
+					this.add( new Arete<E>( noeud_1 , noeud_2 , noeud_1.getContent().distanceTo( noeud_2.getContent() ) ) ); 
+			
 	}
 	
 	public String toString() {
@@ -48,7 +45,7 @@ public class GrapheComplet< E extends Distance<E>> extends Graphe<E> {
 		
 		Chemins<TestContent> plus_courts = graphe.djikstra( a1 , a6) ;
 		
-		//System.out.println( graphe ) ;
+		System.out.println( graphe ) ;
 		System.out.println( plus_courts ) ;
 		if ( a3.equals( a3))
 			System.out.println( "OK" ) ;

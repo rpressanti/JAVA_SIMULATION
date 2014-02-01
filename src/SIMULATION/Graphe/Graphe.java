@@ -81,8 +81,10 @@ public class Graphe<E> {
 		if ( !( this.noeuds.containsValue( origine ) && this.noeuds.containsValue( destination ) ) )
 			return false ;
 	
-		this.noeuds.get( origine ).enregistrer( arete ) ;
-	
+		this.noeuds.get( origine.getContent() ).enregistrer( arete ) ;
+		this.noeuds.get( destination.getContent() ).enregistrer_inverse( arete ) ;
+		
+		
 		return true ;
 	}
 	
