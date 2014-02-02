@@ -12,6 +12,11 @@ public class Balise extends Point implements Repere {
 		this.indicatif = indicatif ;
 	}
 	
+	public String toString() {
+		return this.getIndicatif() ;
+	}
+	
+	
 	public String getIndicatif() {
 		return this.indicatif ;
 	}

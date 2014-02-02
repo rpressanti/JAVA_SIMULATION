@@ -13,6 +13,10 @@ public class Aerodrome extends Point implements Repere{
 		this.code_OACI = code_OACI ;
 	}
 	
+	public String toString() {
+		return this.get_nom() ;
+	}
+	
 	public String get_code_OACI() {
 		return this.code_OACI ;
 	}

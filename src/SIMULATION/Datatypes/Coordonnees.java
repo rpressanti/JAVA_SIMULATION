@@ -3,6 +3,7 @@ package SIMULATION.Datatypes;
 import java.util.Scanner;
 import java.util.regex.MatchResult;
 
+
 public class Coordonnees {
 	
 	static public enum TYPE { LONGITUDE , LATITUDE } ;
@@ -131,6 +132,37 @@ public class Coordonnees {
 		return ( v * 180 ) / Math.PI ;
 	}
 	
+
+	
+	public boolean estPositif() {
+		return ( this.value > 0 ) ;
+	}
+	
+	public double getValue() {
+		return this.value ;
+	}
+	
+	public double toRadians() {
+		return Coordonnees.decimalToRadian( this.value ) ;
+	}
+	
+
+	public void add(double v)
+	{
+		this.value+=v;
+	}
+
+	
+	
+	// DONE
+	public double multiply( double mult )
+	{
+		this.value *= mult ;
+		return this.value ;
+	}
+
+
+
 	public static void main( String args[] )
 	{
 		//double test_result = 0 ;
@@ -146,31 +178,6 @@ public class Coordonnees {
 		
 		
 	}
-	
-	public boolean estPositif() {
-		return ( this.value > 0 ) ;
-	}
-	
-	public double getValue() {
-		return this.value ;
-	}
-	
-	public double toRadians() {
-		return Coordonnees.decimalToRadian( this.value ) ;
-	}
-	
-	// TODO RENAME CARTESIAN  COORDINATES
-	public void add(double v)
-	{
-		this.value+=v;
-	}
-	
-	// TODO ADD 'ADD' WITH LOXODROMY
-	
-	// DONE
-	public double multiply( double mult )
-	{
-		this.value *= mult ;
-		return this.value ;
-	}
+
+
 }

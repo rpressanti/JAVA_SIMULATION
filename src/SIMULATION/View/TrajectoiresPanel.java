@@ -28,7 +28,7 @@ public class TrajectoiresPanel extends JPanel {
 	
 	
 	
-	// TODO
+
 	public void paintComponent(Graphics g) 
 	{
 		super.paintComponent( g ) ;

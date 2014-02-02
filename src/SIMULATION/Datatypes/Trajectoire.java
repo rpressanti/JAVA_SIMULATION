@@ -1,16 +1,31 @@
 package SIMULATION.Datatypes;
 
-import SIMULATION.Graphe.Chemin;
+import SIMULATION.Graphe.*;
 
 
 @SuppressWarnings("serial")
 public class Trajectoire extends Chemin<Point> {
 	
-	// TODO EXPORT :: IMPORTANT
-	public boolean exporter( String ficname ) {
+	public String toString() {
+
+		String string = "" ;
 		
+		if( this.isTrivial() )
+			return "" ;
+		else
+			string = this.get( 0 ).getOrigine().getContent().toString() ;
+			
 		
-		return true ;
+		for( Arete<Point> arete : this ) 
+		{
+			if ( string != "" )
+				string += "|" ;
+			string += arete.getDestination().getContent().toString() ;
+		}
+		
+		return string ;
 	}
+	
+	
 
 }

@@ -26,8 +26,7 @@ public class AerodromesPanel extends JPanel {
 	
 	
 	
-	
-	// TODO
+
 	public void paintComponent(Graphics g) 
 	{
 		super.paintComponent( g ) ;

@@ -5,7 +5,9 @@ package SIMULATION.Modele;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Scanner ;
 import java.util.regex.MatchResult;
@@ -20,6 +22,8 @@ public class Simulation {
 	public enum PHASE { CHARGEMENT_REPERES_MOITIE , CHARGEMENT_REPERES , CHARGEMENT_AVION ,
 						CALCUL_TRAJECTOIRES , DEMARRAGE } ;
 	private PHASE phase_prete ;
+
+	private Calendar heure_courante ;
 	
 	private ArrayList<ViewSimulation> vues ;
 	
@@ -33,11 +37,13 @@ public class Simulation {
 	private ArrayList<Trajectoire> trajectoires ;
 	
 	private double distance_max ;
-	private double intervalle_d_iteration ;
+	private static final int intervalle_d_iteration = 0 ;
 	private double distanceEntreAvions ;
 	
 	// DONE
 	public Simulation () {
+		
+		this.heure_courante = new GregorianCalendar() ;
 		
 		this.balises    = new HashMap<String,Balise>() ;
 		this.aerodromes = new HashMap<String,Aerodrome>() ;
@@ -103,9 +109,11 @@ public class Simulation {
 		if( this.phase_prete != PHASE.DEMARRAGE )
 			return false ;
 		
+		this.heure_courante.add( Calendar.SECOND , Simulation.intervalle_d_iteration ) ;
+		
 		// On bouge les avions
 		for( Avion avion : this.avions.values() )
-			result &= avion.iterer( this.intervalle_d_iteration ) ;
+			result &= avion.iterer( Simulation.intervalle_d_iteration , this.heure_courante.getTime() ) ;
 	
 		// On detecte les conflits
 		result &= this.detecter_conflits() ;
@@ -294,6 +302,21 @@ public class Simulation {
 		return true ;
 	}
 
+	
+	
+	// TODO EXPORT :: IMPORTANT
+	public boolean exporter_trajectoires( String ficname ) {
+		
+		
+		return true ;
+	}
+
+	
+	
+	
+
+	
+	
 	
 	// TODO Créer avion
 	public boolean creer_avion( String nom , Repere depart , Repere arrivee , int flight_level , double vitesse , Date heure_depart) {

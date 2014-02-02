@@ -98,12 +98,26 @@ public class Point implements Distance<Point> {
 	}
 	
 	
-	public void deplacerDe( Vecteur v ) //utiliser Coordonnes.add()
+	public void deplacerDe( Vecteur v ) {
+		this.deplacerDe_cartesian( v ) ;
+	}
+	
+	
+	
+	private void deplacerDe_cartesian( Vecteur v )
 	{
 		this.longitude.add(v.longitude.getValue());
 		this.latitude.add(v.latitude.getValue());
 	}
 
+	@SuppressWarnings("unused")
+	private void deplacerDe_loxodromy( Vecteur v ) {
+		// TODO DEPLACER_DE_LOXODROMY PAS_URGENT
+	}
+	
+	
+	
+	
 	public Latitude getLatitude() {
 		return this.latitude ;
 	}

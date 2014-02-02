@@ -102,9 +102,6 @@ public class PanelAffichage extends JLayeredPane {
 				( this.droit_bas.getLatitude().getValue() + this.gauche_haut.getLatitude().getValue() ) / 2
 				) ;
 		
-		// TODO RM
-		//System.out.println( this.centre ) ;
-		
 		// Panels a rafraichir apres chaque changement du modele
 		this.aerodromes = new AerodromesPanel( this ) ;
 		this.setLayer( this.aerodromes , JLayeredPane.DEFAULT_LAYER ) ;
