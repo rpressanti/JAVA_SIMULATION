@@ -23,10 +23,13 @@ public class Avion {
 	final private double vitesse ;
 	
 	private ListIterator<Arete<Point>> trajectoire ;
+
 	@SuppressWarnings("unused")
-	private Arete<Point> segment_courant ;
+	private Segment segment_courant ;
+	private ArrayList<Segment> segments ;
+	
 	private double distanceIntraSegment ;
-	private ArrayList<Plot> plots ;
+
 	
 	private boolean en_conflit ;
 	
@@ -38,8 +41,6 @@ public class Avion {
 		this.flight_level = flight_level ;
 		this.vitesse = vitesse ;
 		this.heure_depart = heure_depart ;
-		
-		this.plots = new ArrayList<Plot>() ;
 		
 		this.trajectoire = null ;
 		this.en_conflit = false ;
@@ -60,16 +61,17 @@ public class Avion {
 	
 	public boolean iterer( double intervalle_de_temps , Date heure_courante) 
 	{
+		
+		
+		
 		if ( this.heure_depart.before( heure_courante ))
 			return false ;
-		
-		ArrayList<Plot> new_plots = new ArrayList<Plot>() ;
 		
 		this.distanceIntraSegment -= this.distance_parcourue(intervalle_de_temps) ;
 		if ( this.distanceIntraSegment < 0 )
 		{
 			if( this.trajectoire.hasNext() ) 
-				this.segment_courant = this.trajectoire.next() ;
+				this.segment_courant = new Segment( this.trajectoire.next() ) ;
 			else
 				this.distanceIntraSegment =0 ;
 			this.distanceIntraSegment *= -1 ;
@@ -95,7 +97,7 @@ public class Avion {
 			}
 		}
 		
-		this.plots = new_plots ;
+		
 		
 		return true ;
 	}
@@ -123,7 +125,7 @@ public class Avion {
 		boolean result = true ;	
 		
 		if ( !this.trajectoire.hasNext() )
-			this.segment_courant = this.trajectoire.next() ;
+			this.segment_courant = new Segment( this.trajectoire.next() );
 		else
 			result = false ;
 		
@@ -132,7 +134,21 @@ public class Avion {
 	
 	
 	public ArrayList< Plot > getPlots() {		
-		return this.plots ;
+		
+		ArrayList<Plot> plots = new ArrayList<Plot>() ;
+
+		if( this.segments.isEmpty() )
+			return plots ;
+		
+		Segment current_segment = this.segments.get( 0 ) ;
+		
+		do {
+			for( Plot plot : current_segment.getPlots() )
+				plots.add( plot ) ;
+		} while ( current_segment.has_next() ) ;
+		
+		
+		return plots ;
 	}
 	
 	public void setEnConflit( boolean en_conflit )  {
