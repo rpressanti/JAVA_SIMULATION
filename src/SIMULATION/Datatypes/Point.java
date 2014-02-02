@@ -80,6 +80,12 @@ public class Point implements Distance<Point> {
 	}
 		
 	
+	public Point clone() {
+		return new Point( this.getLongitude().getValue() , this.getLatitude().getValue() ) ;
+	}
+	
+	
+	
 	public double distanceTo( Point p )
 	{
 		double a,b,c,d,e,f,g,h,i;

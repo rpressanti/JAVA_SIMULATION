@@ -1,7 +1,8 @@
-package SIMULATION.Datatypes;
+package SIMULATION.Datatypes ;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.ListIterator;
 
 import SIMULATION.Graphe.Arete;
@@ -21,14 +22,10 @@ public class Avion {
 	@SuppressWarnings("unused")
 	final private int flight_level ;
 	final private double vitesse ;
-	
 	private ListIterator<Arete<Point>> trajectoire ;
 
-	@SuppressWarnings("unused")
-	private Segment segment_courant ;
-	private ArrayList<Segment> segments ;
 	
-	private double distanceIntraSegment ;
+	private LinkedList<Segment> segments ;
 
 	
 	private boolean en_conflit ;
@@ -44,6 +41,8 @@ public class Avion {
 		
 		this.trajectoire = null ;
 		this.en_conflit = false ;
+
+		this.segments = new LinkedList<Segment>() ;
 	}
 	
 	public String getNom() {
@@ -59,76 +58,57 @@ public class Avion {
 		return this.arrivee ;
 	}
 	
+	
+	
+	// DONE
 	public boolean iterer( double intervalle_de_temps , Date heure_courante) 
 	{
-		
-		
+		int plots_restants = Avion.NbPlots ;
+		Segment segment = null ;
 		
 		if ( this.heure_depart.before( heure_courante ))
 			return false ;
 		
-		this.distanceIntraSegment -= this.distance_parcourue(intervalle_de_temps) ;
-		if ( this.distanceIntraSegment < 0 )
+		if( this.segments.isEmpty() ) 
+			this.segments.push( new Segment( this.trajectoire.next() , 0 , this.vitesse ) ) ;
+	
+		while ( plots_restants > 0)
 		{
-			if( this.trajectoire.hasNext() ) 
-				this.segment_courant = new Segment( this.trajectoire.next() ) ;
-			else
-				this.distanceIntraSegment =0 ;
-			this.distanceIntraSegment *= -1 ;
-		}
-		
-		// TODO UPDATE POINT ATTRIBUTES
-		/*
-		Vecteur vecteur_vitesse = new Vecteur( this.segment_courant.getOrigine().getContent() , 
-										this.segment_courant.getDestination().getContent()
-				) ;
-		vecteur_vitesse.setModule( this.vitesse * intervalle_de_temps );
-		*/
-		
-		if( Avion.NbPlots > 0)
-		{
-			int indice_plot = 1 ;
-			
-			for( indice_plot = 1 ; indice_plot < Avion.NbPlots ; indice_plot++)
-			{
-				// TODO UPDATE PLOT
-				
-				
+			segment = this.segments.element() ;
+			if( segment.parcourue() ) {
+				this.segments.remove();
+				segment = this.segments.element() ;
 			}
+			
+			plots_restants = segment.iterer(intervalle_de_temps, plots_restants ) ;
+		
+			if( plots_restants != 0 )
+			{
+				if ( segment.getNext() != null)
+					segment.setNext( this.segments.get( 1 ) );
+			
+				segment = segment.getNext() ;
+			}	
+			
 		}
-		
-		
-		
+				
 		return true ;
 	}
 
-	private double distance_parcourue( double intervalle_de_temps )
-	{
-		return this.vitesse * intervalle_de_temps ;
-	}
 	
 	
-	// DONE
-	@SuppressWarnings("unused")
-	private Vecteur getDeplacement( Arete<Point> segment , double intervalle_de_temps ) {	
-	
-		Vecteur direction = new Vecteur( segment.getOrigine().getContent() , 
-										segment.getDestination().getContent() ) ;
-		direction.setModule( this.distance_parcourue(intervalle_de_temps )) ;
-		return direction ;
-
-	}
 	
 	// DONE
 	public boolean setTrajectoire( Chemin<Point> trajectoire ) {
 		this.trajectoire = trajectoire.listIterator() ;
 		boolean result = true ;	
-		
-		if ( !this.trajectoire.hasNext() )
+
+		/*
+		if ( this.trajectoire.hasNext() )
 			this.segment_courant = new Segment( this.trajectoire.next() );
 		else
 			result = false ;
-		
+		*/
 		return result ;
 	}
 	
@@ -143,9 +123,13 @@ public class Avion {
 		Segment current_segment = this.segments.get( 0 ) ;
 		
 		do {
+
 			for( Plot plot : current_segment.getPlots() )
 				plots.add( plot ) ;
-		} while ( current_segment.has_next() ) ;
+
+			current_segment = current_segment.getNext() ;
+		
+		} while ( current_segment != null ) ;
 		
 		
 		return plots ;

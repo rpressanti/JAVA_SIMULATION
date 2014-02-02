@@ -4,6 +4,7 @@ package SIMULATION.Datatypes;
 
 public interface Repere {
 
-	//public Repere clone() ;
+	public Longitude getLongitude() ;
+	public Latitude getLatitude() ;
 	
 }
