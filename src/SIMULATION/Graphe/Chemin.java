@@ -5,8 +5,8 @@ package SIMULATION.Graphe;
 import java.util.ArrayList;
 
 @SuppressWarnings("serial")
-public class Chemin<E> extends ArrayList<Arete<E>> {
-
+//public class Chemin<F<E> extends Arete<E>> extends ArrayList<Arete<E>> {
+public class Chemin<A extends Arete<N,P> , N extends Noeud<A,N,P>, P> extends ArrayList<A> {
 	private Double length ;
 	
 	
@@ -19,7 +19,7 @@ public class Chemin<E> extends ArrayList<Arete<E>> {
 		String string = "Chemin de longueur " + this.getLength().toString() + "\n" ;
 		Integer indice_arete = 0 ;
 		
-		for( Arete<E> arete : this )
+		for( A arete : this )
 		{
 			indice_arete ++ ;
 			string += "Arete d'indice: " + indice_arete.toString() + "\n" ;
@@ -33,7 +33,7 @@ public class Chemin<E> extends ArrayList<Arete<E>> {
 		return this.length ;
 	}
 	
-	public boolean add( Arete<E> arete ) {
+	public boolean add( A arete ) {
 		
 		boolean result = super.add( arete ) ;
 		if ( result )
@@ -41,13 +41,13 @@ public class Chemin<E> extends ArrayList<Arete<E>> {
 		return result ;
 	}
 	
-	public Chemins<E> successeurs() {
+	public Chemins<A,N,P> successeurs() {
 		
-		Chemins<E> result = new Chemins<E>() ;
+		Chemins<A,N,P> result = new Chemins<A,N,P>() ;
 		
-		for( Arete<E> arete : this.last().getAretes().values() )
+		for( A arete : (Iterable<A>) this.last().getAretes().values() )
 		{
-			Chemin<E> tmp = this.clone() ;
+			Chemin<A,N,P> tmp = this.clone() ;
 			tmp.add( arete ) ;
 			result.add( tmp ) ;
 		}
@@ -55,7 +55,7 @@ public class Chemin<E> extends ArrayList<Arete<E>> {
 		return result ;
 	}
 	
-	public Noeud<E> last() {
+	public N last() {
 		return this.get( this.size() -1 ).getDestination() ;
 	}
 	
@@ -68,18 +68,18 @@ public class Chemin<E> extends ArrayList<Arete<E>> {
 		
 		boolean result = false ;
 		
-		for( Arete<E> arete : this )
+		for( Arete<N,P> arete : this )
 			if( arete.isTrivial() ) 
 				this.remove( arete ) ;
 		
 		return result ;
 	}
 	
-	public Chemin<E> clone() {
+	public Chemin<A,N,P> clone() {
 		
-		Chemin<E> result = new Chemin<E>() ;
+		Chemin<A,N,P> result = new Chemin<A,N,P>() ;
 		
-		for( Arete<E> arete : this)
+		for( A arete : this)
 			result.add( arete ) ;
 		
 		return result ;

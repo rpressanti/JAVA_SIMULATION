@@ -2,15 +2,16 @@ package SIMULATION.Graphe;
 
 // CLASS DONE
 
-public class GrapheComplet< E extends Distance<E>> extends Graphe<E> {
+public class GrapheComplet<A extends Arete<N,E>,N extends Noeud<A,N,E>, E extends Distance<E>> extends Graphe<A,N,E> {
 
 
+	@SuppressWarnings("unchecked")
 	public void generer() {
 		
-		for( Noeud<E> noeud_1 : this.noeuds.values() )
-			for( Noeud<E> noeud_2 : this.noeuds.values() )
+		for( N noeud_1 : this.noeuds.values() )
+			for( N noeud_2 : this.noeuds.values() )
 				if ( ! noeud_1.equals( noeud_2 ) )
-					this.add( new Arete<E>( noeud_1 , noeud_2 , noeud_1.getContent().distanceTo( noeud_2.getContent() ) ) ); 
+					this.add( (A) new Arete<N,E>( noeud_1 , noeud_2 , noeud_1.getContent().distanceTo( noeud_2.getContent() ) ) ); 
 			
 	}
 	
@@ -21,29 +22,31 @@ public class GrapheComplet< E extends Distance<E>> extends Graphe<E> {
 	
 	public static void main( String args[] ) {
 		
-		GrapheComplet<TestContent> graphe = new GrapheComplet<TestContent>() ;
+		GrapheComplet<TestArete,TestPoint,TestContent> graphe = new GrapheComplet<TestArete,TestPoint,TestContent>() ;
 		
 		//Noeud<TestContent> a0 = new Noeud<TestContent>( new TestContent()) ;
 		//graphe.add( a0 ) ;
 		//System.out.println( a0 ) ;
 		
-		Noeud<TestContent> a1 = new Noeud<TestContent>( new TestContent()) ;
+		TestPoint a1 = new TestPoint( new TestContent()) ;
 		graphe.add( a1 ) ;
-		Noeud<TestContent> a2 = new Noeud<TestContent>( new TestContent()) ;
+		TestPoint a2 = new TestPoint( new TestContent()) ;
 		graphe.add( a2 ) ;
-		Noeud<TestContent> a3 = new Noeud<TestContent>( new TestContent()) ;
+		TestPoint a3 = new TestPoint( new TestContent()) ;
 		graphe.add( a3 ) ;
-		Noeud<TestContent> a4 = new Noeud<TestContent>( new TestContent()) ;
+		TestPoint a4 = new TestPoint( new TestContent()) ;
 		graphe.add( a4 ) ;
-		Noeud<TestContent> a5 = new Noeud<TestContent>( new TestContent()) ;
+		TestPoint a5 = new TestPoint( new TestContent()) ;
 		graphe.add( a5 ) ;
-		Noeud<TestContent> a6 = new Noeud<TestContent>( new TestContent()) ;
+		TestPoint a6 = new TestPoint( new TestContent()) ;
 		graphe.add( a6 ) ;
+		TestPoint a7 = new TestPoint( new TestContent()) ;
+		graphe.add( a7 ) ;
 		
 		graphe.generer() ;
 		
 		
-		Chemins<TestContent> plus_courts = graphe.djikstra( a1 , a6) ;
+		Chemins<TestArete,TestPoint,TestContent> plus_courts = graphe.djikstra( a1 , a6) ;
 		
 		System.out.println( graphe ) ;
 		System.out.println( plus_courts ) ;
@@ -51,6 +54,6 @@ public class GrapheComplet< E extends Distance<E>> extends Graphe<E> {
 			System.out.println( "OK" ) ;
 	}
 	
-	
+
 	
 }

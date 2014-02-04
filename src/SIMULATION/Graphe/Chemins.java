@@ -5,18 +5,18 @@ import java.util.PriorityQueue;
 // CLASS DONE
 
 @SuppressWarnings("serial")
-public class Chemins<E> extends PriorityQueue<Chemin<E>> {
+public class Chemins<A extends Arete<N,P>, N extends Noeud<A,N,P> ,P> extends PriorityQueue<Chemin<A,N,P>> {
 
 	
 	public Chemins() {
-		super( 1 , new OrderByBalisesNb<E>()) ;
+		super( 1 , new OrderByBalisesNb<A,N,P>()) ;
 	}
 	
 	public String toString() {
 		String string = this.size() + " chemins" + "\n" ;
 		Integer indice_chemin = new Integer( 0 ) ;
 		
-		for( Chemin<E> chemin : this )
+		for( Chemin<A,N,P> chemin : this )
 		{
 			indice_chemin ++ ;
 			string += "Chemin d'indice " + indice_chemin.toString() + "\n" ;
@@ -28,10 +28,10 @@ public class Chemins<E> extends PriorityQueue<Chemin<E>> {
 	}
 	
 		
-	public Chemins<E> minimizeNbBalises() {	
-		Chemins<E> result = new Chemins<E>() ;
+	public Chemins<A,N,P> minimizeNbBalises() {	
+		Chemins<A,N,P> result = new Chemins<A,N,P>() ;
 
-		Chemin<E> current_elem =this.poll()  ;
+		Chemin<A,N,P> current_elem =this.poll()  ;
 		double length = current_elem.getLength() ;
 		
 		while( (current_elem = this.poll() ).getLength() == length )
@@ -40,9 +40,9 @@ public class Chemins<E> extends PriorityQueue<Chemin<E>> {
 		return result ;
 	}
 	
-	public Chemin<E> random() {
+	public Chemin<A,N,P> random() {
 		
-		Chemin<E> result = new Chemin<E>() ;
+		Chemin<A,N,P> result = new Chemin<A,N,P>() ;
 		int nb_iter = (int) ( Math.random() * this.size()) , i = 0 ;
 		
 		for( i = 0 ; i < nb_iter ; i++ )

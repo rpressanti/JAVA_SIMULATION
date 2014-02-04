@@ -2,7 +2,7 @@ package SIMULATION.View;
 
 import SIMULATION.Datatypes.* ;
 import SIMULATION.Modele.Simulation;
-import SIMULATION.Graphe.* ;
+
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -38,7 +38,7 @@ public class TrajectoiresPanel extends JPanel {
 		
 		for( Trajectoire trajectoire : this.model.getTrajectoires() )
 		{
-			for( Arete<Point> segment : trajectoire )
+			for( Segment segment : trajectoire )
 			{
 				Dimension origine = this.parent.coordonnees_IHM( segment.getOrigine().getContent() ) ;
 				Dimension destination = this.parent.coordonnees_IHM( segment.getDestination().getContent() ) ;

@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
-import SIMULATION.Graphe.Arete;
+
 import SIMULATION.Graphe.Chemin;
 
 public class Avion {
@@ -22,7 +22,7 @@ public class Avion {
 	@SuppressWarnings("unused")
 	final private int flight_level ;
 	final private double vitesse ;
-	private ListIterator<Arete<Point>> trajectoire ;
+	private ListIterator<Segment> trajectoire ;
 
 	
 	private LinkedList<Segment> segments ;
@@ -99,7 +99,7 @@ public class Avion {
 	
 	
 	// DONE
-	public boolean setTrajectoire( Chemin<Point> trajectoire ) {
+	public boolean setTrajectoire( Chemin<Segment,NoeudTrajectoire,Point> trajectoire ) {
 		this.trajectoire = trajectoire.listIterator() ;
 		boolean result = true ;	
 

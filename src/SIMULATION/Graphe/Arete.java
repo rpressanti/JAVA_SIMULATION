@@ -2,19 +2,20 @@ package SIMULATION.Graphe;
 
 //CLASS DONE
 
-public class Arete<E> {
+public class Arete<N extends Noeud<?,N,E> , E> {
 	
-	private Noeud<E> origine ;
-	private Noeud<E> destination ;
+	private N origine ;
+	private N destination ;
 	private Double weight ;
 	
 	
-	public Arete ( Noeud<E> origine , Noeud<E> destination , double weight ) {
+	public Arete ( N origine , N destination , double weight ) {
 		
 		this.origine = origine ;
 		this.destination = destination ;
 		this.weight = weight ;
 		
+		// TODO CORRECT TYPE
 		this.origine.enregistrer( this );
 		this.destination.enregistrer_inverse( this );
 		
@@ -24,11 +25,11 @@ public class Arete<E> {
 		return this.getWeight().toString() + " : " + this.getOrigine().getContent().toString() + " => " + this.getDestination().getContent().toString() ;
 	}
 	
-	public Noeud<E> getOrigine() {
+	public N getOrigine() {
 		return this.origine ;
 	}
 	
-	public Noeud<E> getDestination() {
+	public N getDestination() {
 		return this.destination ;
 	}
 

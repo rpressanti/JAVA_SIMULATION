@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import SIMULATION.Graphe.*;
 
-public class Segment extends Arete<Point> {
+public class Segment extends Arete<NoeudTrajectoire,Point> {
 	
 	private ArrayList<Plot> plots ;
 	private Double distanceIntraSegment ;
@@ -12,7 +12,7 @@ public class Segment extends Arete<Point> {
 	private Vecteur vecteur_vitesse ;
 	private Segment next ;
 	
-	public Segment( Arete<Point> arete , double distanceIntraSegment, double vitesse)
+	public Segment( Segment arete , double distanceIntraSegment, double vitesse)
 	{
 		super( arete.getOrigine() , arete.getDestination() , arete.getWeight() ) ;
 		this.next = null ;

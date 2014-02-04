@@ -4,7 +4,7 @@ import SIMULATION.Graphe.*;
 
 
 @SuppressWarnings("serial")
-public class Trajectoire extends Chemin<Point> {
+public class Trajectoire extends Chemin<Segment,NoeudTrajectoire,Point> {
 	
 	public String toString() {
 
@@ -16,7 +16,7 @@ public class Trajectoire extends Chemin<Point> {
 			string = this.get( 0 ).getOrigine().getContent().toString() ;
 			
 		
-		for( Arete<Point> arete : this ) 
+		for( Segment arete : this ) 
 		{
 			if ( string != "" )
 				string += "|" ;

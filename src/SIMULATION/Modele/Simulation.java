@@ -30,8 +30,8 @@ public class Simulation {
 	private HashMap<String,Balise> balises ;
 	private HashMap<String , Aerodrome> aerodromes ;
 	
-	private GrapheComplet<Point> grapheComplet ;
-	private Graphe<Point> grapheFiltre ;
+	private GrapheComplet<Segment,NoeudTrajectoire,Point> grapheComplet ;
+	private Graphe<Segment,NoeudTrajectoire,Point> grapheFiltre ;
 	
 	private HashMap<String,Avion> avions ;
 	private ArrayList<Trajectoire> trajectoires ;
@@ -51,8 +51,8 @@ public class Simulation {
 		this.avions = new HashMap<String,Avion>() ;
 		this.trajectoires = new ArrayList<Trajectoire>() ;
 		
-		this.grapheComplet = new GrapheComplet<Point>() ;
-		this.grapheFiltre = new Graphe<Point> () ;
+		this.grapheComplet = new GrapheComplet<Segment,NoeudTrajectoire,Point>() ;
+		this.grapheFiltre = new Graphe<Segment,NoeudTrajectoire,Point> () ;
 		
 		this.distance_max = 0 ;
 		
@@ -351,10 +351,10 @@ public class Simulation {
 			
 		for( Avion avion : this.avions.values() )
 		{
-			Graphe<Point> graphe_buffer = this.grapheFiltre.clone() ;
+			Graphe<Segment,NoeudTrajectoire,Point> graphe_buffer = this.grapheFiltre.clone() ;
 			
-			Noeud<Point >noeud_depart  = this.grapheComplet.getNoeud( (Point) avion.getDepart()  ) ;
-			Noeud<Point> noeud_arrivee = this.grapheComplet.getNoeud( (Point) avion.getArrivee() ) ;
+			NoeudTrajectoire noeud_depart  = this.grapheComplet.getNoeud( (Point) avion.getDepart()  ) ;
+			NoeudTrajectoire noeud_arrivee = this.grapheComplet.getNoeud( (Point) avion.getArrivee() ) ;
 			
 			if( avion.getDepart() instanceof Aerodrome)
 				this.ajouterAerodrome( graphe_buffer , noeud_depart );
@@ -368,16 +368,16 @@ public class Simulation {
 	}
 
 	// DONE
-	private void ajouterAerodrome( Graphe<Point> graphe_buffer , Noeud<Point> aerodrome ) {
+	private void ajouterAerodrome( Graphe<Segment,NoeudTrajectoire,Point> graphe_buffer , NoeudTrajectoire aerodrome ) {
 		
-		Noeud<Point> copie = aerodrome.clone() ;
+		NoeudTrajectoire copie = aerodrome.clone() ;
 		graphe_buffer.add( copie ) ;
-		for( Arete<Point> arete : aerodrome.getAretes().values() )
+		for( Segment arete : aerodrome.getAretes().values() )
 			if ( arete.getWeight() < this.distance_max ) 
 				graphe_buffer.add( aerodrome.getContent() , arete.getDestination().getContent() , arete.getWeight() ) ;
 		
 		// Idem pour les dependances inverses
-		for( Arete<Point> arete : aerodrome.getAretesInverses().values() )
+		for( Segment arete : aerodrome.getAretesInverses().values() )
 			if ( arete.getWeight() < this.distance_max )
 				graphe_buffer.add( arete.getOrigine().getContent() , aerodrome.getContent() , arete.getWeight() ) ;
 		

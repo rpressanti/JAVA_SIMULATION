@@ -3,27 +3,27 @@ package SIMULATION.Graphe;
 import java.util.HashMap;
 
 
-public class Noeud<E> {
+public class Noeud<A extends Arete<N,E> , N extends Noeud<A,N,E> , E> {
 
 	private E content ;
-	private HashMap<E,Arete<E>> aretes ;
-	private HashMap<E,Arete<E>> aretes_inverses ;
+	private HashMap<E,A> aretes ;
+	private HashMap<E,A> aretes_inverses ;
 	
 	public Noeud( E content) {
 		this.content = content ;
-		this.aretes = new HashMap<E,Arete<E>>() ;
-		this.aretes_inverses = new HashMap<E,Arete<E>>() ;
+		this.aretes = new HashMap<E,A>() ;
+		this.aretes_inverses = new HashMap<E,A>() ;
 	}
 	
 	public String toString() {
 		String string = "Noeud:" + this.getContent().toString() + "\n";
 
 		string += "Aretes partantes:" + "\n" ;
-		for( Arete<E> arete : this.getAretes().values() )
+		for( A arete : this.getAretes().values() )
 			string += "\t" + arete.toString() + "\n";
 
 		string += "Aretes arrivantes:" + "\n" ;
-		for( Arete<E> arete : this.getAretesInverses().values() )
+		for( A arete : this.getAretesInverses().values() )
 			string += "\t" + arete.toString() + "\n";
 
 		return string ;
@@ -34,19 +34,21 @@ public class Noeud<E> {
 		return this.content ;
 	}
 	
-	public boolean equals( Noeud<E> other_node) {
+	public boolean equals( Noeud<A,N,E> other_node) {
 		return this.getContent().equals( other_node.getContent() ) ;
 	}
 	
-	public void enregistrer( Arete<E> arete ) {
-		this.aretes.put( arete.getDestination().getContent() , arete ) ;
+	@SuppressWarnings("unchecked")
+	public void enregistrer( Arete<N,E> arete ) {
+		this.aretes.put( arete.getDestination().getContent() , (A) arete ) ;
 	}
 
-	public void enregistrer_inverse( Arete<E> arete ) {
-		this.aretes_inverses.put( arete.getOrigine().getContent() , arete ) ;
+	@SuppressWarnings("unchecked")
+	public void enregistrer_inverse( Arete<N,E> arete ) {
+		this.aretes_inverses.put( arete.getOrigine().getContent() , (A) arete ) ;
 	}
 	
-	public boolean supprimmer( Arete<E> arete ) {
+	public boolean supprimmer( A arete ) {
 		boolean contient = this.aretes.containsValue( arete ) ;
 		
 		if ( contient )
@@ -55,22 +57,22 @@ public class Noeud<E> {
 		return contient ;
 	}
 	
-	public boolean supprimmer_inverse( Arete<E> arete ) {
+	public boolean supprimmer_inverse( A arete ) {
 		boolean suppression_effectuee = this.aretes_inverses.containsValue( arete ) ;
 		this.aretes_inverses.remove(arete) ;
 		return suppression_effectuee ;
 	}
 	
 	
-	public HashMap<E,Arete<E>> getAretes() {
+	public HashMap<E,A> getAretes() {
 		return this.aretes ;
 	}
 	
-	public HashMap<E,Arete<E>> getAretesInverses() {
+	public HashMap<E,A> getAretesInverses() {
 		return this.aretes_inverses ;
 	}
 	
-	public Noeud<E> clone() {
-		return new Noeud<E>( this.getContent() ) ;
+	public Noeud<A,N,E> clone() {
+		return new Noeud<A,N,E>( this.getContent() ) ;
 	}
 }

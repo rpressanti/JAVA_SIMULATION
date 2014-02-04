@@ -6,20 +6,20 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
-public class Graphe<E> {
+public class Graphe<A extends Arete<N,E>,N extends Noeud<A,N,E>, E> {
 
-	protected HashMap<E,Noeud<E>> noeuds ;
+	protected HashMap<E,N> noeuds ;
 	
-	private class DestinationFirst implements Comparator<Chemin<E>> {
+	private class DestinationFirst implements Comparator<Chemin<A,N,E>> {
 		
-		private Noeud<E> destination ;
+		private N destination ;
 		
-		public DestinationFirst( Noeud<E> destination ) {
+		public DestinationFirst( N destination ) {
 			this.destination = destination ;
 		}
 
 		@Override
-		public int compare(Chemin<E> chemin_1, Chemin<E> chemin_2) {
+		public int compare(Chemin<A,N,E> chemin_1, Chemin<A,N,E> chemin_2) {
 			
 			if( chemin_1 == chemin_2 )
 				return 0 ;
@@ -43,14 +43,14 @@ public class Graphe<E> {
 	
 	// DONE
 	public Graphe() {
-		this.noeuds = new HashMap<E,Noeud<E>> () ;
+		this.noeuds = new HashMap<E,N> () ;
 	}
 
 	
 	public String toString() {
 		String string = "Graphe:" + "\n" ;
 	
-		for( Noeud<E> noeud : this.noeuds.values() )
+		for( N noeud : this.noeuds.values() )
 			string += noeud.toString() ;
 			
 		return string ;
@@ -60,23 +60,24 @@ public class Graphe<E> {
 	
 	
 	// DONE
-	public Noeud<E> add( E content ) {
-		Noeud<E> node = new Noeud<E>( content ) ;
+	public N add( E content ) {
+		@SuppressWarnings("unchecked")
+		N node = (N) new Noeud<A,N,E>( content ) ;
 		this.noeuds.put( content , node ) ;
 		return node ;
 	}
 	
 	// DONE
-	public boolean add( Noeud<E> node ) {
+	public boolean add( N node ) {
 		this.noeuds.put( node.getContent() , node ) ;
 		return true ;
 	}
 	
 	// DONE
-	public boolean add( Arete<E> arete ) {
+	public boolean add( A arete ) {
 		
-		Noeud<E> origine     = arete.getOrigine();
-		Noeud<E> destination = arete.getDestination();
+		N origine     = (N) arete.getOrigine();
+		N destination = (N) arete.getDestination();
 		
 		if ( !( this.noeuds.containsValue( origine ) && this.noeuds.containsValue( destination ) ) )
 			return false ;
@@ -91,15 +92,16 @@ public class Graphe<E> {
 	
 	
 	// DONE
+	@SuppressWarnings("unchecked")
 	public boolean add( E origine , E destination , double weight ) {
 		
 		boolean result = true ;
 		
-		Noeud<E> noeud_origine = this.noeuds.get( origine ) ;
-		Noeud<E> noeud_destination = this.noeuds.get( destination ) ;
+		N noeud_origine = this.noeuds.get( origine ) ;
+		N noeud_destination = this.noeuds.get( destination ) ;
 		
 		if( noeud_origine != null && noeud_destination != null )
-			this.add( new Arete<E>( noeud_origine , noeud_destination , weight ) ) ;
+			this.add( (A) new Arete<N,E>( noeud_origine , noeud_destination , weight ) ) ;
 		else
 			result = false ;
 		
@@ -108,7 +110,7 @@ public class Graphe<E> {
 	
 	
 	// DONE
-	public Noeud<E> getNoeud( E content) {
+	public N getNoeud( E content) {
 		if ( this.noeuds.containsKey( content ) )
 			return this.noeuds.get( content );
 		else	
@@ -118,18 +120,19 @@ public class Graphe<E> {
 	
 	
 	// DONE
-	public Chemins<E> djikstra( Noeud<E> origine , Noeud<E> destination) {
+	@SuppressWarnings("unchecked")
+	public Chemins<A,N,E> djikstra( N origine , N destination) {
 
-		Chemins<E> plus_courts = new Chemins<E>() ;
-		HashMap<Noeud<E>,Double> distance_connue = new HashMap<Noeud<E>,Double>() ;
+		Chemins<A,N,E> plus_courts = new Chemins<A,N,E>() ;
+		HashMap<N,Double> distance_connue = new HashMap<N,Double>() ;
 		
-		PriorityQueue<Chemin<E>> a_traiter = new PriorityQueue<Chemin<E>>( 1 , new DestinationFirst( destination ) ) ;
+		PriorityQueue<Chemin<A,N,E>> a_traiter = new PriorityQueue<Chemin<A,N,E>>( 1 , new DestinationFirst( destination ) ) ;
 		// Initialisation de la Queue de priorite
-		Chemin<E> chemin_trivial = new Chemin<E>() ;
-		chemin_trivial.add( new Arete<E>( origine , origine , 0) ) ;
+		Chemin<A,N,E> chemin_trivial = new Chemin<A,N,E>() ;
+		chemin_trivial.add( (A) new Arete<N,E>( origine , origine , 0) ) ;
 		a_traiter.add( chemin_trivial ) ;
 
-		Chemin<E> chemin_courant = new Chemin<E>() ;
+		Chemin<A,N,E> chemin_courant = new Chemin<A,N,E>() ;
 		
 		System.out.println( "Debut algo" ) ;
 		
@@ -153,7 +156,7 @@ public class Graphe<E> {
 			System.out.println( "Last" + chemin_courant.last().getContent() ) ;
 			
 			// Sinon, on itere
-			for( Chemin<E> nouveau : chemin_courant.successeurs() )
+			for( Chemin<A,N,E> nouveau : chemin_courant.successeurs() )
 				if( ! distance_connue.containsKey( nouveau.last() ) )
 					a_traiter.add( nouveau ) ;		
 
@@ -169,8 +172,8 @@ public class Graphe<E> {
 		
 		boolean suppression_realisee = false ;
 		
-		for( Noeud<E> noeud : this.noeuds.values() )
-			for( Arete<E> arete : noeud.getAretes().values() )
+		for( N noeud : this.noeuds.values() )
+			for( A arete : noeud.getAretes().values() )
 				if ( arete.getWeight() > distance )
 					suppression_realisee |= noeud.supprimmer(arete);
 		
@@ -178,17 +181,17 @@ public class Graphe<E> {
 	}
 	
 	// DONE
-	public Graphe<E> clone() {
+	public Graphe<A,N,E> clone() {
 		
-		Graphe<E> result = new Graphe<E>() ;
+		Graphe<A,N,E> result = new Graphe<A,N,E>() ;
 		
 		// Copier les noueds
-		for( Noeud<E> noeud : this.noeuds.values() )
+		for( N noeud : this.noeuds.values() )
 			result.add( noeud ) ;
 
 		// Recreer les aretes
-		for( Noeud<E> noeud : this.noeuds.values() )
-			for( Arete<E> arete : noeud.getAretes().values() )
+		for( N noeud : this.noeuds.values() )
+			for( A arete : noeud.getAretes().values() )
 				result.add( arete.getOrigine().getContent() , arete.getDestination().getContent() , arete.getWeight() ) ;
 		
 		return result ;
