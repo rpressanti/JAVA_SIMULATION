@@ -12,27 +12,21 @@ public class GrapheComplet<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E exte
 
 	public void generer() {
 		
+		System.out.println( this.classeArete.getClass() ) ;
+		
 		for( N noeud_1 : this.noeuds.values() )
 			for( N noeud_2 : this.noeuds.values() )
 				if ( ! noeud_1.equals( noeud_2 ) )
-					//this.add( (A) new Arete<A,N,E>( Arete.class , Noeud.class , Element.class , noeud_1 , noeud_2 , noeud_1.getContent().distanceTo( noeud_2.getContent() ) ) ); 
-					//this.add( (A) new A( noeud_1 , noeud_2 , noeud_1.getContent().distanceTo( noeud_2.getContent() ) ) ); 
 					try {
 						this.add( 
 							this.classeArete.getDeclaredConstructor( 
 								new Class[] { 
-										//this.classeArete.getClass() , this.classeNoeud.getClass() , this.classeElement.getClass() , 
-										//this.classeArete.getClass() , this.classeNoeud.getClass() ,
-										java.lang.Class.class , java.lang.Class.class , //java.lang.Class.class ,
-										//this.classeNoeud , this.classeNoeud , 
-										Noeud.class , Noeud.class ,
-										double.class 
+										this.classeNoeud , this.classeNoeud , Double.class
 										} 
-									).newInstance( this.classeArete , this.classeNoeud , //this.classeElement , 
+									).newInstance( 
 											noeud_1 , noeud_2 , noeud_1.getContent().distanceTo( noeud_2.getContent() )
 											) 
-									);
-						System.out.println( "Arete crŽŽe" ) ;
+							) ;
 					} catch ( Exception e ) {
 						System.out.println( "Arete non crŽŽe" );
 						e.printStackTrace() ; 
@@ -55,17 +49,17 @@ public class GrapheComplet<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E exte
 		TestPoint a1 = new TestPoint( new TestContent()) ;
 		graphe.add( a1 ) ;
 		TestPoint a2 = new TestPoint( new TestContent()) ;
-		//graphe.add( a2 ) ;
+		graphe.add( a2 ) ;
 		TestPoint a3 = new TestPoint( new TestContent()) ;
-		//graphe.add( a3 ) ;
+		graphe.add( a3 ) ;
 		TestPoint a4 = new TestPoint( new TestContent()) ;
-		//graphe.add( a4 ) ;
+		graphe.add( a4 ) ;
 		TestPoint a5 = new TestPoint( new TestContent()) ;
-		//graphe.add( a5 ) ;
+		graphe.add( a5 ) ;
 		TestPoint a6 = new TestPoint( new TestContent()) ;
-		//graphe.add( a6 ) ;
+		graphe.add( a6 ) ;
 		TestPoint a7 = new TestPoint( new TestContent()) ;
-		//graphe.add( a7 ) ;
+		graphe.add( a7 ) ;
 		
 		graphe.generer() ;
 		
@@ -73,7 +67,7 @@ public class GrapheComplet<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E exte
 		Chemins<TestArete,TestPoint,TestContent> plus_courts = graphe.djikstra( a1 , a7) ;
 		
 		//System.out.println( graphe ) ;
-		//System.out.println( plus_courts ) ;
+		System.out.println( plus_courts ) ;
 		if ( a3.equals( a3))
 			System.out.println( "OK" ) ;
 	}

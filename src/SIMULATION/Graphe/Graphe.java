@@ -140,7 +140,7 @@ public class Graphe<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E> {
 		PriorityQueue<Chemin<A,N,E>> a_traiter = new PriorityQueue<Chemin<A,N,E>>( 1 , new DestinationFirst( destination ) ) ;
 		// Initialisation de la Queue de priorite
 		Chemin<A,N,E> chemin_trivial = new Chemin<A,N,E>() ;
-		chemin_trivial.add( (A) new Arete<A,N,E>( this.classeArete , this.classeNoeud , this.classeElement , origine , origine , 0) ) ;
+		chemin_trivial.add( (A) new Arete<A,N,E>( this.classeArete , this.classeNoeud , this.classeElement , origine , origine , 0.0 ) ) ;
 		a_traiter.add( chemin_trivial ) ;
 
 		Chemin<A,N,E> chemin_courant = new Chemin<A,N,E>() ;
