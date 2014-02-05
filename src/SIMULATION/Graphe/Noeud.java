@@ -71,9 +71,10 @@ public class Noeud<A extends Arete<A,N,E> , N extends Noeud<A,N,E> , E> {
 		return this.aretes_inverses ;
 	}
 
-
-	@SuppressWarnings("unchecked")
+	/*
+	//@SuppressWarnings("unchecked")
 	public N clone() {
 		return (N) new Noeud<A,N,E>( this.getContent() ) ;
 	}
+	*/
 }

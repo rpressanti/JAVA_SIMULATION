@@ -41,14 +41,14 @@ public class GrapheComplet<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E exte
 		TestPoint a6 = new TestPoint( new TestContent()) ;
 		graphe.add( a6 ) ;
 		TestPoint a7 = new TestPoint( new TestContent()) ;
-		graphe.add( a7 ) ;
+		//graphe.add( a7 ) ;
 		
 		graphe.generer() ;
 		
 		
-		Chemins<TestArete,TestPoint,TestContent> plus_courts = graphe.djikstra( a1 , a6) ;
+		Chemins<TestArete,TestPoint,TestContent> plus_courts = graphe.djikstra( a1 , a7) ;
 		
-		System.out.println( graphe ) ;
+		//System.out.println( graphe ) ;
 		System.out.println( plus_courts ) ;
 		if ( a3.equals( a3))
 			System.out.println( "OK" ) ;

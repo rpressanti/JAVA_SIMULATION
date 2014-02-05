@@ -134,16 +134,16 @@ public class Graphe<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E> {
 
 		Chemin<A,N,E> chemin_courant = new Chemin<A,N,E>() ;
 		
-		System.out.println( "Debut algo" ) ;
+		//System.out.println( "Debut algo" ) ;
 		
 		while ( ! a_traiter.isEmpty() )
 		{	
-			System.out.println( "Entre dans la boucle" ) ;
+			//System.out.println( "Entre dans la boucle" ) ;
 			
 			// On commence par rï¿½cupï¿½rer ceux allant ï¿½ la destination parmi les sous-chemins les plus courts
 			while( (! a_traiter.isEmpty() ) && (chemin_courant = a_traiter.poll()).last().equals( destination ) )
 			{	
-				System.out.println( "plus court trouv");
+				//System.out.println( "plus court trouv");
 				if ( chemin_courant.isTrivial() )
 					chemin_courant.untrivial();
 				plus_courts.add( chemin_courant ) ;
@@ -153,7 +153,7 @@ public class Graphe<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E> {
 				return plus_courts ;
 	
 			distance_connue.put( chemin_courant.last() , chemin_courant.getLength() ) ;
-			System.out.println( "Last" + chemin_courant.last().getContent() ) ;
+			//System.out.println( "Last" + chemin_courant.last().getContent() ) ;
 			
 			// Sinon, on itere
 			for( Chemin<A,N,E> nouveau : chemin_courant.successeurs() )
@@ -161,7 +161,6 @@ public class Graphe<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E> {
 					a_traiter.add( nouveau ) ;		
 
 		} 
-		//while ( ! a_traiter.isEmpty() ) ; 
 		
 		return plus_courts ;
 	}
