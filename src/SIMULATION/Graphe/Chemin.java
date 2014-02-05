@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings("serial")
 //public class Chemin<F<E> extends Arete<E>> extends ArrayList<Arete<E>> {
-public class Chemin<A extends Arete<N,P> , N extends Noeud<A,N,P>, P> extends ArrayList<A> {
+public class Chemin<A extends Arete<A,N,P> , N extends Noeud<A,N,P>, P> extends ArrayList<A> {
 	private Double length ;
 	
 	
@@ -68,7 +68,7 @@ public class Chemin<A extends Arete<N,P> , N extends Noeud<A,N,P>, P> extends Ar
 		
 		boolean result = false ;
 		
-		for( Arete<N,P> arete : this )
+		for( A arete : this )
 			if( arete.isTrivial() ) 
 				this.remove( arete ) ;
 		

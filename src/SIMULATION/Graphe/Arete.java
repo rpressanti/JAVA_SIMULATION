@@ -2,22 +2,22 @@ package SIMULATION.Graphe;
 
 //CLASS DONE
 
-public class Arete<N extends Noeud<?,N,E> , E> {
+public class Arete<A extends Arete<A,N,E> , N extends Noeud<A,N,E> , E> {
 	
-	private N origine ;
-	private N destination ;
-	private Double weight ;
+	protected N origine ;
+	protected N destination ;
+	protected Double weight ;
 	
 	
+	@SuppressWarnings("unchecked")
 	public Arete ( N origine , N destination , double weight ) {
 		
 		this.origine = origine ;
 		this.destination = destination ;
 		this.weight = weight ;
 		
-		// TODO CORRECT TYPE
-		this.origine.enregistrer( this );
-		this.destination.enregistrer_inverse( this );
+		this.origine.enregistrer( (A) this );
+		this.destination.enregistrer_inverse( (A) this );
 		
 	}
 	

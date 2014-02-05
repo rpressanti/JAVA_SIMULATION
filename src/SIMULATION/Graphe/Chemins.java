@@ -5,7 +5,7 @@ import java.util.PriorityQueue;
 // CLASS DONE
 
 @SuppressWarnings("serial")
-public class Chemins<A extends Arete<N,P>, N extends Noeud<A,N,P> ,P> extends PriorityQueue<Chemin<A,N,P>> {
+public class Chemins<A extends Arete<A,N,P>, N extends Noeud<A,N,P> ,P> extends PriorityQueue<Chemin<A,N,P>> {
 
 	
 	public Chemins() {

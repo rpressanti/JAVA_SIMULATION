@@ -10,7 +10,7 @@ public class NoeudTrajectoire extends Noeud<Segment,NoeudTrajectoire,Point>{
 	}
 
 	public NoeudTrajectoire clone() {
-		return (NoeudTrajectoire) super.clone() ;
+		return new NoeudTrajectoire( this.content )  ;
 	}
 	
 }

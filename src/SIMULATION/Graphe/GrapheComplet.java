@@ -2,7 +2,7 @@ package SIMULATION.Graphe;
 
 // CLASS DONE
 
-public class GrapheComplet<A extends Arete<N,E>,N extends Noeud<A,N,E>, E extends Distance<E>> extends Graphe<A,N,E> {
+public class GrapheComplet<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E extends Distance<E>> extends Graphe<A,N,E> {
 
 
 	@SuppressWarnings("unchecked")
@@ -11,7 +11,7 @@ public class GrapheComplet<A extends Arete<N,E>,N extends Noeud<A,N,E>, E extend
 		for( N noeud_1 : this.noeuds.values() )
 			for( N noeud_2 : this.noeuds.values() )
 				if ( ! noeud_1.equals( noeud_2 ) )
-					this.add( (A) new Arete<N,E>( noeud_1 , noeud_2 , noeud_1.getContent().distanceTo( noeud_2.getContent() ) ) ); 
+					this.add( (A) new Arete<A,N,E>( noeud_1 , noeud_2 , noeud_1.getContent().distanceTo( noeud_2.getContent() ) ) ); 
 			
 	}
 	

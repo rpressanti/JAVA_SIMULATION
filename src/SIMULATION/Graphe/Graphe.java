@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
-public class Graphe<A extends Arete<N,E>,N extends Noeud<A,N,E>, E> {
+public class Graphe<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E> {
 
 	protected HashMap<E,N> noeuds ;
 	
@@ -101,7 +101,7 @@ public class Graphe<A extends Arete<N,E>,N extends Noeud<A,N,E>, E> {
 		N noeud_destination = this.noeuds.get( destination ) ;
 		
 		if( noeud_origine != null && noeud_destination != null )
-			this.add( (A) new Arete<N,E>( noeud_origine , noeud_destination , weight ) ) ;
+			this.add( (A) new Arete<A,N,E>( noeud_origine , noeud_destination , weight ) ) ;
 		else
 			result = false ;
 		
@@ -129,7 +129,7 @@ public class Graphe<A extends Arete<N,E>,N extends Noeud<A,N,E>, E> {
 		PriorityQueue<Chemin<A,N,E>> a_traiter = new PriorityQueue<Chemin<A,N,E>>( 1 , new DestinationFirst( destination ) ) ;
 		// Initialisation de la Queue de priorite
 		Chemin<A,N,E> chemin_trivial = new Chemin<A,N,E>() ;
-		chemin_trivial.add( (A) new Arete<N,E>( origine , origine , 0) ) ;
+		chemin_trivial.add( (A) new Arete<A,N,E>( origine , origine , 0) ) ;
 		a_traiter.add( chemin_trivial ) ;
 
 		Chemin<A,N,E> chemin_courant = new Chemin<A,N,E>() ;

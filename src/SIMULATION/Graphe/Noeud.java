@@ -3,11 +3,11 @@ package SIMULATION.Graphe;
 import java.util.HashMap;
 
 
-public class Noeud<A extends Arete<N,E> , N extends Noeud<A,N,E> , E> {
+public class Noeud<A extends Arete<A,N,E> , N extends Noeud<A,N,E> , E> {
 
-	private E content ;
-	private HashMap<E,A> aretes ;
-	private HashMap<E,A> aretes_inverses ;
+	protected E content ;
+	protected HashMap<E,A> aretes ;
+	protected HashMap<E,A> aretes_inverses ;
 	
 	public Noeud( E content) {
 		this.content = content ;
@@ -38,17 +38,16 @@ public class Noeud<A extends Arete<N,E> , N extends Noeud<A,N,E> , E> {
 		return this.getContent().equals( other_node.getContent() ) ;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public void enregistrer( Arete<N,E> arete ) {
-		this.aretes.put( arete.getDestination().getContent() , (A) arete ) ;
+
+	public void enregistrer( A arete ) {
+		this.aretes.put( arete.getDestination().getContent() , arete ) ;
 	}
 
-	@SuppressWarnings("unchecked")
-	public void enregistrer_inverse( Arete<N,E> arete ) {
-		this.aretes_inverses.put( arete.getOrigine().getContent() , (A) arete ) ;
+	public void enregistrer_inverse( A arete ) {
+		this.aretes_inverses.put( arete.getOrigine().getContent() , arete ) ;
 	}
 	
-	public boolean supprimmer( A arete ) {
+	public boolean supprimmer( Arete<A,N,E> arete ) {
 		boolean contient = this.aretes.containsValue( arete ) ;
 		
 		if ( contient )
@@ -71,8 +70,10 @@ public class Noeud<A extends Arete<N,E> , N extends Noeud<A,N,E> , E> {
 	public HashMap<E,A> getAretesInverses() {
 		return this.aretes_inverses ;
 	}
-	
-	public Noeud<A,N,E> clone() {
-		return new Noeud<A,N,E>( this.getContent() ) ;
+
+
+	@SuppressWarnings("unchecked")
+	public N clone() {
+		return (N) new Noeud<A,N,E>( this.getContent() ) ;
 	}
 }

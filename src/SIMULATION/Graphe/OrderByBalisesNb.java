@@ -2,7 +2,7 @@ package SIMULATION.Graphe;
 
 import java.util.Comparator;
 
-public class OrderByBalisesNb<A extends Arete<N,P>,N extends Noeud<A,N,P> ,P> implements Comparator<Chemin<A,N,P>>{
+public class OrderByBalisesNb<A extends Arete<A,N,P>,N extends Noeud<A,N,P> ,P> implements Comparator<Chemin<A,N,P>>{
 
 	public OrderByBalisesNb() {
 		super() ;
