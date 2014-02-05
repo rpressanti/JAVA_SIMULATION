@@ -6,8 +6,14 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
+
 public class Graphe<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E> {
 
+	protected Class<A> classeArete ;
+	protected Class<N> classeNoeud ;
+	protected Class<E> classeElement ;
+	
+	
 	protected HashMap<E,N> noeuds ;
 	
 	private class DestinationFirst implements Comparator<Chemin<A,N,E>> {
@@ -42,8 +48,13 @@ public class Graphe<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E> {
 	
 	
 	// DONE
-	public Graphe() {
+	public Graphe( Class<A> classeArete , Class<N> classeNoeud , Class<E> classeElement) {
 		this.noeuds = new HashMap<E,N> () ;
+
+		this.classeArete = classeArete ;
+		this.classeNoeud = classeNoeud ;
+		this.classeElement = classeElement ;
+	
 	}
 
 	
@@ -62,7 +73,7 @@ public class Graphe<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E> {
 	// DONE
 	public N add( E content ) {
 		@SuppressWarnings("unchecked")
-		N node = (N) new Noeud<A,N,E>( content ) ;
+		N node = (N) new Noeud<A,N,E>( this.classeArete , this.classeNoeud , this.classeElement , content ) ;
 		this.noeuds.put( content , node ) ;
 		return node ;
 	}
@@ -101,7 +112,7 @@ public class Graphe<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E> {
 		N noeud_destination = this.noeuds.get( destination ) ;
 		
 		if( noeud_origine != null && noeud_destination != null )
-			this.add( (A) new Arete<A,N,E>( noeud_origine , noeud_destination , weight ) ) ;
+			this.add( (A) new Arete<A,N,E>( this.classeArete , this.classeNoeud , this.classeElement , noeud_origine , noeud_destination , weight ) ) ;
 		else
 			result = false ;
 		
@@ -129,7 +140,7 @@ public class Graphe<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E> {
 		PriorityQueue<Chemin<A,N,E>> a_traiter = new PriorityQueue<Chemin<A,N,E>>( 1 , new DestinationFirst( destination ) ) ;
 		// Initialisation de la Queue de priorite
 		Chemin<A,N,E> chemin_trivial = new Chemin<A,N,E>() ;
-		chemin_trivial.add( (A) new Arete<A,N,E>( origine , origine , 0) ) ;
+		chemin_trivial.add( (A) new Arete<A,N,E>( this.classeArete , this.classeNoeud , this.classeElement , origine , origine , 0) ) ;
 		a_traiter.add( chemin_trivial ) ;
 
 		Chemin<A,N,E> chemin_courant = new Chemin<A,N,E>() ;
@@ -182,7 +193,7 @@ public class Graphe<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E> {
 	// DONE
 	public Graphe<A,N,E> clone() {
 		
-		Graphe<A,N,E> result = new Graphe<A,N,E>() ;
+		Graphe<A,N,E> result = new Graphe<A,N,E>( this.classeArete , this.classeNoeud , this.classeElement ) ;
 		
 		// Copier les noueds
 		for( N noeud : this.noeuds.values() )

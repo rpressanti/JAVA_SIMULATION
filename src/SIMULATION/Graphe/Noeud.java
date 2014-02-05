@@ -5,14 +5,23 @@ import java.util.HashMap;
 
 public class Noeud<A extends Arete<A,N,E> , N extends Noeud<A,N,E> , E> {
 
+	@SuppressWarnings("unused")
+	private Class<A> classeArete ;
+	private Class<N> classeNoeud ;
+	private Class<E> classeElement ;
+	
 	protected E content ;
 	protected HashMap<E,A> aretes ;
 	protected HashMap<E,A> aretes_inverses ;
 	
-	public Noeud( E content) {
+	public Noeud( Class<A> classeArete , Class<N> classeNoeud , Class<E> classeElement, E content) {
 		this.content = content ;
 		this.aretes = new HashMap<E,A>() ;
 		this.aretes_inverses = new HashMap<E,A>() ;
+		
+		this.classeArete = classeArete ;
+		this.classeNoeud = classeNoeud ;
+		this.classeElement = classeElement ;
 	}
 	
 	public String toString() {
@@ -71,10 +80,12 @@ public class Noeud<A extends Arete<A,N,E> , N extends Noeud<A,N,E> , E> {
 		return this.aretes_inverses ;
 	}
 
-	/*
-	//@SuppressWarnings("unchecked")
+	
 	public N clone() {
-		return (N) new Noeud<A,N,E>( this.getContent() ) ;
+		try {
+		return this.classeNoeud.getDeclaredConstructor( new Class[] { this.classeElement} ).newInstance( this.content) ;
+		} catch( Exception e) {
+			return null ;
+		}
 	}
-	*/
 }

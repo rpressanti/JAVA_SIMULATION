@@ -51,8 +51,8 @@ public class Simulation {
 		this.avions = new HashMap<String,Avion>() ;
 		this.trajectoires = new ArrayList<Trajectoire>() ;
 		
-		this.grapheComplet = new GrapheComplet<Segment,NoeudTrajectoire,Point>() ;
-		this.grapheFiltre = new Graphe<Segment,NoeudTrajectoire,Point> () ;
+		this.grapheComplet = new GrapheComplet<Segment,NoeudTrajectoire,Point>( Segment.class , NoeudTrajectoire.class , Point.class) ;
+		this.grapheFiltre = new Graphe<Segment,NoeudTrajectoire,Point> ( Segment.class , NoeudTrajectoire.class , Point.class ) ;
 		
 		this.distance_max = 0 ;
 		

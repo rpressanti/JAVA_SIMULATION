@@ -4,21 +4,32 @@ package SIMULATION.Graphe;
 
 public class Arete<A extends Arete<A,N,E> , N extends Noeud<A,N,E> , E> {
 	
+	@SuppressWarnings("unused")
+	private Class<A> classeArete ;
+	@SuppressWarnings("unused")
+	private Class<N> classeNoeud ;
+	//@SuppressWarnings("unused")
+	//private Class<E> classeElement ;
+ 	
 	protected N origine ;
 	protected N destination ;
 	protected Double weight ;
 	
 	
-	@SuppressWarnings("unchecked")
-	public Arete ( N origine , N destination , double weight ) {
+
+	public Arete ( Class<A> classeArete , Class<N> classeNoeud , Class<E> classeElement , N origine , N destination , double weight ) {
 		
 		this.origine = origine ;
 		this.destination = destination ;
 		this.weight = weight ;
 		
-		this.origine.enregistrer( (A) this );
-		this.destination.enregistrer_inverse( (A) this );
+		// TODO UNCOMMENT
+		//this.origine.enregistrer( (A) this );
+		//this.destination.enregistrer_inverse( (A) this );
 		
+		this.classeArete = classeArete ;
+		this.classeNoeud = classeNoeud ;
+		//this.classeElement = classeElement ;
 	}
 	
 	public String toString() {
@@ -40,4 +51,17 @@ public class Arete<A extends Arete<A,N,E> , N extends Noeud<A,N,E> , E> {
 	public boolean isTrivial() {
 		return this.getOrigine() == this.getDestination() ;
 	}
+
+
+	public static void main( String args[] ) {
+		
+		//for( Constructor cons : this.get)
+		
+		
+		
+	}
+
+
+
+
 }

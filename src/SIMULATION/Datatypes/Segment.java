@@ -14,7 +14,7 @@ public class Segment extends Arete<Segment,NoeudTrajectoire,Point> {
 	
 	public Segment( Segment arete , double distanceIntraSegment, double vitesse)
 	{
-		super( arete.getOrigine() , arete.getDestination() , arete.getWeight() ) ;
+		super( Segment.class , NoeudTrajectoire.class , Point.class , arete.getOrigine() , arete.getDestination() , arete.getWeight() ) ;
 		this.next = null ;
 		this.plots = new ArrayList<Plot>() ;
 		this.distanceIntraSegment = distanceIntraSegment ;
