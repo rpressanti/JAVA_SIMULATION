@@ -28,7 +28,7 @@ public class GrapheComplet<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E exte
 											) 
 							) ;
 					} catch ( Exception e ) {
-						System.out.println( "Arete non crŽŽe" );
+						System.err.println( "Arete non crŽŽe" );
 						e.printStackTrace() ; 
 					}
 	}

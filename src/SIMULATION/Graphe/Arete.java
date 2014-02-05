@@ -9,8 +9,8 @@ public class Arete<A extends Arete<A,N,E> , N extends Noeud<A,N,E> , E> {
 	private Class<A> classeArete ;
 	@SuppressWarnings("unused")
 	private Class<N> classeNoeud ;
-	//@SuppressWarnings("unused")
-	//private Class<E> classeElement ;
+	@SuppressWarnings("unused")
+	private Class<E> classeElement ;
  	
 	protected N origine ;
 	protected N destination ;
@@ -23,20 +23,22 @@ public class Arete<A extends Arete<A,N,E> , N extends Noeud<A,N,E> , E> {
 	
 	
 	
+	
 	@SuppressWarnings("unchecked")
 	public Arete ( Class<A> classeArete , Class<N> classeNoeud , Class<E> classeElement , N origine , N destination , Double weight ) {
+		
+		this.classeArete = classeArete ;
+		this.classeNoeud = classeNoeud ;
+		this.classeElement = classeElement ;
 		
 		this.origine = origine ;
 		this.destination = destination ;
 		this.weight = weight ;
 		
-		// TODO CORRECT
 		this.origine.enregistrer( (A) this );
 		this.destination.enregistrer_inverse( (A) this );
 		
-		this.classeArete = classeArete ;
-		this.classeNoeud = classeNoeud ;
-		//this.classeElement = classeElement ;
+		
 	}
 	
 	public String toString() {

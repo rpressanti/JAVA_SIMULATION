@@ -72,9 +72,17 @@ public class Graphe<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E> {
 	
 	// DONE
 	public N add( E content ) {
-		@SuppressWarnings("unchecked")
-		N node = (N) new Noeud<A,N,E>( this.classeArete , this.classeNoeud , this.classeElement , content ) ;
-		this.noeuds.put( content , node ) ;
+		
+		N node = null ;
+		
+		try {
+			node = this.classeNoeud.getDeclaredConstructor( new Class [] { this.classeElement } ).newInstance( content ) ;
+			this.noeuds.put( content , node ) ;
+		}
+		catch( Exception e) {
+			System.err.println( "Noaud non crŽŽ: " + content );
+		}
+		
 		return node ;
 	}
 	
@@ -103,20 +111,25 @@ public class Graphe<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E> {
 	
 	
 	// DONE
-	@SuppressWarnings("unchecked")
-	public boolean add( E origine , E destination , double weight ) {
-		
-		boolean result = true ;
+	public A add( E origine , E destination , double weight ) {
 		
 		N noeud_origine = this.noeuds.get( origine ) ;
 		N noeud_destination = this.noeuds.get( destination ) ;
 		
-		if( noeud_origine != null && noeud_destination != null )
-			this.add( (A) new Arete<A,N,E>( this.classeArete , this.classeNoeud , this.classeElement , noeud_origine , noeud_destination , weight ) ) ;
-		else
-			result = false ;
+		A arete = null ;
 		
-		return result ;
+		if( noeud_origine != null && noeud_destination != null )
+			try {
+				arete = this.classeArete.getDeclaredConstructor( 
+							new Class[] { this.classeNoeud ,this.classeNoeud , Double.class } 
+						).newInstance( noeud_origine , noeud_destination , weight ) ;
+				this.add( arete ) ;
+			}
+			catch( Exception e) {
+				System.err.println( "Arete non crŽŽe" ) ;
+			}
+		
+		return arete ;
 	}
 	
 	
@@ -131,7 +144,6 @@ public class Graphe<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E> {
 	
 	
 	// DONE
-	@SuppressWarnings("unchecked")
 	public Chemins<A,N,E> djikstra( N origine , N destination) {
 
 		Chemins<A,N,E> plus_courts = new Chemins<A,N,E>() ;
@@ -140,7 +152,17 @@ public class Graphe<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E> {
 		PriorityQueue<Chemin<A,N,E>> a_traiter = new PriorityQueue<Chemin<A,N,E>>( 1 , new DestinationFirst( destination ) ) ;
 		// Initialisation de la Queue de priorite
 		Chemin<A,N,E> chemin_trivial = new Chemin<A,N,E>() ;
-		chemin_trivial.add( (A) new Arete<A,N,E>( this.classeArete , this.classeNoeud , this.classeElement , origine , origine , 0.0 ) ) ;
+		try {
+			A arete_triviale = this.classeArete.getDeclaredConstructor(
+						new Class[] { this.classeNoeud , this.classeNoeud , Double.class }
+					).newInstance( origine , origine , 0.0 ) ;
+			chemin_trivial.add( arete_triviale ) ;
+		} catch( Exception e) {
+			System.err.println( "Arete triviale non crŽŽe" ) ;
+		}
+		
+		
+		
 		a_traiter.add( chemin_trivial ) ;
 
 		Chemin<A,N,E> chemin_courant = new Chemin<A,N,E>() ;
