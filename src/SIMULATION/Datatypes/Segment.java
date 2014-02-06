@@ -7,29 +7,25 @@ import SIMULATION.Graphe.*;
 public class Segment extends Arete<Segment,NoeudTrajectoire,Point> {
 	
 	private ArrayList<Plot> plots ;
-	private Double distanceIntraSegment ;
+	private Double distance_totale ;
+	private Double distance_parcourue ;
 	private Double distance_restante ;
 	private Vecteur vecteur_vitesse ;
-	private Segment next ;
 	
-	public Segment( Segment arete , double distanceIntraSegment, double vitesse)
-	{
-		super( Segment.class , NoeudTrajectoire.class , Point.class , arete.getOrigine() , arete.getDestination() , arete.getWeight() ) ;
-		this.next = null ;
+	public Segment( NoeudTrajectoire origine , NoeudTrajectoire destination , Double weight) {
+		
+		super( Segment.class , NoeudTrajectoire.class , Point.class , origine , destination , weight ) ;
 		this.plots = new ArrayList<Plot>() ;
-		this.distanceIntraSegment = distanceIntraSegment ;
+		this.distance_totale = this.getOrigine().getContent().distanceTo( this.getDestination().getContent() ) ; 
+		this.distance_parcourue = 0.0 ;
 		this.distance_restante = 0.0 ;
-		this.vecteur_vitesse = new Vecteur( this.getOrigine().getContent() , this.getDestination().getContent() ) ;
+		this.vecteur_vitesse = new Vecteur( this.getOrigine().getContent() , this.getDestination().getContent() ) ;	
+	}
+	
+	
+	
+	public void setVitesse( double vitesse) {
 		this.vecteur_vitesse.setModule( vitesse );
-	}
-	
-	
-	public void setNext( Segment next) {
-		this.next = next ;
-	}
-	
-	public Segment getNext() {
-		return this.next ;
 	}
 	
 	public ArrayList<Plot> getPlots() {
@@ -40,41 +36,34 @@ public class Segment extends Arete<Segment,NoeudTrajectoire,Point> {
 		return this.distance_restante ;
 	}
 	
-	public boolean parcourue() {
-		return this.distanceIntraSegment == this.vecteur_vitesse.getModule() ;
+	public boolean totalement_parcourue() {
+		return this.distance_parcourue == this.distance_totale ;
 	}
 	
-	public int iterer( double intervalle_de_temps , int nb_plots ) {
+	
+	public int iterer( int nb_plots , Double vitesse , double intervalle_de_temps ) {
 		
 		Point tmp_point = null ;
 		int plot_indice = 1 , plots_restants = nb_plots ;
-		boolean has_next = false ;
 		
-		if( this.plots.isEmpty() )
-		{
-			tmp_point = this.getOrigine().getContent() ;
-			tmp_point.deplacerDe( this.vecteur_vitesse) ;
-			this.plots.add( new Plot( tmp_point , 0 )) ;
-		}
+		tmp_point = this.getOrigine().getContent() ;
+		tmp_point.deplacerDe( this.vecteur_vitesse) ;
+		this.plots.add( new Plot( tmp_point  )) ;
+		
+		this.distance_parcourue += this.vecteur_vitesse.getModule() ;
+		if ( this.distance_parcourue > this.distance_totale) {
+			this.distance_restante = - this.distance_totale - this.distance_parcourue ;
+			this.distance_parcourue = this.distance_totale ;
+		}		
 		
 		if( nb_plots <= 1 )
-			return 0 ;
+			return nb_plots ;
 		
 		
-		for( plot_indice = 1 ; ( plot_indice < nb_plots ) && ! has_next ; plot_indice++)
+		for( plot_indice = 1 ; plot_indice < nb_plots ; plot_indice++)
 		{
-			this.distanceIntraSegment += this.vecteur_vitesse.getModule() ;
-			
-			
-			if ( this.distanceIntraSegment < 0) {
-				this.distance_restante = - this.distanceIntraSegment ;
-				this.distanceIntraSegment = this.vecteur_vitesse.getModule() ;
-				has_next = true ;
-			} else
-			{
-				this.plots.add( this.plots.get( plot_indice -1 ).suivant( this.vecteur_vitesse) ) ;
-				plots_restants -- ;
-			}
+			this.plots.add( this.plots.get( plot_indice -1 ).suivant( this.vecteur_vitesse) ) ;
+			plots_restants -- ;
 		}
 		
 		return plots_restants ;

@@ -2,11 +2,12 @@ package SIMULATION.Graphe;
 
 // CLASS DONE
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
+import java.util.LinkedList;
 
 @SuppressWarnings("serial")
-//public class Chemin<F<E> extends Arete<E>> extends ArrayList<Arete<E>> {
-public class Chemin<A extends Arete<A,N,P> , N extends Noeud<A,N,P>, P> extends ArrayList<A> {
+
+public class Chemin<A extends Arete<A,N,P> , N extends Noeud<A,N,P>, P> extends LinkedList<A> {
 	private Double length ;
 	
 	

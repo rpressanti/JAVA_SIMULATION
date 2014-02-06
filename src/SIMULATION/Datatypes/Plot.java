@@ -12,8 +12,8 @@ public class Plot extends Point {
 		this.order = order ;
 	}
 	
-	public Plot( Repere repere ) {
-		super( repere.getLongitude().getValue() , repere.getLatitude().getValue() ) ;
+	public Plot( Point point ) {
+		super( point.getLongitude().getValue() , point.getLatitude().getValue() ) ;
 		this.order = 0 ;
 	}
 	

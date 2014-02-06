@@ -2,8 +2,7 @@ package SIMULATION.Datatypes ;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.ListIterator;
+
 
 
 import SIMULATION.Graphe.Chemin;
@@ -21,13 +20,14 @@ public class Avion {
 	final private Repere arrivee ;
 	final private int flight_level ;
 	final private double vitesse ;
-	private ListIterator<Segment> trajectoire ;
+	private Chemin<Segment,NoeudTrajectoire,Point> trajectoire ;
 
-	
-	private LinkedList<Segment> segments ;
-
-	
 	private boolean en_conflit ;
+
+	
+	
+	
+	
 	
 	public Avion( String nom , Repere depart , Repere arrivee , int flight_level , double vitesse , Date heure_depart) {
 		
@@ -40,8 +40,6 @@ public class Avion {
 		
 		this.trajectoire = null ;
 		this.en_conflit = false ;
-
-		this.segments = new LinkedList<Segment>() ;
 	}
 	
 	public String getNom() {
@@ -64,33 +62,21 @@ public class Avion {
 	// DONE
 	public boolean iterer( double intervalle_de_temps , Date heure_courante) 
 	{
-		int plots_restants = Avion.NbPlots ;
-		Segment segment = null ;
+		int plots_restants = Avion.NbPlots , indice_segment = 0 ;
+		Segment segment = this.trajectoire.element() ;
 		
 		if ( this.heure_depart.before( heure_courante ))
 			return false ;
+
+		segment = this.trajectoire.element() ;
+
+		if( segment.totalement_parcourue() )
+			this.trajectoire.remove();
 		
-		if( this.segments.isEmpty() ) 
-			this.segments.push( new Segment( this.trajectoire.next() , 0 , this.vitesse ) ) ;
-	
-		while ( plots_restants > 0)
-		{
-			segment = this.segments.element() ;
-			if( segment.parcourue() ) {
-				this.segments.remove();
-				segment = this.segments.element() ;
-			}
-			
-			plots_restants = segment.iterer(intervalle_de_temps, plots_restants ) ;
-		
-			if( plots_restants != 0 )
-			{
-				if ( segment.getNext() != null)
-					segment.setNext( this.segments.get( 1 ) );
-			
-				segment = segment.getNext() ;
-			}	
-			
+		while( ( plots_restants >= 0) &&( indice_segment < this.trajectoire.size() ) )
+		{	
+			segment = this.trajectoire.get( indice_segment++ ) ;
+			plots_restants = segment.iterer(plots_restants , this.vitesse , intervalle_de_temps ) ;
 		}
 				
 		return true ;
@@ -101,40 +87,42 @@ public class Avion {
 	
 	// DONE
 	public boolean setTrajectoire( Chemin<Segment,NoeudTrajectoire,Point> trajectoire ) {
-		this.trajectoire = trajectoire.listIterator() ;
-		boolean result = true ;	
 
-		/*
-		if ( this.trajectoire.hasNext() )
-			this.segment_courant = new Segment( this.trajectoire.next() );
-		else
-			result = false ;
-		*/
-		return result ;
+		this.trajectoire = trajectoire ;
+		
+		for( Segment segment : this.trajectoire )
+			segment.setVitesse( this.vitesse ) ;
+		
+		return true ;
+
 	}
 	
-	
+	// DONE
 	public ArrayList< Plot > getPlots() {		
 		
+		int indice_segment = 0 , nb_plots = 0 ;
 		ArrayList<Plot> plots = new ArrayList<Plot>() ;
 
-		if( this.segments.isEmpty() )
+		if( this.trajectoire.isEmpty() )
 			return plots ;
 		
-		Segment current_segment = this.segments.get( 0 ) ;
+		Segment current_segment = this.trajectoire.get( 0 ) ;
 		
-		do {
-
+		for( indice_segment = 0 , nb_plots = 0 ; ( nb_plots < Avion.NbPlots) && ( indice_segment < this.trajectoire.size() ) ; indice_segment++)
+		{
+			current_segment = this.trajectoire.get( indice_segment ) ;
 			for( Plot plot : current_segment.getPlots() )
+			{
 				plots.add( plot ) ;
-
-			current_segment = current_segment.getNext() ;
-		
-		} while ( current_segment != null ) ;
-		
+				nb_plots ++ ;
+			}
+		} 
 		
 		return plots ;
 	}
+	
+	
+	
 	
 	public void setEnConflit( boolean en_conflit )  {
 		this.en_conflit = en_conflit ;
