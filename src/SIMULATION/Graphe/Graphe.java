@@ -16,7 +16,7 @@ public class Graphe<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E> {
 	
 	protected HashMap<E,N> noeuds ;
 	
-	private class DestinationFirst implements Comparator<Chemin<A,N,E>> {
+	protected class DestinationFirst implements Comparator<Chemin<A,N,E>> {
 		
 		private N destination ;
 		

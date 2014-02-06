@@ -3,12 +3,12 @@ package SIMULATION.Graphe;
 import java.util.HashMap;
 
 
-public class Noeud<A extends Arete<A,N,E> , N extends Noeud<A,N,E> , E> {
+public abstract class Noeud<A extends Arete<A,N,E> , N extends Noeud<A,N,E> , E> {
 
-	@SuppressWarnings("unused")
-	private Class<A> classeArete ;
-	private Class<N> classeNoeud ;
-	private Class<E> classeElement ;
+
+	protected Class<A> classeArete ;
+	protected Class<N> classeNoeud ;
+	protected Class<E> classeElement ;
 	
 	protected E content ;
 	protected HashMap<E,A> aretes ;

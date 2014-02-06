@@ -3,27 +3,17 @@ package SIMULATION.Graphe;
 
 //CLASS DONE
 
-public class Arete<A extends Arete<A,N,E> , N extends Noeud<A,N,E> , E> {
+public abstract class Arete<A extends Arete<A,N,E> , N extends Noeud<A,N,E> , E> {
 	
-	@SuppressWarnings("unused")
-	private Class<A> classeArete ;
-	@SuppressWarnings("unused")
-	private Class<N> classeNoeud ;
-	@SuppressWarnings("unused")
-	private Class<E> classeElement ;
+	protected Class<A> classeArete ;
+	protected Class<N> classeNoeud ;
+	protected Class<E> classeElement ;
  	
 	protected N origine ;
 	protected N destination ;
 	protected Double weight ;
 	
-	
-	public Arete ( Class<?> classeArete ) {
-		//this.classeArete = classeArete ;
-	}
-	
-	
-	
-	
+		
 	@SuppressWarnings("unchecked")
 	public Arete ( Class<A> classeArete , Class<N> classeNoeud , Class<E> classeElement , N origine , N destination , Double weight ) {
 		
@@ -37,9 +27,9 @@ public class Arete<A extends Arete<A,N,E> , N extends Noeud<A,N,E> , E> {
 		
 		this.origine.enregistrer( (A) this );
 		this.destination.enregistrer_inverse( (A) this );
-		
-		
+			
 	}
+	
 	
 	public String toString() {
 		return this.getWeight().toString() + " : " + this.getOrigine().getContent().toString() + " => " + this.getDestination().getContent().toString() ;
