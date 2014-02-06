@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.awt.Component;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.io.FileReader;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,8 +21,10 @@ import javax.swing.JLayeredPane;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 //import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
@@ -33,8 +37,8 @@ import SIMULATION.View.PanelAffichage ;
 public class Fenetre extends JFrame implements ViewSimulation
 {	
 	// Constantes
-	static final int height_panel = 800 ;
-	static final int width_panel = 800 ;
+	static final int height_panel = 600 ;
+	static final int width_panel = 600 ;
 	
 	static final int height_buttons = 150 ;
 	static final int width_buttons = 150 ;
@@ -86,11 +90,9 @@ public class Fenetre extends JFrame implements ViewSimulation
 					
 		// Jlayered pour la superposition des Jpanel ad et balise
 		this.pan_principal = new PanelAffichage( this.modele ) ;
-		
-		// TODO RM DEPLACE DANS AFFICHAGE_PANEL
-		//this.pan_principal.setPreferredSize( 
-		//		new Dimension( Fenetre.width_panel , Fenetre.height_panel )
-		//	);
+		this.pan_principal.setPreferredSize( 
+				new Dimension( Fenetre.width_panel , Fenetre.height_panel )
+			);
 		pan.add(this.pan_principal);
 		
 	 	
@@ -132,6 +134,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 		jaero= new JMenuItem("Aerodrome");
 		jcharger.add(jaero);
 		jaero.addActionListener(new ActionChargerAd());
+		//jaero.addActionListener(new ActionChargerAd());
 		
 		jbal= new JMenuItem("Balise");
 		jcharger.add(jbal);
@@ -212,18 +215,43 @@ public class Fenetre extends JFrame implements ViewSimulation
 	public void quitter()
 	{
 		 System.out.println("Fin ...");
-		 System.exit(0);
+		 if (JOptionPane.showConfirmDialog(this, "Désirez-vous quitter l'application ?")
+	              == JOptionPane.YES_OPTION) System.exit(0); 
+		 setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		 setVisible(true);
+		 //System.exit(0);
 	}
 	
 	// TODO CODE DEMANDER NOM FICHIER
 	private String demander_nom_fichier()
 	{
-			
-		return "" ;
+		//JFrame boite_message = new JFrame("nom du fichier");
+		// boite_message.setVisible(true);
+        String nomFichier=JOptionPane.showInputDialog(Fenetre.this, "Entrez le nom du fichier a charger","Nom du Fichier",-1);	
+               
+        try {
+            JTextArea document = new JTextArea();
+            document.setBackground(Color.ORANGE);
+            document.read(new FileReader(nomFichier), null);
+            JFrame fichier = new JFrame(nomFichier);
+            fichier.add(new JScrollPane(document));
+            fichier.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            fichier.setSize(400, 300);
+            fichier.setVisible(true);
+        	}   
+        catch (IOException ex) 
+        {
+            JOptionPane.showMessageDialog(null, 
+              "ATTENTION, le fichier " +nomFichier+ " n'existe pas", 
+              "Alerte", 
+              JOptionPane.ERROR_MESSAGE);
+        }
+		return (nomFichier) ;
 	} 
 				 
 	
-		 
+	
+	
 	
 	//// listener
 	class ActionQuitter implements ActionListener
@@ -307,13 +335,9 @@ public class Fenetre extends JFrame implements ViewSimulation
 	
 	
 	public boolean rafraichir() {
-
-		this.pan_principal.rafraichir();
 		
-		//this.pan_principal.revalidate();
-		//this.pan_principal.repaint();
-		
-		
+		this.pan_principal.revalidate();
+		this.pan_principal.repaint();
 		
 		return true ;
 	}
@@ -323,14 +347,11 @@ public class Fenetre extends JFrame implements ViewSimulation
 		Simulation modele = new Simulation() ;
 		
 		Fenetre fen_1 = new Fenetre( modele );
-		//Fenetre fen_2 = new Fenetre( modele );	
-
-		modele.charger_balises( "fichiers/balises_fr.txt" ) ;
-		modele.charger_aerodromes( "fichiers/aerodromes_fr.txt" ) ;
-		modele.genererGrapheTotal() ;
-
-		//Fenetre fen_1 = new Fenetre( modele );
-		//Fenetre fen_2 = new Fenetre( modele );	
+		//Fenetre fen_2 = new Fenetre( modele );
+		//modele.charger_balises( "/home/eleve/IESSA/pressari/PROJET_JAVA/balises_fr.txt" ) ;
+		//modele.charger_aerodromes( "/home/eleve/IESSA/pressari/PROJET_JAVA/aerodromes_fr.txt" ) ;
+		modele.charger_balises( "./fichiers/balises_fr.txt" ) ;
+		modele.charger_aerodromes( "./fichiers/aerodromes_fr.txt" ) ;
 	}
 	
 	
