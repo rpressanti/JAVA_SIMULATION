@@ -33,8 +33,8 @@ import SIMULATION.View.PanelAffichage ;
 public class Fenetre extends JFrame implements ViewSimulation
 {	
 	// Constantes
-	static final int height_panel = 600 ;
-	static final int width_panel = 600 ;
+	static final int height_panel = 800 ;
+	static final int width_panel = 800 ;
 	
 	static final int height_buttons = 150 ;
 	static final int width_buttons = 150 ;
@@ -86,9 +86,11 @@ public class Fenetre extends JFrame implements ViewSimulation
 					
 		// Jlayered pour la superposition des Jpanel ad et balise
 		this.pan_principal = new PanelAffichage( this.modele ) ;
-		this.pan_principal.setPreferredSize( 
-				new Dimension( Fenetre.width_panel , Fenetre.height_panel )
-			);
+		
+		// TODO RM DEPLACE DANS AFFICHAGE_PANEL
+		//this.pan_principal.setPreferredSize( 
+		//		new Dimension( Fenetre.width_panel , Fenetre.height_panel )
+		//	);
 		pan.add(this.pan_principal);
 		
 	 	
@@ -305,9 +307,13 @@ public class Fenetre extends JFrame implements ViewSimulation
 	
 	
 	public boolean rafraichir() {
+
+		this.pan_principal.rafraichir();
 		
-		this.pan_principal.revalidate();
-		this.pan_principal.repaint();
+		//this.pan_principal.revalidate();
+		//this.pan_principal.repaint();
+		
+		
 		
 		return true ;
 	}
@@ -317,11 +323,14 @@ public class Fenetre extends JFrame implements ViewSimulation
 		Simulation modele = new Simulation() ;
 		
 		Fenetre fen_1 = new Fenetre( modele );
-		//Fenetre fen_2 = new Fenetre( modele );
-		//modele.charger_balises( "/home/eleve/IESSA/pressari/PROJET_JAVA/balises_fr.txt" ) ;
-		//modele.charger_aerodromes( "/home/eleve/IESSA/pressari/PROJET_JAVA/aerodromes_fr.txt" ) ;
-		modele.charger_balises( "C:/Users/nono/git/JAVA_SIMULATION/fichiers/balises_fr.txt" ) ;
-		modele.charger_aerodromes( "C:/Users/nono/git/JAVA_SIMULATION/fichiers/aerodromes_fr.txt" ) ;
+		//Fenetre fen_2 = new Fenetre( modele );	
+
+		modele.charger_balises( "fichiers/balises_fr.txt" ) ;
+		modele.charger_aerodromes( "fichiers/aerodromes_fr.txt" ) ;
+		modele.genererGrapheTotal() ;
+
+		//Fenetre fen_1 = new Fenetre( modele );
+		//Fenetre fen_2 = new Fenetre( modele );	
 	}
 	
 	

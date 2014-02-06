@@ -21,7 +21,6 @@ public class AerodromesPanel extends JPanel {
 		this.model = this.parent.modele() ;
 		
 		this.setOpaque( false ) ;
-		//this.setBackground( Color.BLUE );
 	}
 	
 	
@@ -33,6 +32,9 @@ public class AerodromesPanel extends JPanel {
 		
 		Graphics2D g2d = (Graphics2D) g ;
 		
+		if( this.model.getAerodromes().values().isEmpty() )
+			return ;
+		
 		for ( Aerodrome aerodrome : this.model.getAerodromes().values() )
 		{
 			
@@ -40,11 +42,11 @@ public class AerodromesPanel extends JPanel {
 			
 			int base_x = dim.width ;
 			int base_y = dim.height ;
-			
-			
+				
 			// 2 traits paralleles pour aerodrme piste
 			g.drawLine(base_x, base_y, base_x+10, base_y-5);
 			g.drawLine(base_x+5, base_y, base_x+15, base_y-5);
+			
 		}
 		
 	}

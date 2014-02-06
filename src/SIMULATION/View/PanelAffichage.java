@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
-
 import javax.swing.JLayeredPane;
 
 import SIMULATION.Datatypes.Point;
@@ -36,28 +35,16 @@ public class PanelAffichage extends JLayeredPane {
 
 		@Override
 		public void componentResized(ComponentEvent e) {
-			// TODO Auto-generated method stub
-			@SuppressWarnings("unused")
-			JLayeredPane source = ( JLayeredPane) e.getSource() ;
-			Dimension dim = ( (Component) e.getSource()).getSize() ;
-						
+			
+			Dimension dim = ( (Component) e.getSource()).getSize() ;			
+			//System.out.println( dim ) ;
 			
 			PanelAffichage.this.balises.setSize( dim );
-			PanelAffichage.this.balises.revalidate();
-			PanelAffichage.this.balises.repaint();
-			
 			PanelAffichage.this.aerodromes.setSize( dim ) ;
-			PanelAffichage.this.aerodromes.revalidate();
-			PanelAffichage.this.aerodromes.repaint();
-			
 			PanelAffichage.this.trajectoires.setSize( dim ) ;
-			PanelAffichage.this.trajectoires.revalidate();
-			PanelAffichage.this.trajectoires.repaint();
-			
-			
 			PanelAffichage.this.avions.setSize( dim );
-			PanelAffichage.this.avions.revalidate();
-			PanelAffichage.this.avions.repaint();
+			
+			PanelAffichage.this.rafraichir() ;
 			
 		}
 	
@@ -65,19 +52,16 @@ public class PanelAffichage extends JLayeredPane {
 
 		@Override
 		public void componentMoved(ComponentEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 
 		@Override
 		public void componentShown(ComponentEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 
 		@Override
 		public void componentHidden(ComponentEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 		
@@ -102,6 +86,11 @@ public class PanelAffichage extends JLayeredPane {
 				( this.droit_bas.getLatitude().getValue() + this.gauche_haut.getLatitude().getValue() ) / 2
 				) ;
 		
+		this.setPreferredSize( 
+				new Dimension( Fenetre.width_panel , Fenetre.height_panel )
+			);
+		
+		
 		// Panels a rafraichir apres chaque changement du modele
 		this.aerodromes = new AerodromesPanel( this ) ;
 		this.setLayer( this.aerodromes , JLayeredPane.DEFAULT_LAYER ) ;
@@ -121,11 +110,33 @@ public class PanelAffichage extends JLayeredPane {
 				
 		this.addComponentListener( new Resizer() );
 		
+		this.revalidate();
+		this.repaint();
+		
 	}
 	
 	public Simulation modele() {
 		return this.modele ;
 	}
+	
+	
+	public void rafraichir() {
+		
+		PanelAffichage.this.balises.revalidate();
+		PanelAffichage.this.balises.repaint();
+		
+		PanelAffichage.this.aerodromes.revalidate();
+		PanelAffichage.this.aerodromes.repaint();
+		
+		PanelAffichage.this.trajectoires.revalidate();
+		PanelAffichage.this.trajectoires.repaint();
+		
+		PanelAffichage.this.avions.revalidate();
+		PanelAffichage.this.avions.repaint();
+				
+	}
+	
+	
 	
 	
 	public boolean zoomer( double niveau_de_zoom ) {

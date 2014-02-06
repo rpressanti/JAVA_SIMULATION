@@ -36,7 +36,7 @@ public class TrajectoiresPanel extends JPanel {
 		
 		Graphics2D g2d = (Graphics2D) g ;
 		
-		for( Trajectoire trajectoire : this.model.getTrajectoires() )
+		for( Trajectoire trajectoire : this.model.getTrajectoires().values() )
 		{
 			for( Segment segment : trajectoire )
 			{

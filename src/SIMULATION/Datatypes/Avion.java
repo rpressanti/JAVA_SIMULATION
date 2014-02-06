@@ -19,7 +19,6 @@ public class Avion {
 	
 	final private Repere depart ;
 	final private Repere arrivee ;
-	@SuppressWarnings("unused")
 	final private int flight_level ;
 	final private double vitesse ;
 	private ListIterator<Segment> trajectoire ;
@@ -58,7 +57,9 @@ public class Avion {
 		return this.arrivee ;
 	}
 	
-	
+	public int getFL() {
+		return this.flight_level ;
+	}
 	
 	// DONE
 	public boolean iterer( double intervalle_de_temps , Date heure_courante) 

@@ -3,23 +3,27 @@ package SIMULATION.Modele;
 
 
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.Scanner ;
 import java.util.regex.MatchResult;
 
 import SIMULATION.Datatypes.*;
 import SIMULATION.Graphe.* ;
 
-@SuppressWarnings("unused")
+
 public class Simulation {
 
-	// TODO PHASE
-	public enum PHASE { CHARGEMENT_REPERES_MOITIE , CHARGEMENT_REPERES , CHARGEMENT_AVION ,
+	public enum PHASE { INIT ,
+						CHARGEMENT_AD , CHARGEMENT_BALISES , 
+						CHARGEMENT_REPERES , CHARGEMENT_AVION ,
 						CALCUL_TRAJECTOIRES , DEMARRAGE } ;
 	private PHASE phase_prete ;
 
@@ -34,7 +38,7 @@ public class Simulation {
 	private Graphe<Segment,NoeudTrajectoire,Point> grapheFiltre ;
 	
 	private HashMap<String,Avion> avions ;
-	private ArrayList<Trajectoire> trajectoires ;
+	private HashMap<Avion,Trajectoire> trajectoires ;
 	
 	private double distance_max ;
 	private static final int intervalle_d_iteration = 0 ;
@@ -49,23 +53,73 @@ public class Simulation {
 		this.aerodromes = new HashMap<String,Aerodrome>() ;
 		
 		this.avions = new HashMap<String,Avion>() ;
-		this.trajectoires = new ArrayList<Trajectoire>() ;
+		this.trajectoires = new HashMap<Avion,Trajectoire>() ;
 		
 		this.grapheComplet = new GrapheComplet<Segment,NoeudTrajectoire,Point>( Segment.class , NoeudTrajectoire.class , Point.class) ;
 		this.grapheFiltre = new Graphe<Segment,NoeudTrajectoire,Point> ( Segment.class , NoeudTrajectoire.class , Point.class ) ;
 		
 		this.distance_max = 0 ;
 		
-		this.phase_prete = PHASE.CHARGEMENT_REPERES_MOITIE ;
+		this.phase_prete = PHASE.CHARGEMENT_REPERES ;
 		this.vues = new ArrayList<ViewSimulation>() ;
 		
 	}
+	
+	
+	public ArrayList<PHASE> phasePossible( PHASE phase ) {
+		
+		ArrayList<PHASE> a_faire = new ArrayList<PHASE>() ;
+		
+		switch( phase ) {
+		
+			case DEMARRAGE :
+				
+				if ( this.phase_prete != PHASE.CALCUL_TRAJECTOIRES)
+					a_faire.add( PHASE.CALCUL_TRAJECTOIRES ) ;
+				else
+					break ;
+
+				
+				
+			case CALCUL_TRAJECTOIRES :
+				
+				if ( this.phase_prete != PHASE.CHARGEMENT_AVION)
+					a_faire.add( PHASE.CHARGEMENT_AVION ) ;
+				else
+					break ;
+				
+				
+				
+			case CHARGEMENT_AVION :
+
+				if ( this.balises.isEmpty() )
+					a_faire.add( PHASE.CHARGEMENT_BALISES ) ;
+				if ( this.aerodromes.isEmpty() )
+					a_faire.add( PHASE.CHARGEMENT_AD ) ;
+				
+				break ;
+
+				
+			default :
+				break ;
+		}
+		
+		return a_faire ;
+	}
+	
+	
+	
+	
+	
 	
 	public boolean enregistrer( ViewSimulation vue) {
 		return this.vues.add( vue ) ;
 	}
 	
 	private boolean rafraichir() {
+		
+		if( this.phase_prete != PHASE.DEMARRAGE )
+			return false ;
 		
 		boolean result = true ;
 		for( ViewSimulation vue : this.vues )
@@ -80,14 +134,32 @@ public class Simulation {
 	}
 	
 	// DONE
+	@SuppressWarnings("unchecked")
 	public HashMap<String,Balise> getBalises() {
-		return this.balises ;
+		return ( HashMap<String,Balise> ) this.balises.clone() ;
 	}
 	
 	// DONE
+	@SuppressWarnings("unchecked")
 	public HashMap<String,Aerodrome> getAerodromes() {
-		return this.aerodromes ;
+		return ( HashMap<String,Aerodrome> ) this.aerodromes.clone() ;
 	}
+	
+	
+	// DONE
+	public HashMap<String,Repere>getReperes() {
+		
+		HashMap<String,Repere> result = new HashMap<String,Repere>() ;
+		
+		for( Aerodrome aerodrome : this.aerodromes.values() )
+			result.put( aerodrome.get_code_OACI() , (Repere) aerodrome ) ;
+			
+		for( Balise balise : this.balises.values() )
+			result.put( balise.getIndicatif() , (Repere) balise ) ;
+		
+		return result ;
+	}
+	
 	
 	
 	// DONE
@@ -96,9 +168,10 @@ public class Simulation {
 	}
 	
 	// DONE
-	public ArrayList<Trajectoire> getTrajectoires() {
+	public HashMap<Avion,Trajectoire> getTrajectoires() {
 		return this.trajectoires ;
 	}
+	
 	
 	
 	// DONE
@@ -126,50 +199,32 @@ public class Simulation {
 	// DONE
 	public boolean detecter_conflits() {
 		
-		boolean en_conflit = false ;
+		boolean avion_en_conflit = false , modele_en_conflit = false  ;
+		
+		if( this.phase_prete != PHASE.DEMARRAGE )
+			return false ;		
+		
 		
 		for( Avion avion_1 : this.avions.values() )
 			for( Avion avion_2 : this.avions.values() )
 				if ( avion_1 != avion_2 )
 				{
-					en_conflit = false ;
+					avion_en_conflit = false ;
 					
 					for( Plot plot_1 : avion_1.getPlots() )
 						for( Plot plot_2 : avion_1.getPlots() )
-							en_conflit |= ( plot_1.distanceTo( plot_2) < this.distanceEntreAvions ) ;
+							avion_en_conflit |= ( plot_1.distanceTo( plot_2) < this.distanceEntreAvions ) ;
 								
-					avion_1.setEnConflit( true ) ;
+					avion_1.setEnConflit( avion_en_conflit ) ;
+					modele_en_conflit |= avion_en_conflit ;
 				}
 		
-		return true ;
+		return modele_en_conflit ;
 	}
 	
 	
-	// TODO RM :: PHASE POSSIBLE
-//	public boolean phasePossible( PHASE phase ) {
-//		
-//		boolean ready = true ;
-//		
-//		switch( phase ) {
-//		
-//			case DEMARRAGE :
-//				ready &= ! this.trajectoires.isEmpty() ; 
-//				
-//			case CALCUL_TRAJECTOIRES :
-//				ready &=  ! this.avions.isEmpty() ;
-//				
-//			case CHARGEMENT_AVION :
-//				ready &= ! this.balises.isEmpty() ;
-//				ready &= ! this.aerodromes.isEmpty() ;
-//				
-//			case CHARGEMENT_REPERES :
-//		
-//				
-//		}
-//		
-//		return ready ;
-//	}
-	
+
+
 	
 	// DONE
 	public boolean charger_balises( String ficname ) {
@@ -191,8 +246,6 @@ public class Simulation {
 				
 				if( tmp_line != null )
 				{
-					//System.out.println("tmp_line:" + tmp_line);
-					
 					scan_balise = new Scanner( tmp_line );
 					
 					try  {
@@ -202,8 +255,6 @@ public class Simulation {
 						indicatif = result.group( 1 ) ;
 						coord = result.group( 2 ) ;
 				
-						//System.out.println("indicatif:" + indicatif + "|coord:" + coord) ;
-						
 						scan_balise.close() ;
 						
 						new_balise = new Balise( indicatif , coord ) ;
@@ -212,7 +263,7 @@ public class Simulation {
 					
 					} catch( Exception e)
 					{
-						System.out.println( "Erreur crï¿½ation balise:" + indicatif + coord );
+						System.out.println( "Erreur crŽation balise:" + indicatif + coord );
 					}
 				}
 				
@@ -226,7 +277,8 @@ public class Simulation {
 		}
 		
 		System.out.println( "Chargement balises terminé." );
-		return this.rafraichir() ;
+		//return this.rafraichir() ;
+		return true ;
 	}
 	
 	// DONE
@@ -273,7 +325,7 @@ public class Simulation {
 						this.grapheComplet.add( new_ad ) ;
 					
 					} catch ( Exception e) {
-						System.out.println( "Erreur crÃ©ation aÃ©rodrome" );
+						System.out.println( "Erreur crŽation aŽrodrome" );
 					}
 					
 					
@@ -303,22 +355,45 @@ public class Simulation {
 	}
 
 	
-	
-	// TODO EXPORT :: IMPORTANT
+	//DONE
 	public boolean exporter_trajectoires( String ficname ) {
 		
+		ObjectOutputStream os = null ;
+    	String line = null ;
+		
+		try{
+			os = new ObjectOutputStream( new FileOutputStream( ficname ) ) ;
+		} catch ( Exception e) {
+			System.err.println( "Ouverture impossible en Žcriture du fichier : " + ficname ) ;
+		}
+		
+		
+		for( Entry<Avion, Trajectoire> entry : this.trajectoires.entrySet() )
+		{
+			line = entry.getKey().getNom() + "|" ;
+			line += entry.getValue().toString();
+			line += "\n" ;
+			
+			try {
+			os.writeChars( line ) ;	
+			} catch( Exception e) {
+				System.err.println( "Erreur Žcriture trajectoire:" + line );
+			}
+			
+		}
+		
+		try{
+			os.close() ;
+		} catch( Exception e ) {
+			System.err.println( "Fermeture impossible du fichier : " + ficname ) ;
+		}
 		
 		return true ;
 	}
 
 	
 	
-	
-
-	
-	
-	
-	// TODO Créer avion
+	// DONE
 	public boolean creer_avion( String nom , Repere depart , Repere arrivee , int flight_level , double vitesse , Date heure_depart) {
 		
 		Avion new_avion = new Avion( nom , depart , arrivee , flight_level , vitesse , heure_depart) ;
@@ -328,9 +403,15 @@ public class Simulation {
 		return true ;
 	}
 	
-	// TODO Verifier Phase
-	private boolean genererGrapheTotal() {
+
+	// DONE
+	public boolean genererGrapheTotal() {
+		
+		if( this.phase_prete != PHASE.CALCUL_TRAJECTOIRES )
+			return false ;
+		
 		this.grapheComplet.generer() ; 
+		
 		return true ;
 	}
 	
@@ -348,6 +429,10 @@ public class Simulation {
 	public boolean calculer_trajectoires() {
 		
 		boolean result = true ;
+			
+		if( ( this.phase_prete != PHASE.CALCUL_TRAJECTOIRES ) || ( ! this.genererGrapheTotal() ) )
+			return false ;
+		
 			
 		for( Avion avion : this.avions.values() )
 		{
@@ -388,11 +473,14 @@ public class Simulation {
 	public static void main( String args[] ) {
 		
 		Simulation simulation = new Simulation() ;
-		//simulation.charger_balises( "/home/eleve/IESSA/pressari/balises_fr.txt" ) ;
-		//simulation.charger_aerodromes( "/Users/richard/Desktop/aerodromes_fr.txt" ) ;
-		//simulation.charger_aerodromes( "/home/eleve/IESSA/pressari/PROJET_JAVA/aerodromes_fr.txt" ) ;
-		simulation.charger_aerodromes( "C:/Users/nono/git/JAVA_SIMULATION/fichiers/aerodromes_fr.txt" ) ;
-		simulation.charger_balises( "C:/Users/nono/git/JAVA_SIMULATION/fichiers/balises_fr.txt" ) ;
+		
+		simulation.charger_aerodromes( "fichiers/aerodromes_fr.txt" ) ;
+		System.out.println( simulation.getAerodromes().values().size() ) ;
+		
+		simulation.charger_balises( "fichiers/balises_fr.txt" ) ;
+		System.out.println( simulation.getBalises().values().size() ) ;
+
+		simulation.genererGrapheTotal() ;
 	}
 	
 	

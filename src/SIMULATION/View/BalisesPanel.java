@@ -5,7 +5,6 @@ import SIMULATION.Modele.Simulation;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
@@ -21,6 +20,8 @@ public class BalisesPanel extends JPanel {
 		this.parent = parent ;
 		this.model = this.parent.modele() ;
 		
+		this.setSize( this.parent.getSize() );
+		
 		this.setOpaque( false ) ;
 	}
 	
@@ -31,11 +32,16 @@ public class BalisesPanel extends JPanel {
 	{
 		super.paintComponent( g ) ;
 		
-		Graphics2D g2d = (Graphics2D) g ;
+		System.out.println( "Size" +  this.model.getBalises().values().size() ) ;
+		
 		
 		for( Balise balise : this.model.getBalises().values() )
 		{
+			//System.out.println( balise );
+			
 			Dimension dim = parent.coordonnees_IHM( balise) ;
+			
+			//System.out.println( dim ) ;
 			
 			int base_x = dim.width ;
 			int base_y = dim.height ;
@@ -43,8 +49,13 @@ public class BalisesPanel extends JPanel {
 			int[] x_points = new int[] { base_x -5 , base_x , base_x+5 } ;
 			int[] y_points = new int[] { base_y , base_y - 7 , base_y } ;
 			
-			g2d.drawPolygon(x_points , y_points , 3);
+			g.drawPolygon(x_points , y_points , 3);
+			
+			
 		}
+		
+		System.out.println( "OK" ) ;
+		
 	}
 	
 }

@@ -33,8 +33,6 @@ public class AvionsPanel extends JPanel {
 		
 		Dimension dim = null ;
 		
-		//@SuppressWarnings("unused")
-		//Graphics2D g2d = (Graphics2D) g ;
 		
 		for ( Avion avion : this.model.getAvions().values() )
 		   for( Plot plot : avion.getPlots() )
@@ -51,8 +49,7 @@ public class AvionsPanel extends JPanel {
 				   			   
 		  }
 		   
-		  System.out.println( "rectangle") ;	
-	
+		  
 	}
 			
 
