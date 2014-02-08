@@ -17,9 +17,10 @@ import java.util.regex.MatchResult;
 
 import SIMULATION.Datatypes.*;
 import SIMULATION.Graphe.* ;
+import SIMULATION.View.InterfaceModele;
 
 
-public class Simulation {
+public class Simulation implements InterfaceModele {
 
 	public enum PHASE { INIT ,
 						CHARGEMENT_AD , CHARGEMENT_BALISES , 
@@ -128,10 +129,6 @@ public class Simulation {
 		
 	}
 	
-	// DONE
-	public void setDistanceMax( float distance )  {
-		this.distance_max = distance ;
-	}
 	
 	// DONE
 	@SuppressWarnings("unchecked")

@@ -1,7 +1,6 @@
 package SIMULATION.View;
 
 import SIMULATION.Datatypes.* ;
-import SIMULATION.Modele.Simulation;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -15,7 +14,7 @@ public class AvionsPanel extends JPanel {
 
 
 	private PanelAffichage parent ;
-	private Simulation model ;
+	private InterfaceModele model ;
 	
 	public AvionsPanel( PanelAffichage parent) {
 		super() ;

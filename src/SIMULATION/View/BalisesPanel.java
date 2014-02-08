@@ -1,7 +1,6 @@
 package SIMULATION.View;
 
 import SIMULATION.Datatypes.* ;
-import SIMULATION.Modele.Simulation;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -13,7 +12,7 @@ import javax.swing.JPanel;
 public class BalisesPanel extends JPanel {
 
 	private PanelAffichage parent ;
-	private Simulation model ;
+	private InterfaceModele model ;
 	
 	public BalisesPanel( PanelAffichage parent ) {
 		super() ;

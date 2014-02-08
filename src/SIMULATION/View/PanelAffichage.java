@@ -8,7 +8,7 @@ import java.awt.event.ComponentListener;
 import javax.swing.JLayeredPane;
 
 import SIMULATION.Datatypes.Point;
-import SIMULATION.Modele.Simulation;
+
 
 @SuppressWarnings("serial")
 public class PanelAffichage extends JLayeredPane {
@@ -18,7 +18,7 @@ public class PanelAffichage extends JLayeredPane {
 	private Point droit_bas ;
 	private Point centre ;
 	
-	private Simulation modele ;
+	private InterfaceModele modele ;
 	
 	private AerodromesPanel aerodromes ;
 	private BalisesPanel balises ;
@@ -74,7 +74,7 @@ public class PanelAffichage extends JLayeredPane {
 	
 	
 	
-	public PanelAffichage( Simulation modele) {
+	public PanelAffichage( InterfaceModele modele) {
 
 		this.modele = modele ;
 		// TODO IMPLEMENTER CADRE DANS MODELE
@@ -115,7 +115,7 @@ public class PanelAffichage extends JLayeredPane {
 		
 	}
 	
-	public Simulation modele() {
+	public InterfaceModele modele() {
 		return this.modele ;
 	}
 	

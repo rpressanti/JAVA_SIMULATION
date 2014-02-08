@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 public class AerodromesPanel extends JPanel {
 
 	private PanelAffichage parent ;
-	private Simulation model ;
+	private InterfaceModele model ;
 	
 	public AerodromesPanel( PanelAffichage parent ) {
 		super() ;

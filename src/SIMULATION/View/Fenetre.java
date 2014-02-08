@@ -44,7 +44,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 	static final int width_buttons = 150 ;
 	
 	// Modele
-	private Simulation modele ;
+	private InterfaceModele modele ;
 	
 	//attributs graphiques
 	private JMenuBar jmenubar;
@@ -63,7 +63,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 	private Double niveauDeZoom ;
 	
 	//constructeurs
-	public Fenetre( Simulation modele )
+	public Fenetre( InterfaceModele modele )
 	{
 		super() ;
 		

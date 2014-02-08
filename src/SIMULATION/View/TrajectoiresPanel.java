@@ -1,7 +1,6 @@
 package SIMULATION.View;
 
 import SIMULATION.Datatypes.* ;
-import SIMULATION.Modele.Simulation;
 
 
 import java.awt.Dimension;
@@ -15,7 +14,7 @@ import javax.swing.JPanel;
 public class TrajectoiresPanel extends JPanel {
 
 	private PanelAffichage parent ;
-	private Simulation model ;
+	private InterfaceModele model ;
 	
 	public TrajectoiresPanel( PanelAffichage parent ) {
 		super() ;
