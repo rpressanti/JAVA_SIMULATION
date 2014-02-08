@@ -7,6 +7,7 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
+// CLASS DONE
 
 @SuppressWarnings("serial")
 public class BalisesPanel extends JPanel {
@@ -33,7 +34,6 @@ public class BalisesPanel extends JPanel {
 		
 		System.out.println( "Size" +  this.model.getBalises().values().size() ) ;
 		
-		
 		for( Balise balise : this.model.getBalises().values() )
 		{
 			//System.out.println( balise );
@@ -49,8 +49,7 @@ public class BalisesPanel extends JPanel {
 			int[] y_points = new int[] { base_y , base_y - 7 , base_y } ;
 			
 			g.drawPolygon(x_points , y_points , 3);
-			
-			
+				
 		}
 		
 		System.out.println( "OK" ) ;

@@ -2,13 +2,12 @@ package SIMULATION.View;
 
 import SIMULATION.Datatypes.* ;
 
-
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+// CLASS DONE
 
 @SuppressWarnings({ "serial" })
 public class TrajectoiresPanel extends JPanel {
@@ -30,10 +29,8 @@ public class TrajectoiresPanel extends JPanel {
 
 	public void paintComponent(Graphics g) 
 	{
+		
 		super.paintComponent( g ) ;
-		
-		
-		Graphics2D g2d = (Graphics2D) g ;
 		
 		for( Trajectoire trajectoire : this.model.getTrajectoires().values() )
 		{
@@ -41,7 +38,7 @@ public class TrajectoiresPanel extends JPanel {
 			{
 				Dimension origine = this.parent.coordonnees_IHM( segment.getOrigine().getContent() ) ;
 				Dimension destination = this.parent.coordonnees_IHM( segment.getDestination().getContent() ) ;
-				g2d.drawLine( origine.width , origine.height , destination.width , destination.height ) ;
+				g.drawLine( origine.width , origine.height , destination.width , destination.height ) ;
 			}
 		}
 	

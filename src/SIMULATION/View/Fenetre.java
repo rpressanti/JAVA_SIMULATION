@@ -212,6 +212,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 		
 		 
 	// methodes
+	// DONE
 	public void quitter()
 	{
 		 System.out.println("Fin ...");
@@ -222,30 +223,35 @@ public class Fenetre extends JFrame implements ViewSimulation
 		 //System.exit(0);
 	}
 	
-	// TODO CODE DEMANDER NOM FICHIER
-	private String demander_nom_fichier()
+	// DONE
+	private String demander_nom_fichier( boolean must_exist )
 	{
 		//JFrame boite_message = new JFrame("nom du fichier");
 		// boite_message.setVisible(true);
-        String nomFichier=JOptionPane.showInputDialog(Fenetre.this, "Entrez le nom du fichier a charger","Nom du Fichier",-1);	
-               
-        try {
-            JTextArea document = new JTextArea();
-            document.setBackground(Color.ORANGE);
-            document.read(new FileReader(nomFichier), null);
-            JFrame fichier = new JFrame(nomFichier);
-            fichier.add(new JScrollPane(document));
-            fichier.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            fichier.setSize(400, 300);
-            fichier.setVisible(true);
-        	}   
-        catch (IOException ex) 
+        String nomFichier = JOptionPane.showInputDialog(Fenetre.this, "Entrez le nom du fichier a charger","Nom du Fichier",-1);	
+        
+        if( must_exist )
         {
-            JOptionPane.showMessageDialog(null, 
-              "ATTENTION, le fichier " +nomFichier+ " n'existe pas", 
-              "Alerte", 
-              JOptionPane.ERROR_MESSAGE);
+        	try {
+        		JTextArea document = new JTextArea();
+        		document.setBackground(Color.ORANGE);
+        		document.read(new FileReader(nomFichier), null);
+        		JFrame fichier = new JFrame(nomFichier);
+        		fichier.add(new JScrollPane(document));
+        		//fichier.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        		fichier.setSize(400, 300);
+        		fichier.setVisible(true);
+        		}   
+        	catch (IOException ex) 
+        	{
+        		JOptionPane.showMessageDialog(null, 
+        			"ATTENTION, le fichier " +nomFichier+ " n'existe pas", 
+        			"Alerte", 
+        			JOptionPane.ERROR_MESSAGE);
+        			nomFichier= null ;
+        	}
         }
+        
 		return (nomFichier) ;
 	} 
 				 
@@ -254,6 +260,9 @@ public class Fenetre extends JFrame implements ViewSimulation
 	
 	
 	//// listener
+	
+	
+	// DONE
 	class ActionQuitter implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
@@ -262,45 +271,49 @@ public class Fenetre extends JFrame implements ViewSimulation
 		}
 	}
 	
-	
+	// DONE
 	public class ActionChargerAd implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
 		{
 			System.out.println("chargt ad");
 			
-			String ficname = Fenetre.this.demander_nom_fichier() ;
+			String ficname = Fenetre.this.demander_nom_fichier( true ) ;
 			System.err.println( ficname ) ;
-			
-			Fenetre.this.modele.charger_aerodromes( ficname ) ;
+
+			if( ficname != null)
+				Fenetre.this.modele.charger_aerodromes( ficname ) ;
 			
 			System.out.println("fin chargt ad");						
 		}
 	}
 	
+	
+	// DONE
 	public class ActionChargerBalises implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
 		{
 			System.out.println("chargt balises");
 			
-			String ficname = Fenetre.this.demander_nom_fichier() ;
+			String ficname = Fenetre.this.demander_nom_fichier( true ) ;
 			System.err.println( ficname ) ;
 			
-			Fenetre.this.modele.charger_balises( ficname ) ;
+			if( ficname != null)
+				Fenetre.this.modele.charger_balises( ficname ) ;
 			
 			System.out.println("fin chargt balises");
 						
 		}
 	}
 	
-	
+	// DONE
 	public class ActionChargerPlanDeVol implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
 		{
 			System.out.println("chargt Plan de vol");
-			String ficname = Fenetre.this.demander_nom_fichier() ;
+			String ficname = Fenetre.this.demander_nom_fichier( true ) ;
 			System.err.println( ficname ) ;		
 			
 			Fenetre.this.modele.charger_avions( ficname ) ;
@@ -310,7 +323,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 		}
 	}
 	
-
+	// DONE
 	public class ActionZoomP implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
@@ -322,6 +335,8 @@ public class Fenetre extends JFrame implements ViewSimulation
 			}
 	}
 	
+	
+	// DONE
 	public class ActionZoomM implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
@@ -334,6 +349,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 	}
 	
 	
+	// DONE
 	public boolean rafraichir() {
 		
 		this.pan_principal.revalidate();
@@ -350,8 +366,8 @@ public class Fenetre extends JFrame implements ViewSimulation
 		//Fenetre fen_2 = new Fenetre( modele );
 		//modele.charger_balises( "/home/eleve/IESSA/pressari/PROJET_JAVA/balises_fr.txt" ) ;
 		//modele.charger_aerodromes( "/home/eleve/IESSA/pressari/PROJET_JAVA/aerodromes_fr.txt" ) ;
-		modele.charger_balises( "./fichiers/balises_fr.txt" ) ;
-		modele.charger_aerodromes( "./fichiers/aerodromes_fr.txt" ) ;
+		//modele.charger_balises( "./fichiers/balises_fr.txt" ) ;
+		//modele.charger_aerodromes( "./fichiers/aerodromes_fr.txt" ) ;
 	}
 	
 	

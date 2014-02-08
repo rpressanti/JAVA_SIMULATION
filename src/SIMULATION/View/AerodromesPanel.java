@@ -1,15 +1,16 @@
 package SIMULATION.View;
 
+
+// CLASS DONE
+
 import SIMULATION.Datatypes.* ;
-import SIMULATION.Modele.Simulation;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
-@SuppressWarnings({ "serial", "unused" })
+@SuppressWarnings({ "serial"})
 public class AerodromesPanel extends JPanel {
 
 	private PanelAffichage parent ;
@@ -29,9 +30,7 @@ public class AerodromesPanel extends JPanel {
 	public void paintComponent(Graphics g) 
 	{
 		super.paintComponent( g ) ;
-		
-		Graphics2D g2d = (Graphics2D) g ;
-		
+				
 		if( this.model.getAerodromes().values().isEmpty() )
 			return ;
 		

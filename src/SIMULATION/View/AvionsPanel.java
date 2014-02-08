@@ -8,6 +8,7 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
+// CLASS DONE
 
 @SuppressWarnings("serial")
 public class AvionsPanel extends JPanel {

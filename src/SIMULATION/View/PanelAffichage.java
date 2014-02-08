@@ -9,11 +9,11 @@ import javax.swing.JLayeredPane;
 
 import SIMULATION.Datatypes.Point;
 
+// CLASS DONE
 
 @SuppressWarnings("serial")
 public class PanelAffichage extends JLayeredPane {
 
-	// TODO ATTRIBUTS COORDONNEES GPS
 	private Point gauche_haut ;
 	private Point droit_bas ;
 	private Point centre ;
@@ -37,7 +37,6 @@ public class PanelAffichage extends JLayeredPane {
 		public void componentResized(ComponentEvent e) {
 			
 			Dimension dim = ( (Component) e.getSource()).getSize() ;			
-			//System.out.println( dim ) ;
 			
 			PanelAffichage.this.balises.setSize( dim );
 			PanelAffichage.this.aerodromes.setSize( dim ) ;
