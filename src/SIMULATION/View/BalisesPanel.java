@@ -32,7 +32,7 @@ public class BalisesPanel extends JPanel {
 	{
 		super.paintComponent( g ) ;
 		
-		System.out.println( "Size" +  this.model.getBalises().values().size() ) ;
+		//System.out.println( "Size" +  this.model.getBalises().values().size() ) ;
 		
 		for( Balise balise : this.model.getBalises().values() )
 		{

@@ -50,6 +50,12 @@ public class Simulation implements InterfaceModele {
 		
 		this.heure_courante = new GregorianCalendar() ;
 		
+		this.reinitialiser() ;
+		
+	}
+	
+	public boolean reinitialiser() {
+		
 		this.balises    = new HashMap<String,Balise>() ;
 		this.aerodromes = new HashMap<String,Aerodrome>() ;
 		
@@ -63,7 +69,8 @@ public class Simulation implements InterfaceModele {
 		
 		this.phase_prete = PHASE.CHARGEMENT_REPERES ;
 		this.vues = new ArrayList<ViewSimulation>() ;
-		
+	
+		return true ;
 	}
 	
 	

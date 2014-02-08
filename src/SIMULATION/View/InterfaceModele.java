@@ -8,23 +8,25 @@ import SIMULATION.Modele.ViewSimulation;
 
 public interface InterfaceModele {
 
-	boolean enregistrer( ViewSimulation vue );
+	public boolean enregistrer( ViewSimulation vue );
 	
-	HashMap< String , Balise > getBalises() ;
-	HashMap< String , Aerodrome > getAerodromes() ;
-	HashMap< String , Repere > getReperes() ;
-	HashMap< String , Avion > getAvions() ;
-	HashMap< Avion , Trajectoire > getTrajectoires() ;
+	public HashMap< String , Balise > getBalises() ;
+	public HashMap< String , Aerodrome > getAerodromes() ;
+	public HashMap< String , Repere > getReperes() ;
+	public HashMap< String , Avion > getAvions() ;
+	public HashMap< Avion , Trajectoire > getTrajectoires() ;
 
-	boolean setDistanceMax( double distance ) ;
-	boolean creer_avion( String name , Repere depart , Repere arrivee , int FLightLevel , double vitesse, Date heure_depart ) ;
+	public boolean setDistanceMax( double distance ) ;
+	public boolean creer_avion( String name , Repere depart , Repere arrivee , int FLightLevel , double vitesse, Date heure_depart ) ;
 	
-	boolean charger_balises( String ficname ) ;
-	boolean charger_aerodromes( String ficname ) ;
-	boolean charger_avions( String ficname ) ; 
+	public boolean charger_balises( String ficname ) ;
+	public boolean charger_aerodromes( String ficname ) ;
+	public boolean charger_avions( String ficname ) ; 
 	
-	boolean calculer_trajectoires() ;
+	public boolean calculer_trajectoires() ;
 	
-	boolean iterer() ;
+	public boolean iterer() ;
+	
+	public boolean reinitialiser() ;
 	
 }

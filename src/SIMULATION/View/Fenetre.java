@@ -12,6 +12,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,11 +24,14 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 //import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import SIMULATION.Datatypes.Repere;
 import SIMULATION.Modele.Simulation;
 import SIMULATION.Modele.ViewSimulation;
 import SIMULATION.View.PanelAffichage ;
@@ -151,8 +155,8 @@ public class Fenetre extends JFrame implements ViewSimulation
 		
 		jsaisie_pdv= new JMenuItem("Saisie_PDV");
 		jpdv.add(jsaisie_pdv);
-		// TODO  Listener ActionSaisiePdv()
-		//jsaisie_pdv.addActionListener(new ActionSaisiePdv());
+		jsaisie_pdv.addActionListener(new ActionSaisiePlanDeVol());
+		
 		
 		
 			
@@ -282,9 +286,10 @@ public class Fenetre extends JFrame implements ViewSimulation
 			System.err.println( ficname ) ;
 
 			if( ficname != null)
+			{	
 				Fenetre.this.modele.charger_aerodromes( ficname ) ;
-			
-			System.out.println("fin chargt ad");						
+				System.out.println("fin chargt ad");						
+			}
 		}
 	}
 	
@@ -300,10 +305,10 @@ public class Fenetre extends JFrame implements ViewSimulation
 			System.err.println( ficname ) ;
 			
 			if( ficname != null)
+			{
 				Fenetre.this.modele.charger_balises( ficname ) ;
-			
-			System.out.println("fin chargt balises");
-						
+				System.out.println("fin chargt balises");
+			}			
 		}
 	}
 	
@@ -322,6 +327,125 @@ public class Fenetre extends JFrame implements ViewSimulation
 						
 		}
 	}
+	
+	
+	
+	
+	public class ActionSaisiePlanDeVol implements ActionListener
+	{
+		
+		private String indicatif ;
+		private int flight_level ;
+		private Date heure_depart ;
+		private Date heure_arrivee ;
+		private Repere depart ;
+		private Repere arrivee ;
+		private Double vitesse ;
+		
+		public void ActionSaisiePlandeVol() {
+			
+			this.indicatif = "";
+			this.flight_level = 0  ;
+			this.heure_depart = null ;
+			this.heure_arrivee = null ;
+			this.depart = null ;
+			this.arrivee = null ;
+			this.vitesse = 0.0 ;
+			
+		}
+		
+		
+		
+		public void actionPerformed(ActionEvent e)
+		{
+			System.out.println("saisie Plan de vol");
+			//creation fenetre
+			
+			JFrame jf_pdv= new JFrame("Saisie plan de vol");
+			jf_pdv.setSize(320, 150);
+			
+			JPanel pannel = new JPanel();
+			
+			Container pan_pdv = jf_pdv.getContentPane();
+			pan_pdv.setLayout( new GridLayout( 6 , 2 ) ) ;
+			
+			JLabel indicatif_prompt = new JLabel( "Indicatif:" ) ;
+			pan_pdv.add( indicatif_prompt ) ;
+			JTextField indicatif_input =new JTextField("Indicatif");
+			pan_pdv.add( indicatif_input ) ;
+			
+			// TODO LISTENER 
+			//indicatif.addItemListener(new ActionSaisieIndicatif());
+			
+			
+			JLabel heure_depart_prompt = new JLabel( "Heure de départ:" ) ;
+			pan_pdv.add( heure_depart_prompt ) ;
+			// TODO LISTENER SAISIE DATE
+			// FAKE
+			JTextField fake_dep = new JTextField( "fake_dep" ) ;
+			pan_pdv.add( fake_dep ) ;
+			
+			JLabel heure_arrivee_prompt = new JLabel( "Heure d'arrivée:" ) ;
+			pan_pdv.add( heure_arrivee_prompt ) ;
+			// TODO LISTENER SAISIE DATE 
+			// FAKE
+			JTextField fake_arr = new JTextField( "fake_arr" ) ;
+			pan_pdv.add( fake_arr ) ;
+			
+			
+			JLabel depart_prompt = new JLabel( "Départ:" ) ;
+			pan_pdv.add( depart_prompt ) ;
+			// TODO COMPLETER RADIOBUTTON + INTEGRER COMBOBOX
+			JRadioButton depart_type = new JRadioButton() ;
+			// TODO ADD LISTENER
+			
+			JLabel arrivee_prompt = new JLabel( "Arrivée:" ) ;
+			pan_pdv.add( arrivee_prompt ) ;
+			// TODO COMPLETER RADIOBUTTON + INTEGRER COMBOBOX
+			JRadioButton arrrivee_type = new JRadioButton() ;
+			// TODO  ADD LISTENER
+			
+			JLabel fl_prompt = new JLabel( "Niveau de vol:" ) ;
+			pan_pdv.add( fl_prompt ) ;
+			// TODO LISTENER
+			JTextField niveau_vol_input =new JTextField("niveau de vol");
+			pan_pdv.add( niveau_vol_input ) ;
+			
+			JLabel vitesse_prompt = new JLabel( "Vitesse:" ) ;
+			pan_pdv.add( vitesse_prompt ) ;
+			// TODO LISTENER
+			JTextField vitesse_input =new JTextField("vitesse");
+			pan_pdv.add( vitesse_input ) ;
+			
+			
+			// TODO LISTENER
+			//indicatif.addItemListener(new ActionSaisieNiveauDeVol());
+			
+			//jf_pdv.getContentPane().add(pannel);
+			jf_pdv.pack() ;		
+			jf_pdv.setVisible(true);  
+			
+			
+			
+			
+			Fenetre.this.modele.creer_avion( this.indicatif , this.depart , this.arrivee , this.flight_level , this.vitesse, this.heure_depart ) ;
+			
+			
+			
+			
+			
+			
+			System.out.println("fin saisie Plan de vol");
+						
+		}
+	}
+
+	
+	
+	
+	
+	
+	
 	
 	// DONE
 	public class ActionZoomP implements ActionListener
@@ -362,13 +486,13 @@ public class Fenetre extends JFrame implements ViewSimulation
 		
 		Simulation modele = new Simulation() ;
 		
-		modele.charger_balises( "./fichiers/balises_fr.txt" ) ;
-		modele.charger_aerodromes( "./fichiers/aerodromes_fr.txt" ) ;
+		
 		
 		Fenetre fen_1 = new Fenetre( modele );
 		//Fenetre fen_2 = new Fenetre( modele );
 		
-		
+		modele.charger_balises( "./fichiers/balises_fr.txt" ) ;
+		modele.charger_aerodromes( "./fichiers/aerodromes_fr.txt" ) ;
 	}
 	
 	
