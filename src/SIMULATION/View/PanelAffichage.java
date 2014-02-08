@@ -20,6 +20,8 @@ public class PanelAffichage extends JLayeredPane {
 	
 	private InterfaceModele modele ;
 	
+	private Dimension dimension ;
+	
 	private AerodromesPanel aerodromes ;
 	private BalisesPanel balises ;
 	private TrajectoiresPanel trajectoires ;
@@ -36,12 +38,18 @@ public class PanelAffichage extends JLayeredPane {
 		@Override
 		public void componentResized(ComponentEvent e) {
 			
-			Dimension dim = ( (Component) e.getSource()).getSize() ;			
+			Dimension dim = ( (Component) e.getSource()).getSize() ;
 			
-			PanelAffichage.this.balises.setSize( dim );
-			PanelAffichage.this.aerodromes.setSize( dim ) ;
-			PanelAffichage.this.trajectoires.setSize( dim ) ;
-			PanelAffichage.this.avions.setSize( dim );
+			int min = dim.width ;
+			if ( dim.height < dim.width )
+				min = dim.height ;
+			
+			PanelAffichage.this.dimension  = new Dimension( min , min ) ;  
+			
+			PanelAffichage.this.balises.setSize( PanelAffichage.this.dimension  );
+			PanelAffichage.this.aerodromes.setSize( PanelAffichage.this.dimension  ) ;
+			PanelAffichage.this.trajectoires.setSize( PanelAffichage.this.dimension  ) ;
+			PanelAffichage.this.avions.setSize( PanelAffichage.this.dimension  );
 			
 			PanelAffichage.this.rafraichir() ;
 			
@@ -171,7 +179,7 @@ public class PanelAffichage extends JLayeredPane {
 	
 	public Dimension coordonnees_IHM( Point p ) {
 
-		Dimension dim = this.getSize() ;
+		Dimension dim = this.dimension ;
 		
 		int x = ( int ) ( dim.width *
 				( p.getLongitude().getValue() - this.gauche_haut.getLongitude().getValue() ) 
