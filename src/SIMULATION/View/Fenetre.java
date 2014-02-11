@@ -1,3 +1,4 @@
+
 package SIMULATION.View;
 
 import java.awt.BorderLayout;
@@ -98,7 +99,6 @@ public class Fenetre extends JFrame implements ViewSimulation
 			);
 		pan.add(this.pan_principal);
 		
-	 	
 		
 		JPanel pan_secondaire= new JPanel();
 		pan_secondaire.setBackground(Color.GREEN);  
@@ -111,8 +111,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 		jb_zoom_m.addActionListener( new ActionZoomM() );
 		pan_secondaire.add( jb_zoom_m ) ;
 		
-	 	//JLabel test =new JLabel("test0");
-	 	//pan_secondaire.add(test);
+	 
 		jb_quit=new JButton("Quitter");
 		pan_secondaire.add(jb_quit);//,BorderLayout.EAST);//a verifier
 		jb_quit.addActionListener(new ActionQuitter());
@@ -137,8 +136,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 		jaero= new JMenuItem("Aerodrome");
 		jcharger.add(jaero);
 		jaero.addActionListener(new ActionChargerAd());
-		//jaero.addActionListener(new ActionChargerAd());
-		
+				
 		jbal= new JMenuItem("Balise");
 		jcharger.add(jbal);
 		jbal.addActionListener(new ActionChargerBalises());
@@ -156,8 +154,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 		jpdv.add(jsaisie_pdv);
 		jsaisie_pdv.addActionListener(new ActionSaisiePlanDeVol( this.modele ));
 		
-		
-		
+				
 			
 		//**** menu trajectoire		
 		JMenu trajectoire=new JMenu("Trajectoire");
@@ -193,11 +190,10 @@ public class Fenetre extends JFrame implements ViewSimulation
 		JLabel jl_dbmax=new JLabel("Distance Maximale ");
 		pan_button.add(jl_dbmax);
 				
-		
 		jtf_dbmax=new JTextField("Distance max");
 		pan_button.add(jtf_dbmax);
 		// TODO  Listener ActionDistanceDbmax()
-		//jtf_dbmax.addItemListener(new ActionDistanceDbmax())
+		jtf_dbmax.addActionListener(new ActionDistanceDbmax());
 				
 		// TODO fusionner avec pause
 		jb_recommencer=new JButton("Recommencer");
@@ -258,12 +254,11 @@ public class Fenetre extends JFrame implements ViewSimulation
 		return (nomFichier) ;
 	} 
 				 
-	
+
 	public class ActionSaisiePlanDeVol implements ActionListener {
 
 		public ActionSaisiePlanDeVol(InterfaceModele modele) {
 		}
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
@@ -341,15 +336,18 @@ public class Fenetre extends JFrame implements ViewSimulation
 		}
 	}
 	
+	//toDo
+	public class ActionDistanceDbmax implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{	
+			System.out.println("DBmax");
+			jtf_dbmax.removeAll();
+			jtf_dbmax.getText();
+		}
+	}
 	
-	
-	
-	
-
-	
-	
-	
-	
+		
 	
 	
 	
