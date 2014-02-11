@@ -23,6 +23,7 @@ public interface InterfaceModele {
 	public boolean charger_aerodromes( String ficname ) ;
 	public boolean charger_avions( String ficname ) ; 
 	
+	public Trajectoire calculer_trajectoire( Repere origine , Repere destination ) ;
 	public boolean calculer_trajectoires() ;
 	
 	public boolean iterer() ;

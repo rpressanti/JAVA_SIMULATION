@@ -267,7 +267,7 @@ public class Simulation implements InterfaceModele {
 					
 					} catch( Exception e)
 					{
-						System.out.println( "Erreur crŽation balise:" + indicatif + coord );
+						System.out.println( "Erreur crï¿½ation balise:" + indicatif + coord );
 					}
 				}
 				
@@ -280,7 +280,7 @@ public class Simulation implements InterfaceModele {
 			e.printStackTrace() ;
 		}
 		
-		System.out.println( "Chargement balises terminé." );
+		System.out.println( "Chargement balises terminï¿½." );
 		//return this.rafraichir() ;
 		return true ;
 	}
@@ -329,7 +329,7 @@ public class Simulation implements InterfaceModele {
 						this.grapheComplet.add( new_ad ) ;
 					
 					} catch ( Exception e) {
-						System.out.println( "Erreur crŽation aŽrodrome" );
+						System.out.println( "Erreur crï¿½ation aï¿½rodrome" );
 					}
 					
 					
@@ -368,7 +368,7 @@ public class Simulation implements InterfaceModele {
 		try{
 			os = new ObjectOutputStream( new FileOutputStream( ficname ) ) ;
 		} catch ( Exception e) {
-			System.err.println( "Ouverture impossible en Žcriture du fichier : " + ficname ) ;
+			System.err.println( "Ouverture impossible en ï¿½criture du fichier : " + ficname ) ;
 		}
 		
 		
@@ -381,7 +381,7 @@ public class Simulation implements InterfaceModele {
 			try {
 			os.writeChars( line ) ;	
 			} catch( Exception e) {
-				System.err.println( "Erreur Žcriture trajectoire:" + line );
+				System.err.println( "Erreur ï¿½criture trajectoire:" + line );
 			}
 			
 		}
@@ -429,6 +429,25 @@ public class Simulation implements InterfaceModele {
 		return calculer_trajectoires() ;
 	}
 	
+	public Trajectoire calculer_trajectoire( Repere origine , Repere destination ) {
+		
+		Graphe<Segment,NoeudTrajectoire,Point> graphe_buffer = this.grapheFiltre.clone() ;
+		if ( ! this.genererGrapheTotal() )
+			return null ;
+	
+		NoeudTrajectoire noeud_depart  = this.grapheComplet.getNoeud( (Point) origine  ) ;
+		NoeudTrajectoire noeud_arrivee = this.grapheComplet.getNoeud( (Point) destination ) ;
+		
+		if( origine instanceof Aerodrome)
+			this.ajouterAerodrome( graphe_buffer , noeud_depart );
+		if( destination instanceof Aerodrome)
+			this.ajouterAerodrome( graphe_buffer , noeud_arrivee );
+		
+		return (Trajectoire) graphe_buffer.djikstra( noeud_depart , noeud_arrivee ).minimizeNbBalises().random() ;
+	}
+	
+	
+	
 	// DONE
 	public boolean calculer_trajectoires() {
 		
@@ -440,17 +459,9 @@ public class Simulation implements InterfaceModele {
 			
 		for( Avion avion : this.avions.values() )
 		{
-			Graphe<Segment,NoeudTrajectoire,Point> graphe_buffer = this.grapheFiltre.clone() ;
-			
-			NoeudTrajectoire noeud_depart  = this.grapheComplet.getNoeud( (Point) avion.getDepart()  ) ;
-			NoeudTrajectoire noeud_arrivee = this.grapheComplet.getNoeud( (Point) avion.getArrivee() ) ;
-			
-			if( avion.getDepart() instanceof Aerodrome)
-				this.ajouterAerodrome( graphe_buffer , noeud_depart );
-			if( avion.getArrivee() instanceof Aerodrome)
-				this.ajouterAerodrome( graphe_buffer , noeud_arrivee );
-			
-			avion.setTrajectoire( graphe_buffer.djikstra( noeud_depart , noeud_arrivee ).minimizeNbBalises().random() ) ;
+			Trajectoire trajectoire = calculer_trajectoire( avion.getDepart() , avion.getArrivee() ) ;
+			avion.setTrajectoire( trajectoire ) ;
+			this.trajectoires.put( avion , trajectoire ) ;
 		}
 		
 		return result ;
