@@ -281,8 +281,7 @@ public class Simulation implements InterfaceModele {
 		}
 		
 		System.out.println( "Chargement balises termin�." );
-		//return this.rafraichir() ;
-		return true ;
+		return this.rafraichir() ;
 	}
 	
 	// DONE
@@ -349,15 +348,91 @@ public class Simulation implements InterfaceModele {
 		return this.rafraichir() ;
 	}
 	
+	
+	
+	
+	
+	
+	
 	// TODO IMPORT AVIONS
 	public boolean charger_avions( String ficname) {
 		
 		if ( this.phase_prete != PHASE.CHARGEMENT_AVION )
 			return false ;
+	
 		
-		return true ;
+		
+		Scanner scan_avion = null ;
+		String indicatif = "" , coord = "" , tmp_line = "";
+		
+		try {
+			
+			FileReader fr = new FileReader( ficname ) ;
+			//System.out.println( "Fichier ouvert: "  + ficname ) ;
+			BufferedReader is = new BufferedReader( fr ) ;
+			//System.out.println( "Buffer ouvert: "  + ficname ) ;
+			
+			do {
+
+				tmp_line = is.readLine() ;
+				
+				if( tmp_line != null )
+				{
+					scan_avion = new Scanner( tmp_line );
+					
+					try  {
+						scan_avion.findInLine(  "(\\w+)" ) ;
+						MatchResult result = scan_avion.match();
+						
+						indicatif = result.group( 1 ) ;
+						// TODO RETURN OBJECT
+						//Repere depart = result.group( 2 ) ;
+						//Repere arrivee = result.group( 3 ) ;
+						scan_avion.close() ;
+						
+						// TODO CORRECT
+						//Avion new_avion = new avion( indicatif , depart , arrivee , flight_level , vitesse , heure_depart) ; ;
+						//this.avions.put( indicatif , new_avion ) ;
+						
+					} catch( Exception e)
+					{
+						System.out.println( "Erreur cr�ation balise:" + indicatif + coord );
+					}
+				}
+				
+			} while (tmp_line != null ) ; 
+				
+			is.close();
+			
+		} catch ( Exception e) {
+			System.err.println("Erreur de chargement") ;
+			e.printStackTrace() ;
+		}
+		
+		System.out.println( "Chargement avions termin�." );
+		return this.rafraichir() ;
+		
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	//DONE
 	public boolean exporter_trajectoires( String ficname ) {
@@ -443,6 +518,7 @@ public class Simulation implements InterfaceModele {
 		if( destination instanceof Aerodrome)
 			this.ajouterAerodrome( graphe_buffer , noeud_arrivee );
 		
+		// TODO Rajouter Polymorphisme 
 		return (Trajectoire) graphe_buffer.djikstra( noeud_depart , noeud_arrivee ).minimizeNbBalises().random() ;
 	}
 	
