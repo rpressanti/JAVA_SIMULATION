@@ -11,4 +11,6 @@ public interface Repere {
 	public Longitude getLongitude() ;
 	public Latitude getLatitude() ;
 	
+	public String toString() ;
+	
 }

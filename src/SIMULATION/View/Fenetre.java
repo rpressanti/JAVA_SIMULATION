@@ -259,7 +259,21 @@ public class Fenetre extends JFrame implements ViewSimulation
 	} 
 				 
 	
-	
+	public class ActionSaisiePlanDeVol implements ActionListener {
+
+		public ActionSaisiePlanDeVol(InterfaceModele modele) {
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			SaisiePlanDeVol nouvelle_fenetre = new SaisiePlanDeVol( Fenetre.this.modele) ;
+			
+		}
+		
+		
+		
+	}
 	
 	
 	//// listener

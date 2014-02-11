@@ -22,7 +22,7 @@ public class Aerodrome extends Point implements Repere{
 	}
 
 	public String get_nom() {
-		return this.code_OACI ;
+		return this.nom ;
 	}
 	
 	public Aerodrome clone() {
