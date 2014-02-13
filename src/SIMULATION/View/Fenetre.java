@@ -37,6 +37,10 @@ import SIMULATION.Modele.Simulation;
 import SIMULATION.Modele.ViewSimulation;
 
  
+/**
+ * @author gasmino
+ * definit la fenetre 
+ */
 @SuppressWarnings({ "serial", "unused" })
 public class Fenetre extends JFrame implements ViewSimulation
 {	
@@ -266,12 +270,9 @@ public class Fenetre extends JFrame implements ViewSimulation
 			
 		}
 		
-		
-		
 	}
 	
-	
-	//// listener
+		//// listener
 	
 	
 	// DONE
@@ -348,8 +349,6 @@ public class Fenetre extends JFrame implements ViewSimulation
 	}
 	
 		
-	
-	
 	
 	// DONE
 	public class ActionZoomP implements ActionListener

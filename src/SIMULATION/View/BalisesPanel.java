@@ -4,13 +4,14 @@ import SIMULATION.Datatypes.* ;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
 // CLASS DONE
 
 @SuppressWarnings("serial")
-public class BalisesPanel extends JPanel {
+public class BalisesPanel extends JPanel{
 
 	private PanelAffichage parent ;
 	private InterfaceModele model ;
@@ -49,6 +50,9 @@ public class BalisesPanel extends JPanel {
 			int[] y_points = new int[] { base_y , base_y - 7 , base_y } ;
 			
 			g.drawPolygon(x_points , y_points , 3);
+			g.drawString(balise.getIndicatif(), base_x+5, base_y);
+			
+			
 				
 		}
 		
