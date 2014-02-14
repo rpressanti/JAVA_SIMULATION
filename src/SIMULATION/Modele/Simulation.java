@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.ObjectOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -387,18 +388,37 @@ public class Simulation implements InterfaceModele {
 						MatchResult result = scan_avion.match();
 						
 						indicatif = result.group( 1 ) ;
-						// TODO RETURN OBJECT
-						//Repere depart = result.group( 2 ) ;
-						//Repere arrivee = result.group( 3 ) ;
+						
+						String depart_str = result.group( 2 ) ;
+						Repere depart = null ;
+						if( this.aerodromes.containsKey( depart_str ))
+							depart = this.aerodromes.get( depart_str ) ;
+						if( this.balises.containsKey( depart_str ))
+							depart = this.balises.get( depart_str ) ;
+						
+						String arrivee_str = result.group( 3 ) ;
+						Repere arrivee = null ;
+						if( this.aerodromes.containsKey( arrivee_str ))
+							arrivee = this.aerodromes.get( arrivee_str ) ;
+						if( this.balises.containsKey( arrivee_str ))
+							arrivee = this.balises.get( arrivee_str ) ;
+						
+						Integer flight_level = Integer.parseInt( result.group(4) ) ;
+						
+						Double vitesse = Double.parseDouble( result.group(5) ) ;
+						
+						SimpleDateFormat format_date = new SimpleDateFormat( "YYYY/MM/DD-HH:MM" ) ;
+						Date heure_depart = format_date.parse( result.group(6) ) ; 
+						
 						scan_avion.close() ;
 						
 						// TODO CORRECT
-						//Avion new_avion = new avion( indicatif , depart , arrivee , flight_level , vitesse , heure_depart) ; ;
-						//this.avions.put( indicatif , new_avion ) ;
+						Avion new_avion = new Avion( indicatif , depart , arrivee , flight_level , vitesse , heure_depart) ; ;
+						this.avions.put( indicatif , new_avion ) ;
 						
 					} catch( Exception e)
 					{
-						System.out.println( "Erreur cr�ation balise:" + indicatif + coord );
+						System.out.println( "Erreur création avion:" + indicatif + coord );
 					}
 				}
 				
@@ -411,7 +431,7 @@ public class Simulation implements InterfaceModele {
 			e.printStackTrace() ;
 		}
 		
-		System.out.println( "Chargement avions termin�." );
+		System.out.println( "Chargement avions terminé." );
 		return this.rafraichir() ;
 		
 	}
