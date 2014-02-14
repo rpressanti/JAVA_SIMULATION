@@ -1,8 +1,5 @@
 package SIMULATION.Datatypes;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 // CLASS DONE
 
 public class Balise extends Point implements Repere{
@@ -27,6 +24,7 @@ public class Balise extends Point implements Repere{
 	public Balise clone() {
 		return new Balise( this.getIndicatif() , super.toString() ) ;
 	}
+
 
 		
 }

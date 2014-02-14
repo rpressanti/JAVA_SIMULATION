@@ -5,12 +5,11 @@ import SIMULATION.Datatypes.* ;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
-import javax.swing.JPanel;
 
 // CLASS DONE
 
 @SuppressWarnings({ "serial" })
-public class TrajectoiresPanel extends JPanel {
+public class TrajectoiresPanel extends PanelElements {
 
 	private PanelAffichage parent ;
 	private InterfaceModele model ;

@@ -6,12 +6,10 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 
 
-import javax.swing.JPanel;
-
 // CLASS DONE
 
 @SuppressWarnings("serial")
-public class AvionsPanel extends JPanel {
+public class AvionsPanel extends PanelElements {
 
 
 	private PanelAffichage parent ;

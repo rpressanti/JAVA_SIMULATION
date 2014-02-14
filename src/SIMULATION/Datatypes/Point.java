@@ -134,10 +134,14 @@ public class Point implements Distance<Point> {
 	
 	public String toString()
 	{
-		return this.latitude.toString() + " | "
+		return this.latitude.toString() + "\n"
 				+ this.longitude.toString() ;
 	}
 
+
+	
+	
+	
 	public static void main(String[] args) {
 		@SuppressWarnings("unused")
 		Point p1=new Point("4°56'24.0\" N 004°56'24.0\" E") ;

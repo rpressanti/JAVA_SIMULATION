@@ -8,6 +8,7 @@ package SIMULATION.Datatypes;
  */
 public interface Repere {
 
+
 	public Longitude getLongitude() ;
 	public Latitude getLatitude() ;
 	

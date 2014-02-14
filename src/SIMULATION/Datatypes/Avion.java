@@ -12,7 +12,6 @@ public class Avion {
 	
 	public static final Integer NbPlots = 4  ;
 	
-
 	private String nom ;
 	private Date heure_depart ;
 	

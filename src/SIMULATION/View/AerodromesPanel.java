@@ -8,10 +8,9 @@ import SIMULATION.Datatypes.* ;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
-import javax.swing.JPanel;
 
 @SuppressWarnings({ "serial"})
-public class AerodromesPanel extends JPanel {
+public class AerodromesPanel extends PanelElements {
 
 	private PanelAffichage parent ;
 	private InterfaceModele model ;
@@ -45,7 +44,15 @@ public class AerodromesPanel extends JPanel {
 			// 2 traits paralleles pour aerodrme piste
 			g.drawLine(base_x, base_y, base_x+10, base_y-5);
 			g.drawLine(base_x+5, base_y, base_x+15, base_y-5);
-			g.drawString(aerodrome.get_nom(), base_x+5, base_y);
+			
+			if( this.afficher_nom )
+				g.drawString(aerodrome.get_code_OACI(), base_x+15, base_y);
+			
+			if( this.afficher_coordonnees )
+			{
+				g.drawString( aerodrome.getLongitude().toString() , base_x+15, base_y + 30);
+				g.drawString( aerodrome.getLatitude().toString() , base_x+15, base_y + 15);
+			}
 			
 		}
 		

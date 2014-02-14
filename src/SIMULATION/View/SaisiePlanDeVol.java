@@ -22,13 +22,7 @@ import javax.swing.SpinnerModel;
 import SIMULATION.Datatypes.Aerodrome;
 import SIMULATION.Datatypes.Balise;
 import SIMULATION.Datatypes.Repere;
-/*
-import SIMULATION.View.ActionSaisiePlanDeVol.ActionAnnuler;
-import SIMULATION.View.ActionSaisiePlanDeVol.SelectArrAd;
-import SIMULATION.View.ActionSaisiePlanDeVol.SelectArrBalises;
-import SIMULATION.View.ActionSaisiePlanDeVol.SelectDepAd;
-import SIMULATION.View.ActionSaisiePlanDeVol.SelectDepBalises;
-*/
+
 public class SaisiePlanDeVol extends JFrame implements ActionListener {
 
 	
@@ -59,8 +53,8 @@ private InterfaceModele modele ;
 	
 	private JFrame jf_pdv ;
 	private Container pan_pdv ;
-	private JComboBox<Repere> combo_dep ;
-	private JComboBox<Repere> combo_arr ;
+	private JComboBox combo_dep ;
+	private JComboBox combo_arr ;
 	
 	public SaisiePlanDeVol( InterfaceModele modele ) {
 		
@@ -81,8 +75,8 @@ private InterfaceModele modele ;
 		this.pan_pdv = jf_pdv.getContentPane();
 		this.pan_pdv.setLayout( new GridLayout( 5 , 4 ) ) ;
 		
-		this.combo_dep = new JComboBox<Repere>() ;
-		this.combo_arr = new JComboBox<Repere>() ;
+		this.combo_dep = new JComboBox() ;
+		this.combo_arr = new JComboBox() ;
 		
 		System.out.println("saisie Plan de vol");
 		//creation fenetre

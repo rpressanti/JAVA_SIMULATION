@@ -173,7 +173,7 @@ public class Coordonnees {
 		
 		//System.out.println( "==============================") ;
 		
-		Coordonnees test = new Coordonnees( "48°59'"  + "11" + ",2" + "\"" + " O" , Coordonnees.TYPE.LONGITUDE ) ;
+		Coordonnees test = new Coordonnees( "48°59'"  + "11" + ",2" + "\"" + " W" , Coordonnees.TYPE.LONGITUDE ) ;
 		System.out.println( "Test Instance" + test + " " + test.estPositif() ) ;
 		
 		

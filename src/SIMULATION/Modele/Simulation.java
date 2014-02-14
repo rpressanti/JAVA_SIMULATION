@@ -314,21 +314,23 @@ public class Simulation implements InterfaceModele {
 					
 					try {
 						
-						scan_ad.findInLine( "(-?\\d+\\.\\d+), (-?\\d+\\.\\d+), \"(.+)(?: \\((?:code )?([\\w]{4})\\))?\"" ) ;
+						scan_ad.findInLine( "(-?\\d+\\.\\d+), (-?\\d+\\.\\d+), \"([^(]+)(?: \\((?:code )?(.{4})\\))?\"" ) ;
 						MatchResult result = scan_ad.match();
 						
 						longitude = Double.parseDouble( result.group( 1 ) ) ;
 						latitude  = Double.parseDouble( result.group( 2 ) ) ;
 						nom = result.group( 3 ) ;
 						code_OACI = result.group( 4 ) ;
-						
+						if ( code_OACI == null)
+							code_OACI = "" ;
+						//System.out.println( "result:" + code_OACI );
 						
 						new_ad = new Aerodrome( nom , code_OACI , longitude , latitude ) ;
 						this.aerodromes.put( nom , new_ad ) ;
 						this.grapheComplet.add( new_ad ) ;
 					
 					} catch ( Exception e) {
-						System.out.println( "Erreur cr�ation a�rodrome" );
+						System.out.println( "Erreur cr�ation a�rodrome:" + tmp_line );
 					}
 					
 					
@@ -415,23 +417,7 @@ public class Simulation implements InterfaceModele {
 	}
 
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	
 	//DONE

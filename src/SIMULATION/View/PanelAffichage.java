@@ -14,9 +14,14 @@ import SIMULATION.Datatypes.Point;
 @SuppressWarnings("serial")
 public class PanelAffichage extends JLayeredPane {
 
+	public static final Double echelle_min_aff_nom = 75.0 ;
+	public static final Double echelle_min_aff_coord = 250.0 ;
+	
 	private Point gauche_haut ;
 	private Point droit_bas ;
 	private Point centre ;
+
+	private Double echelle ;
 	
 	private InterfaceModele modele ;
 	
@@ -40,16 +45,21 @@ public class PanelAffichage extends JLayeredPane {
 			
 			Dimension dim = ( (Component) e.getSource()).getSize() ;
 			
+			// On rend les panels carr�s
 			int min = dim.width ;
 			if ( dim.height < dim.width )
 				min = dim.height ;
 			
 			PanelAffichage.this.dimension  = new Dimension( min , min ) ;  
+
 			
+			
+	
 			PanelAffichage.this.balises.setSize( PanelAffichage.this.dimension  );
 			PanelAffichage.this.aerodromes.setSize( PanelAffichage.this.dimension  ) ;
 			PanelAffichage.this.trajectoires.setSize( PanelAffichage.this.dimension  ) ;
 			PanelAffichage.this.avions.setSize( PanelAffichage.this.dimension  );
+
 			
 			PanelAffichage.this.rafraichir() ;
 			
@@ -96,7 +106,8 @@ public class PanelAffichage extends JLayeredPane {
 		this.setPreferredSize( 
 				new Dimension( Fenetre.width_panel , Fenetre.height_panel )
 			);
-		
+
+		this.echelle = this.getSize().width / ( this.droit_bas.getLongitude().getValue() - this.gauche_haut.getLongitude().getValue() ) ;
 		
 		// Panels a rafraichir apres chaque changement du modele
 		this.aerodromes = new AerodromesPanel( this ) ;
@@ -129,17 +140,34 @@ public class PanelAffichage extends JLayeredPane {
 	
 	public void rafraichir() {
 		
-		PanelAffichage.this.balises.revalidate();
-		PanelAffichage.this.balises.repaint();
+		boolean afficher_nom = false ;
+		boolean afficher_coord = false ;
 		
-		PanelAffichage.this.aerodromes.revalidate();
-		PanelAffichage.this.aerodromes.repaint();
+		// On recalcule l'echelle
+		this.echelle = this.getSize().width / ( this.droit_bas.getLongitude().getValue() - this.gauche_haut.getLongitude().getValue() ) ;
+		if( this.echelle > PanelAffichage.echelle_min_aff_nom )
+			afficher_nom = true ;
+		if( this.echelle > PanelAffichage.echelle_min_aff_coord )
+			afficher_coord = true ;
+		System.out.println( "Echelle:" + echelle );
+					
+		this.balises.setAffichage( afficher_nom , afficher_coord );
+		this.aerodromes.setAffichage( afficher_nom , afficher_coord );			
+		this.trajectoires.setAffichage( afficher_nom , afficher_coord );
+		this.avions.setAffichage( afficher_nom , afficher_coord );
+				
 		
-		PanelAffichage.this.trajectoires.revalidate();
-		PanelAffichage.this.trajectoires.repaint();
+		this.balises.revalidate();
+		this.balises.repaint();
 		
-		PanelAffichage.this.avions.revalidate();
-		PanelAffichage.this.avions.repaint();
+		this.aerodromes.revalidate();
+		this.aerodromes.repaint();
+		
+		this.trajectoires.revalidate();
+		this.trajectoires.repaint();
+		
+		this.avions.revalidate();
+		this.avions.repaint();
 				
 	}
 	
@@ -151,9 +179,9 @@ public class PanelAffichage extends JLayeredPane {
 		double demi_largeur = this.droit_bas.getLongitude().getValue() - this.centre.getLongitude().getValue() ; 
 		double demi_hauteur = this.droit_bas.getLatitude().getValue()  - this.centre.getLatitude().getValue()  ;
 		
-		System.out.println( "Gauche Haut:" + this.gauche_haut ) ;
-		System.out.println( "Droit Bas  :" + this.droit_bas ) ;
-		System.out.println( this.centre ) ;
+		//System.out.println( "Gauche Haut:" + this.gauche_haut ) ;
+		//System.out.println( "Droit Bas  :" + this.droit_bas ) ;
+		//System.out.println( this.centre ) ;
 		
 		demi_largeur /= niveau_de_zoom ;
 		demi_hauteur /= niveau_de_zoom ;
@@ -169,9 +197,11 @@ public class PanelAffichage extends JLayeredPane {
 				this.centre.getLatitude().getValue() + demi_hauteur
 				) ;
 		
-		System.out.println( "Gauche Haut:" + this.gauche_haut ) ;
-		System.out.println( "Droit Bas  :" + this.droit_bas ) ;
-		System.out.println( this.centre ) ;
+		//System.out.println( "Gauche Haut:" + this.gauche_haut ) ;
+		//System.out.println( "Droit Bas  :" + this.droit_bas ) ;
+		//System.out.println( this.centre ) ;
+		
+		this.rafraichir() ;
 		
 		return true ;
 	}
