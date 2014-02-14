@@ -4,6 +4,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
 import javax.swing.JLayeredPane;
 
@@ -12,7 +14,7 @@ import SIMULATION.Datatypes.Point;
 // CLASS DONE
 
 @SuppressWarnings("serial")
-public class PanelAffichage extends JLayeredPane {
+public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 
 	public static final Double echelle_min_aff_nom = 75.0 ;
 	public static final Double echelle_min_aff_coord = 250.0 ;
@@ -127,6 +129,7 @@ public class PanelAffichage extends JLayeredPane {
 		this.add( this.avions ,new Integer( 3 ) ) ;
 				
 		this.addComponentListener( new Resizer() );
+		this.addMouseWheelListener( this );
 		
 		this.revalidate();
 		this.repaint();
@@ -149,7 +152,7 @@ public class PanelAffichage extends JLayeredPane {
 			afficher_nom = true ;
 		if( this.echelle > PanelAffichage.echelle_min_aff_coord )
 			afficher_coord = true ;
-		System.out.println( "Echelle:" + echelle );
+		//System.out.println( "Echelle:" + echelle );
 					
 		this.balises.setAffichage( afficher_nom , afficher_coord );
 		this.aerodromes.setAffichage( afficher_nom , afficher_coord );			
@@ -224,5 +227,19 @@ public class PanelAffichage extends JLayeredPane {
 		
 		return new Dimension( x , y ) ;
 	}
+
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent arg0) {
+	
+		double zoom = 1.0 ;
+		double rotation = arg0.getWheelRotation() ;
+		if ( rotation > 0 )
+			zoom = 1.1 ;
+		else
+			zoom = 0.9 ;
+		
+		this.zoomer( zoom * Math.abs(rotation) ) ;
+
+		}
 
 }

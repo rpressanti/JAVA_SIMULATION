@@ -64,7 +64,7 @@ public class BalisesPanel extends PanelElements {
 				
 		}
 		
-		System.out.println( "OK" ) ;
+		//System.out.println( "OK" ) ;
 		
 	}
 	
