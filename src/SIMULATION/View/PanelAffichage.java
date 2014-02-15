@@ -4,12 +4,15 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
 import javax.swing.JLayeredPane;
+import javax.swing.event.MouseInputListener;
 
 import SIMULATION.Datatypes.Point;
+import SIMULATION.Datatypes.Vecteur;
 
 // CLASS DONE
 
@@ -34,6 +37,77 @@ public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 	private TrajectoiresPanel trajectoires ;
 	private AvionsPanel avions ;
 	
+	
+	
+	
+	public class ActionSouris implements MouseInputListener {
+
+		private int x = 0;
+		private int y = 0  ;
+		
+		
+		
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
+
+			System.out.println("Clicked" + arg0.getX() + "|" + arg0.getY() );
+			
+			//this.x = arg0.getX() ;
+			//this.y = arg0.getY();
+
+		
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent arg0) {
+
+			System.out.println("Pressed" + arg0.getX() + "|" + arg0.getY() );
+			
+			this.x = arg0.getX() ;
+			this.y = arg0.getY();
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			
+			System.out.println( "Dep" + e.getX() + "|" + e.getY() ) ;
+			System.out.println( "Attr" + this.x + "|" + this.y );
+			
+			Vecteur deplacement = new Vecteur(
+					PanelAffichage.this.coordonnees_GPS( this.x - e.getX() , this.y - e.getY() )		
+				) ;
+			
+			System.out.println( deplacement ) ;
+			
+			PanelAffichage.this.deplacerDe( deplacement ) ;			
+		}
+
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			
+
+			
+		}
+
+		@Override
+		public void mouseMoved(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
 	
 	
 	
@@ -130,6 +204,9 @@ public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 				
 		this.addComponentListener( new Resizer() );
 		this.addMouseWheelListener( this );
+		ActionSouris action_souris = new ActionSouris() ;
+		this.addMouseListener( action_souris ) ;
+		this.addMouseMotionListener( action_souris ) ;
 		
 		this.revalidate();
 		this.repaint();
@@ -139,6 +216,20 @@ public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 	public InterfaceModele modele() {
 		return this.modele ;
 	}
+	
+	
+	public void deplacerDe( Vecteur v ) {
+		
+		//System.out.println( v ) ;
+		
+		this.gauche_haut.deplacerDe( v ) ;
+		this.droit_bas.deplacerDe( v ) ;
+		this.centre.deplacerDe( v ) ;
+		
+		this.rafraichir() ;
+	}
+	
+	
 	
 	
 	public void rafraichir() {
@@ -227,6 +318,27 @@ public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 		
 		return new Dimension( x , y ) ;
 	}
+	
+	public Point coordonnees_GPS( int x ,int y) {
+		
+		double longitude = //this.gauche_haut.getLongitude().getValue() +
+				(
+					( this.droit_bas.getLongitude().getValue() - this.gauche_haut.getLongitude().getValue() )
+					* x / this.dimension.width		
+				) ;
+		
+		double latitude = //this.gauche_haut.getLatitude().getValue() +
+				(
+					( this.droit_bas.getLatitude().getValue() - this.gauche_haut.getLatitude().getValue() )
+					* y / this.dimension.height	
+				) ;
+		
+		System.out.println( "Size" + this.dimension.width ) ;
+		
+		
+		return new Point( longitude , latitude ) ;
+	}
+	
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent arg0) {
@@ -241,5 +353,6 @@ public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 		this.zoomer( zoom * Math.abs(rotation) ) ;
 
 		}
+
 
 }

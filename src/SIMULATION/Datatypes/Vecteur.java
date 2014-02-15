@@ -7,11 +7,12 @@ public class Vecteur extends Point{
 	private double module ;
 	private double argument ;
 	
+	
 	//  DONE
 	public Vecteur( Point a , Point b)
 	{	
-		super(  b.getLatitude().getValue() - a.getLatitude().getValue() ,
-				b.getLongitude().getValue() - a.getLongitude().getValue()
+		super(  b.getLongitude().getValue() - a.getLongitude().getValue() ,
+				b.getLatitude().getValue() - a.getLatitude().getValue()
 				) ;
 		this.module = a.distanceTo( b );
 		
@@ -32,7 +33,13 @@ public class Vecteur extends Point{
 			this.argument -= 360 ;
 	
 		//System.out.println( "Apres " + this.argument ) ;
+	}	
+	
+	public Vecteur( Point p ) {	
+		this( Point.ORIGINE , p ) ;
 	}
+	
+	
 	
 	// DONE
 	public Vecteur( double module , double argument )
@@ -88,7 +95,7 @@ public class Vecteur extends Point{
 	public static void main(String[] args) {
 		
 		@SuppressWarnings("unused")
-		Point p1=new Point("4°56'24,0\" N 4°56'24,0\" E") ;
+		Point p1=new Point("4°56'24.0\" N 4°56'24.0\" E") ;
 		@SuppressWarnings("unused")
 		Point p2= new Point(-4.42194 , 48.44722); //Brest
 		@SuppressWarnings("unused")
@@ -104,7 +111,11 @@ public class Vecteur extends Point{
 		
 		System.out.println(d1*1.852+" distance entre Brest et Rennes en km");
 		
+		System.out.println( "===============" );
 		
+		System.out.println( p4 ) ;
+		Vecteur v2 = new Vecteur( p4 ) ;
+		System.out.println( v2 ) ;
 
 	}
 

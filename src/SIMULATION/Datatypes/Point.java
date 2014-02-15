@@ -18,6 +18,9 @@ public class Point implements Distance<Point> {
 				+ " " + Coordonnees.regexp_longitude;
 	
 	
+	public static final Point ORIGINE = new Point( 0 , 0 ) ;
+	
+	
 	protected Latitude latitude;
 	protected Longitude longitude;
 	
@@ -86,7 +89,7 @@ public class Point implements Distance<Point> {
 	
 	
 	
-	public double distanceTo( Point p )
+	public double distanceLoxo( Point p )
 	{
 		double a,b,c,d,e,f,g,h,i;
 		a=Coordonnees.decimalToRadian(p.longitude.getValue());
@@ -102,6 +105,15 @@ public class Point implements Distance<Point> {
 		// Calcul en m puis conversion en NM
 		return Point.rayon_terre*Math.acos((e*f)+(g*h*i)) / Point.metres_par_NM ; 
 	}
+	
+	public double distanceTo( Point p) {
+		return Math.sqrt(
+			  Math.pow( p.getLongitude().getValue() - this.longitude.getValue() , 2 ) 
+			+ Math.pow( p.getLatitude().getValue()  - this.latitude.getValue() ,2 )
+			) ;
+	}
+	
+	
 	
 	
 	public void deplacerDe( Vecteur v ) {
