@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
-
-import SIMULATION.Graphe.Chemin;
-
 public class Avion {
 	
 	
@@ -19,8 +16,8 @@ public class Avion {
 	final private Repere arrivee ;
 	final private int flight_level ;
 	final private double vitesse ;
-	private Chemin<Segment,NoeudTrajectoire,Point> trajectoire ;
-
+	private Trajectoire trajectoire ;
+	
 	private boolean en_conflit ;
 
 	
@@ -85,7 +82,7 @@ public class Avion {
 	
 	
 	// DONE
-	public boolean setTrajectoire( Chemin<Segment,NoeudTrajectoire,Point> trajectoire ) {
+	public boolean setTrajectoire( Trajectoire trajectoire ) {
 
 		this.trajectoire = trajectoire ;
 		
@@ -121,6 +118,46 @@ public class Avion {
 	}
 	
 	
+	public ArrayList<Repere> getRepereValide() {
+		return this.trajectoire.getRepereValide() ;
+	}
+	
+	public boolean devier( Point deviation , Repere retour) {
+		
+		Trajectoire new_traj = new Trajectoire() ;
+		
+		//Construction des nouveaux segment initiaux
+		Point point_courant = this.trajectoire.get(0).getPointCourant() ;
+		Segment new_segment_initial = new Segment( 
+				new NoeudTrajectoire( point_courant ) ,
+				new NoeudTrajectoire( deviation ) ,
+				point_courant.distanceTo( deviation )
+				) ;
+		new_traj.add( new_segment_initial ) ;
+		
+		Segment segment_retour = new Segment(
+				new NoeudTrajectoire( deviation ) ,
+				new NoeudTrajectoire( (Point) retour ) ,
+				deviation.distanceTo( (Point) retour )
+			) ;
+		new_traj.add( segment_retour ) ;
+		
+		
+		// Elimination des segments précédant la balise de retour
+		Segment buffer = null ;
+		do {
+			buffer = this.trajectoire.remove() ;
+		} while( buffer.getDestination().getContent() != retour ) ;
+		
+		
+		// Empilement du chemin normal
+		while( ! this.trajectoire.isEmpty() )
+			new_traj.add( this.trajectoire.remove() ) ;
+		
+		this.setTrajectoire(new_traj) ;
+		
+		return true ;
+	}
 	
 	
 	public void setEnConflit( boolean en_conflit )  {

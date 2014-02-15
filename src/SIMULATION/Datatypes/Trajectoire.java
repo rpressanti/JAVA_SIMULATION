@@ -1,5 +1,7 @@
 package SIMULATION.Datatypes;
 
+import java.util.ArrayList;
+
 import SIMULATION.Graphe.*;
 
 
@@ -24,6 +26,23 @@ public class Trajectoire extends Chemin<Segment,NoeudTrajectoire,Point> {
 		}
 		
 		return string ;
+	}
+	
+	
+	public ArrayList<Repere> getRepereValide() {
+		
+		ArrayList<Repere> result = new ArrayList<Repere>() ;
+		
+		for( Segment segment : this )
+		{
+			Point candidat = segment.getDestination().getContent() ;
+			if( candidat instanceof Repere )
+				result.add( (Repere) candidat ) ;
+			
+		}
+		
+		return result ;
+		
 	}
 	
 	

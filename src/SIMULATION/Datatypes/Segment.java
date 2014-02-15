@@ -69,7 +69,17 @@ public class Segment extends Arete<Segment,NoeudTrajectoire,Point> {
 		return plots_restants ;
 	}
 	
-	
+	public Point getPointCourant() {
+		
+		Point result = this.getOrigine().getContent() ;
+		
+		Vecteur vecteur_parcouru = this.vecteur_vitesse ;
+		vecteur_parcouru.setModule( this.distance_parcourue );
+
+		result.deplacerDe( vecteur_parcouru);
+		
+		return result ;
+	}
 	
 	
 	
