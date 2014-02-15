@@ -8,6 +8,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Calendar;
@@ -196,8 +198,8 @@ public class Fenetre extends JFrame implements ViewSimulation
 				
 		jtf_dbmax=new JTextField("Distance max");
 		pan_button.add(jtf_dbmax);
-		// TODO  Listener ActionDistanceDbmax()
 		jtf_dbmax.addActionListener(new ActionDistanceDbmax());
+		jtf_dbmax.addMouseListener( new Eff_DBMAX() );
 				
 		// TODO fusionner avec pause
 		jb_recommencer=new JButton("Recommencer");
@@ -337,16 +339,49 @@ public class Fenetre extends JFrame implements ViewSimulation
 		}
 	}
 	
-	//toDo
-	public class ActionDistanceDbmax implements ActionListener
+	protected class Eff_DBMAX implements MouseListener {
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			( (JTextField) e.getSource() ).setText( "" );
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+	
+	
+	protected class ActionDistanceDbmax implements ActionListener
 	{
-		public void actionPerformed(ActionEvent e)
+		public void actionPerformed(ActionEvent	arg0)
 		{	
 			System.out.println("DBmax");
-			jtf_dbmax.removeAll();
-			jtf_dbmax.getText();
+			Fenetre.this.modele.setDistanceMax( Double.parseDouble( ( (JTextField) arg0.getSource() ).getText() ));
 		}
 	}
+	
 	
 		
 	
