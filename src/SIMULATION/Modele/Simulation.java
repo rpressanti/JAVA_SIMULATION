@@ -364,12 +364,8 @@ public class Simulation implements InterfaceModele {
 	
 	// TODO IMPORT AVIONS
 	public boolean charger_avions( String ficname) {
-		
-		if ( this.phase_prete != PHASE.CHARGEMENT_AVION )
-			return false ;
 	
-		
-		
+
 		Scanner scan_avion = null ;
 		String indicatif = "" , coord = "" , tmp_line = "";
 		
@@ -389,12 +385,14 @@ public class Simulation implements InterfaceModele {
 					scan_avion = new Scanner( tmp_line );
 					
 					try  {
-						scan_avion.findInLine(  "(\\w+)" ) ;
+						scan_avion.findInLine(  "(\\w+)\\|(\\w+)\\|(\\w+)\\|(\\d+)\\|(\\d+)\\|(.+)" ) ;
 						MatchResult result = scan_avion.match();
 						
 						indicatif = result.group( 1 ) ;
 						
 						String depart_str = result.group( 2 ) ;
+						//System.out.println( depart_str ) ;
+						
 						Repere depart = null ;
 						if( this.aerodromes.containsKey( depart_str ))
 							depart = this.aerodromes.get( depart_str ) ;
@@ -412,6 +410,8 @@ public class Simulation implements InterfaceModele {
 						
 						Double vitesse = Double.parseDouble( result.group(5) ) ;
 						
+						
+						//System.out.println( "Match:" + result.group(6) ) ;
 						SimpleDateFormat format_date = new SimpleDateFormat( "YYYY/MM/DD-HH:MM" ) ;
 						Date heure_depart = format_date.parse( result.group(6) ) ; 
 						
@@ -424,6 +424,7 @@ public class Simulation implements InterfaceModele {
 					} catch( Exception e)
 					{
 						System.out.println( "Erreur création avion:" + indicatif + coord );
+						e.printStackTrace();
 					}
 				}
 				
@@ -512,7 +513,8 @@ public class Simulation implements InterfaceModele {
 		this.grapheFiltre = this.grapheComplet.clone() ;
 		this.grapheFiltre.filtrer( this.distance_max ) ;
 		
-		return calculer_trajectoires() ;
+		//return this.calculer_trajectoires() ;
+		return true ;
 	}
 	
 	public Trajectoire calculer_trajectoire( Repere origine , Repere destination ) {
@@ -540,8 +542,8 @@ public class Simulation implements InterfaceModele {
 		
 		boolean result = true ;
 			
-		if( ( this.phase_prete != PHASE.CALCUL_TRAJECTOIRES ) || ( ! this.genererGrapheTotal() ) )
-			return false ;
+		//if( ( this.phase_prete != PHASE.CALCUL_TRAJECTOIRES ) || ( ! this.genererGrapheTotal() ) )
+		//	return false ;
 		
 			
 		for( Avion avion : this.avions.values() )
@@ -583,6 +585,18 @@ public class Simulation implements InterfaceModele {
 		System.out.println( simulation.getBalises().values().size() ) ;
 
 		simulation.genererGrapheTotal() ;
+		
+		System.out.println( "Chargement avions" );
+		simulation.charger_avions( "fichiers/avions.txt") ;
+		System.out.println( simulation.getAvions().size() + "Avions chargés" ) ;
+		for( Avion avion : simulation.getAvions().values() )
+			System.out.println( avion ) ;
+	
+		simulation.setDistanceMax( 2000 ) ;
+		Trajectoire test = simulation.calculer_trajectoire( simulation.getAerodromes().get("LFOI") , simulation.getAerodromes().get("LFBA")) ;
+		System.out.println( test ) ;
+		//simulation.calculer_trajectoires() ;
+		System.out.println("Nb traj:" + simulation.trajectoires.size() ) ;
 	}
 	
 	

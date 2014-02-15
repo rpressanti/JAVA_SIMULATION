@@ -2,6 +2,7 @@ package SIMULATION.View;
 
 import SIMULATION.Datatypes.* ;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
@@ -30,6 +31,8 @@ public class TrajectoiresPanel extends PanelElements {
 	{
 		
 		super.paintComponent( g ) ;
+		
+		g.setColor( Color.YELLOW );
 		
 		for( Trajectoire trajectoire : this.model.getTrajectoires().values() )
 		{

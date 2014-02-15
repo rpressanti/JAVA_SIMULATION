@@ -34,7 +34,7 @@ public class Avion {
 		this.vitesse = vitesse ;
 		this.heure_depart = heure_depart ;
 		
-		this.trajectoire = null ;
+		this.trajectoire = new Trajectoire()  ;
 		this.en_conflit = false ;
 	}
 	
@@ -85,6 +85,9 @@ public class Avion {
 	public boolean setTrajectoire( Trajectoire trajectoire ) {
 
 		this.trajectoire = trajectoire ;
+		
+		if( this.trajectoire.isEmpty() )
+			return false ;
 		
 		for( Segment segment : this.trajectoire )
 			segment.setVitesse( this.vitesse ) ;

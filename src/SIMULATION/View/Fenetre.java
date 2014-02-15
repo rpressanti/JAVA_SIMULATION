@@ -1,4 +1,9 @@
-
+/**
+ * @author Nora
+ * fenetre definit l' interface graphique du projet de simulation 
+ * Elle decrit l'ensemble des boutons, méthodes nécessaires 
+ * à la création de cette fenêtre
+ */
 package SIMULATION.View;
 
 import java.awt.BorderLayout;
@@ -38,74 +43,172 @@ import SIMULATION.Datatypes.Repere;
 import SIMULATION.Modele.Simulation;
 import SIMULATION.Modele.ViewSimulation;
 
- 
-/**
- * @author gasmino
- * definit la fenetre 
- */
-@SuppressWarnings({ "serial", "unused" })
+ @SuppressWarnings({ "serial", "unused" })
 public class Fenetre extends JFrame implements ViewSimulation
 {	
-	// Constantes
+	// dimension des différents panels
+	/**
+	 * panel principal  600*600
+	 */
 	static final int height_panel = 600 ;
 	static final int width_panel = 600 ;
 	
+	/**
+	 * taille des boutons  ds le panel associe aux boutons
+	 * pan_button
+	 */
 	static final int height_buttons = 150 ;
 	static final int width_buttons = 150 ;
 	
+	/**
+	 * InterfaceModel est l'interface a laquelle répond le modéle sur lequel on agit et que l'on visualise
+	 */
 	// Modele
 	private InterfaceModele modele ;
 	
+	/**
+	 * barre du menu principal compose de 
+	 *  Fichier
+	 *  Plan de Vol 
+	 *  Trajectoire
+	 */
 	//attributs graphiques
+	
 	private JMenuBar jmenubar;
-	private JMenu jfichier,jcharger;
-	private JMenuItem jquitter;
+	
+	private JMenu jfichier;
+	private JMenu jcharger;
 	private JMenu jpdv;
 	
-	private JMenuItem jaero,jbal;
-	private JMenuItem jcharger_pdv,jsaisie_pdv,aff_traj,jsave_traj;
+	/**
+	 * menu Fichier 
+	 * menu Plan de Vol
+	 * menu Trajectoire
+	 */
 	
+	/**
+	 * sous menu chargement aérodrome du menu Fichier
+	 */
+	private JMenuItem jaero;
+	/**
+	 * sous menu chargement balise du menu Fichier
+	 */
+	private JMenuItem jbal;
+	/**
+	 * sous-menu de  fichier 
+	 */
+	private JMenuItem jcharger_pdv;
+	/**
+	 * sous menu Plan de Vol
+	 * chargement du plan de vol
+	 */
+	private JMenuItem jsaisie_pdv;
+	/**
+	 * sous menu Plan de Vol
+	 * saisie du plan de vol
+	 */
+	private JMenuItem aff_traj;
+	 /**
+	 * sous menu Trajectoire
+	 * affichage de la trajectoire
+	 */
+	private JMenuItem jsave_traj;
+	
+	/**
+	 * sous-menu Fichier
+	 * quitter l'application
+	 */
+	private JMenuItem jquitter;
+	
+	/**
+	 * la distance maximale entre 2 avions
+	 */
 	private JTextField jtf_dbmax;
-	private JButton jb_execution,jb_iterer,jb_stop,jb_recommencer,jb_quit;
+	/**
+	 * bouton execution automatique
+	 */
+	private JButton jb_execution;
+	/**
+	 * bouton execution pas a pas
+	 */
+	private JButton jb_iterer;
+	/**
+	 * bouton arrêt
+	 */
+	private JButton jb_stop;
+	/**
+	 * bouton recommencer
+	 */
+	private JButton jb_recommencer;
+	/**
+	 * bouton quitter
+	 */
+	private JButton jb_quit;
 
+	/**
+	 * pan_affichage est le JLayeredPanel contenant les JPanels spécifiques à chaque type d'objets
+	 */
 	private PanelAffichage pan_principal ;
-	
+	/**
+	 * niveau de zoom utilisé par les boutons de zoom ("+" et "-" )
+	 */
 	private Double niveauDeZoom ;
 	
 	//constructeurs
+	/**
+	 * {@link Fenetre#modele}
+	 */
 	public Fenetre( InterfaceModele modele )
 	{
 		super() ;
 		
 		this.modele =  modele ;
 		this.modele.enregistrer( this ) ;
-		
+		/**
+		 *  niveau de zoom
+		 */
 		this.niveauDeZoom = 2.0 ;
 		
 		JFrame jf= new JFrame("simulation");
 		this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);
+		/*
+		 * On fixe la taille de la fenêtre comme étant la somme de celles du panel principal et du panel des boutons
+		 * pour éviter que le panel principal n'apparaisse pas. 
+		 */
 		jf.setSize(Fenetre.width_panel + Fenetre.width_buttons ,
 				Fenetre.height_panel + Fenetre.height_buttons );
 		
 		// conteneur pan
+		/**
+		 * container principal de la fenêtre
+		 * ce container contiendra
+		 * 1  panel de taille fixe pour les boutons en position haute
+		 * 1 JlayeredPanel pour la partie graphique
+		 * 1 panel pour les noutons en position basse 
+		 */
 		Container pan = jf.getContentPane();
 		pan.setLayout( new BorderLayout() );
 
 		// panel	contient le menu	
 		JPanel pan_button = new JPanel();
 		pan_button.setBackground(Color.ORANGE);
-		//pan_button.setSize( Fenetre.width_buttons , Fenetre.height_buttons );
+		
 		pan_button.setLayout(new GridLayout(2,3));
 		pan.add(pan_button,"North");
 					
-		// Jlayered pour la superposition des Jpanel ad et balise
+		// Jlayered pour la superposition des Jpanel aerodrome et balise
 		this.pan_principal = new PanelAffichage( this.modele ) ;
+		/**
+		 * On fixe la taille du panel principal afin que celui-ci s'affiche au lancement
+		 */
 		this.pan_principal.setPreferredSize( 
 				new Dimension( Fenetre.width_panel , Fenetre.height_panel )
 			);
 		pan.add(this.pan_principal);
 		
-		
+		/**
+		 * Ce panel contient les boutons zooms et quitter
+		 */
 		JPanel pan_secondaire= new JPanel();
 		pan_secondaire.setBackground(Color.GREEN);  
 		pan.add(pan_secondaire,BorderLayout.SOUTH );
@@ -119,14 +222,13 @@ public class Fenetre extends JFrame implements ViewSimulation
 		
 	 
 		jb_quit=new JButton("Quitter");
-		pan_secondaire.add(jb_quit);//,BorderLayout.EAST);//a verifier
+		pan_secondaire.add(jb_quit);
 		jb_quit.addActionListener(new ActionQuitter());
 				
 	    // Menu bar
 	    jmenubar =new JMenuBar();
 	
 	    //**** menu "Fichier"	
-		
 		jf.setJMenuBar(jmenubar);
 		jfichier=new JMenu("Fichier");
 		jmenubar.add(jfichier);
@@ -159,7 +261,6 @@ public class Fenetre extends JFrame implements ViewSimulation
 		jsaisie_pdv= new JMenuItem("Saisir_PDV");
 		jpdv.add(jsaisie_pdv);
 		jsaisie_pdv.addActionListener(new ActionSaisiePlanDeVol( this.modele ));
-		
 				
 			
 		//**** menu trajectoire		
@@ -174,7 +275,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 		//jaff_traj.addActionListener(new ActionAfficherTrajectoire());
 		this.jsave_traj= new JMenuItem("Sauvegarder");
 		trajectoire.add(jsave_traj);
-		// TODO  Listener ActionSauvegarderTrajectoire()
+		//TODO  Listener ActionSauvegarderTrajectoire()
 		//jaff_traj.addActionListener(new ActionSauvegarderTrajectoire());
 		
 		//boutons
@@ -217,23 +318,27 @@ public class Fenetre extends JFrame implements ViewSimulation
 		
 		 
 	// methodes
-	// DONE
+	/**
+	 * @param quitter quitte l'application avec confirmation
+	 */
 	public void quitter()
 	{
 		 System.out.println("Fin ...");
-		 if (JOptionPane.showConfirmDialog(this, "D�sirez-vous quitter l'application ?")
+		 if (JOptionPane.showConfirmDialog(this, "Désirez-vous quitter l'application ?")
 	              == JOptionPane.YES_OPTION) System.exit(0); 
 		 setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		 setVisible(true);
 		 //System.exit(0);
 	}
 	
-	// DONE
+	/**
+	 * 
+	 * @param must_exist 
+	 * @return le nom du fichier à charger
+	 */
 	private String demander_nom_fichier( boolean must_exist )
 	{
-		//JFrame boite_message = new JFrame("nom du fichier");
-		// boite_message.setVisible(true);
-        String nomFichier = JOptionPane.showInputDialog(Fenetre.this, "Entrez le nom du fichier a charger","Nom du Fichier",-1);	
+		   String nomFichier = JOptionPane.showInputDialog(Fenetre.this, "Entrez le nom du fichier a charger","Nom du Fichier",-1);	
         
         if( must_exist )
         {
@@ -243,7 +348,6 @@ public class Fenetre extends JFrame implements ViewSimulation
         		document.read(new FileReader(nomFichier), null);
         		JFrame fichier = new JFrame(nomFichier);
         		fichier.add(new JScrollPane(document));
-        		//fichier.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         		fichier.setSize(400, 300);
         		fichier.setVisible(true);
         		}   
@@ -261,6 +365,11 @@ public class Fenetre extends JFrame implements ViewSimulation
 	} 
 				 
 
+	/**
+	 * 
+	 * @author Nora
+	 * Cette classe ouvre la fenêtre de dialogue permettant de saisir un nouveau plan de vol
+	 */
 	public class ActionSaisiePlanDeVol implements ActionListener {
 
 		public ActionSaisiePlanDeVol(InterfaceModele modele) {
@@ -275,9 +384,11 @@ public class Fenetre extends JFrame implements ViewSimulation
 	}
 	
 		//// listener
-	
-	
-	// DONE
+	/**
+	 * 
+	 * @author 	Nora
+	 * Cette classe permet de quitter l'application.
+	 */
 	class ActionQuitter implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
@@ -286,7 +397,11 @@ public class Fenetre extends JFrame implements ViewSimulation
 		}
 	}
 	
-	// DONE
+	/**
+	 * 
+	 * @author Nora
+	 * Cette classe permet de charger un fichier d'aérodromes
+	 */
 	public class ActionChargerAd implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
@@ -305,7 +420,11 @@ public class Fenetre extends JFrame implements ViewSimulation
 	}
 	
 	
-	// DONE
+	/**
+	 * 
+	 * @author Nora
+	 * Cette classe permet de charger un fichier de balise
+	 */
 	public class ActionChargerBalises implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
@@ -323,7 +442,13 @@ public class Fenetre extends JFrame implements ViewSimulation
 		}
 	}
 	
-	// DONE
+
+	
+	/**
+	 * 
+	 * @author Nora
+	 * Cette classe permet de charger un fichier de plan de vol
+	 */
 	public class ActionChargerPlanDeVol implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
@@ -339,40 +464,45 @@ public class Fenetre extends JFrame implements ViewSimulation
 		}
 	}
 	
+	/**
+	 * 
+	 * @author Nora
+	 * Cette classe permet d'effacer le prompt de DBmax lorsque l'on clique dessus
+	 */
 	protected class Eff_DBMAX implements MouseListener {
 
-		@Override
 		public void mouseClicked(MouseEvent e) {
 			( (JTextField) e.getSource() ).setText( "" );
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
+				
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 		
 	}
 	
-	
+	/**
+	 * 
+	 * @author Nora
+	 * Cette classe permet de récuperer DBmax et de l'envoyer au modéle.
+	 * 
+	 */	
 	protected class ActionDistanceDbmax implements ActionListener
 	{
 		public void actionPerformed(ActionEvent	arg0)
@@ -385,7 +515,12 @@ public class Fenetre extends JFrame implements ViewSimulation
 	
 		
 	
-	// DONE
+	/**
+	 * 
+	 * @author Nora
+	 * Cette classe permet de zoomer sur les différents panels d'affichage. 
+	 * 
+	 */
 	public class ActionZoomP implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
@@ -398,7 +533,12 @@ public class Fenetre extends JFrame implements ViewSimulation
 	}
 	
 	
-	// DONE
+	/**
+	 * 
+	 * @author Nora
+	 * Cette classe permet de dé-zoomer sur les différents panels d'affichage. 
+	 * 
+	 */
 	public class ActionZoomM implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
@@ -411,7 +551,9 @@ public class Fenetre extends JFrame implements ViewSimulation
 	}
 	
 	
-	// DONE
+	/**
+	 * rafraichit les différents panels spécifiques aux objets
+	 */
 	public boolean rafraichir() {
 		
 		this.pan_principal.revalidate();
@@ -430,8 +572,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 		Fenetre fen_1 = new Fenetre( modele );
 		//Fenetre fen_2 = new Fenetre( modele );
 		
-		
+		modele.charger_avions( "fichiers/avions.txt") ;
+		modele.calculer_trajectoires() ;
 	}
-	
-	
-}// end class
+		}// end class

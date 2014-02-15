@@ -1,4 +1,12 @@
-package SIMULATION.View;
+/*
+ *@author nora
+ * Cette classe traite entièrement les éléments reliés au plan de vol
+ * 
+ *  
+ */
+
+  package SIMULATION.View;
+ 
 
 import java.awt.Container;
 import java.awt.GridLayout;
@@ -29,18 +37,6 @@ import SIMULATION.Datatypes.Repere;
 public class SaisiePlanDeVol extends JFrame implements ActionListener {
 
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 private InterfaceModele modele ;

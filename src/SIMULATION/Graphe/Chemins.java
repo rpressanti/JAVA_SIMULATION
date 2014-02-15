@@ -44,6 +44,7 @@ public class Chemins<A extends Arete<A,N,P>, N extends Noeud<A,N,P> ,P> extends 
 		
 		Chemin<A,N,P> result = new Chemin<A,N,P>() ;
 		int nb_iter = (int) ( Math.random() * this.size()) , i = 0 ;
+		System.out.println( "Random:" + nb_iter ) ;
 		
 		for( i = 0 ; i < nb_iter ; i++ )
 			result = this.poll() ;

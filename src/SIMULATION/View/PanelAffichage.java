@@ -1,3 +1,8 @@
+/**
+ * @author nora
+ * cette classe permet l'affichage des objets aerodrome,balise,avion ,trajectoire .
+ * cette classe permet de redimensionner les panels lors des differents zooms et lors du redimensionnement de la fenêtre principale.
+ */
 package SIMULATION.View;
 
 import java.awt.Component;
@@ -18,35 +23,77 @@ import SIMULATION.Datatypes.Vecteur;
 
 @SuppressWarnings("serial")
 public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
-
+/**
+ * affichage du nom d'un repère (balise ou aérodrome) si l'echelle est supérieur à cette valeur.
+ */
 	public static final Double echelle_min_aff_nom = 75.0 ;
+	/**
+	 * affichage des coordonnées d'un repère (balise ou aérodrome) si l'echelle est supérieur à cette valeur.
+	 */
 	public static final Double echelle_min_aff_coord = 250.0 ;
 	
+	/**
+	 * coordonnées GPS de la limite supérieure gauche de la carte  
+	 */
 	private Point gauche_haut ;
+	/**
+	 * coordonnées GPS de la limite inférieure droite de la carte  
+	 */
 	private Point droit_bas ;
+	/**
+	 * coordonnées GPS du centre de la carte  
+	 */
 	private Point centre ;
-
+	/**
+	 * nombre de pixels nécessaire à l'affichage d'1 NM. 
+	 */
 	private Double echelle ;
 	
+	/**
+	 * {@link Fenetre#modele}
+	 */
 	private InterfaceModele modele ;
 	
+	/**
+	 * taille en pixels du panel
+	 */
 	private Dimension dimension ;
 	
+	/**
+	 * panel spécifique d'affichage des aérodromes
+	 * 
+	 */
 	private AerodromesPanel aerodromes ;
+	
+	/**
+	 * panel spécifique d'affichage des balises
+	 * 
+	 */	
 	private BalisesPanel balises ;
+	
+	/**
+	 * panel spécifique d'affichage des trajectoires
+	 * 
+	 */
 	private TrajectoiresPanel trajectoires ;
+	
+	/**
+	 * panel spécifique d'affichage des avions
+	 * 
+	 */
 	private AvionsPanel avions ;
 	
 	
-	
-	
-	public class ActionSouris implements MouseInputListener {
+	/**
+	 * 
+	 * @author Nora
+	 * Cette classe permet de deplacer la carte par un drag and drop 
+	 */
+		public class ActionSouris implements MouseInputListener {
 
 		private int x = 0;
 		private int y = 0  ;
-		
-		
-		
+				
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 
@@ -60,20 +107,18 @@ public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
-			// TODO Auto-generated method stub
 			
 		}
 
 		@Override
 		public void mouseExited(MouseEvent arg0) {
-			// TODO Auto-generated method stub
 			
 		}
 
 		@Override
 		public void mousePressed(MouseEvent arg0) {
 
-			System.out.println("Pressed" + arg0.getX() + "|" + arg0.getY() );
+			//System.out.println("Pressed" + arg0.getX() + "|" + arg0.getY() );
 			
 			this.x = arg0.getX() ;
 			this.y = arg0.getY();
@@ -82,9 +127,12 @@ public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			
-			System.out.println( "Dep" + e.getX() + "|" + e.getY() ) ;
-			System.out.println( "Attr" + this.x + "|" + this.y );
+			//System.out.println( "Dep" + e.getX() + "|" + e.getY() ) ;
+			//System.out.println( "Attr" + this.x + "|" + this.y );
 			
+			/**
+			 * vecteur en nombre de pixels correspondant au déplacement voulu
+			 */
 			Vecteur deplacement = new Vecteur(
 					PanelAffichage.this.coordonnees_GPS( this.x - e.getX() , this.y - e.getY() )		
 				) ;
@@ -96,24 +144,21 @@ public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 
 		@Override
 		public void mouseDragged(MouseEvent e) {
-			
-
-			
+				
 		}
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
+		
 		}
 		
 	}
 	
-	
-	
-	
-	
-	
+		/**
+		 * 
+		 * @author Nora
+		 * repercute le redimensionnement de la fenêtre principale sur les panels d'affichage spécifiques aux objets
+		 */
 	public class Resizer implements ComponentListener {
 
 		@Override
@@ -127,9 +172,7 @@ public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 				min = dim.height ;
 			
 			PanelAffichage.this.dimension  = new Dimension( min , min ) ;  
-
-			
-			
+		
 	
 			PanelAffichage.this.balises.setSize( PanelAffichage.this.dimension  );
 			PanelAffichage.this.aerodromes.setSize( PanelAffichage.this.dimension  ) ;

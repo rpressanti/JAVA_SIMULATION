@@ -28,7 +28,7 @@ public class GrapheComplet<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E exte
 											) 
 							) ;
 					} catch ( Exception e ) {
-						System.err.println( "Arete non crŽŽe" );
+						System.err.println( "Arete non crï¿½ï¿½e" );
 						e.printStackTrace() ; 
 					}
 	}
@@ -66,10 +66,13 @@ public class GrapheComplet<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E exte
 		
 		Chemins<TestArete,TestPoint,TestContent> plus_courts = graphe.djikstra( a1 , a7) ;
 		
+		Chemin<TestArete,TestPoint,TestContent> test = plus_courts.random();
+		System.out.println( test );
+		
 		//System.out.println( graphe ) ;
-		System.out.println( plus_courts ) ;
-		if ( a3.equals( a3))
-			System.out.println( "OK" ) ;
+		//System.out.println( plus_courts ) ;
+		//if ( a3.equals( a3))
+		//	System.out.println( "OK" ) ;
 	}
 	
 
