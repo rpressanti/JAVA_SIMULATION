@@ -17,7 +17,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
-import javax.swing.SpinnerModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import SIMULATION.Datatypes.Aerodrome;
 import SIMULATION.Datatypes.Balise;
@@ -55,6 +56,50 @@ private InterfaceModele modele ;
 	private Container pan_pdv ;
 	private JComboBox combo_dep ;
 	private JComboBox combo_arr ;
+
+	
+	
+	
+	
+	private class ActionSaisieIndicatif implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			SaisiePlanDeVol.this.indicatif = ( (JTextField) arg0.getSource() ).getText() ;
+		}
+		
+	}
+	
+	
+	private class ActionSaisieFL implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			SaisiePlanDeVol.this.flight_level = Integer.parseInt( ( (JTextField) arg0.getSource() ).getText() ) ;
+		}
+		
+	}
+	
+	private class ActionSaisieVitesse implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			SaisiePlanDeVol.this.vitesse = Double.parseDouble( ( (JTextField) arg0.getSource() ).getText() ) ;
+		}
+		
+	}
+	
+	
+	private class ActionSaisieHeureDepart implements ChangeListener {
+
+		@Override
+		public void stateChanged(ChangeEvent arg0) {
+			SaisiePlanDeVol.this.heure_depart = ( (SpinnerDateModel) arg0.getSource() ).getDate() ;
+		}
+		
+	}
+	
+	
 	
 	public SaisiePlanDeVol( InterfaceModele modele ) {
 		
@@ -79,6 +124,10 @@ private InterfaceModele modele ;
 		this.combo_arr = new JComboBox() ;
 		
 		System.out.println("saisie Plan de vol");
+
+		
+		
+		
 		//creation fenetre
 		
 		
@@ -87,37 +136,35 @@ private InterfaceModele modele ;
 		this.pan_pdv.add( indicatif_prompt ) ;
 		JTextField indicatif_input =new JTextField("Indicatif");
 		this.pan_pdv.add( indicatif_input ) ;
-		
-		// TODO LISTENER 
-		//indicatif.addItemListener(new ActionSaisieIndicatif());
+		indicatif_input.addActionListener(new ActionSaisieIndicatif());
 		
 		
 		JLabel fl_prompt = new JLabel( "Niveau de vol:" ) ;
 		this.pan_pdv.add( fl_prompt ) ;
-		// TODO LISTENER
 		JTextField niveau_vol_input =new JTextField("niveau de vol");
 		this.pan_pdv.add( niveau_vol_input ) ;
+		niveau_vol_input.addActionListener( new ActionSaisieFL() ) ;
 		
 		
 		
-		
-		JLabel heure_depart_prompt = new JLabel( "Heure de d�part:" ) ;
+		JLabel heure_depart_prompt = new JLabel( "Heure de départ:" ) ;
 		this.pan_pdv.add( heure_depart_prompt ) ;
 		
 		Calendar now = Calendar.getInstance();
 		Calendar earliestDate_dep = new GregorianCalendar( 2012 , 1 ,1) ;
 		Calendar latestDate_dep = new GregorianCalendar( 2014 , 12 ,31 ) ;
-		SpinnerModel model_dep = new SpinnerDateModel( now.getTime(), 
+		SpinnerDateModel model_dep = new SpinnerDateModel( now.getTime(), 
 		earliestDate_dep.getTime(), latestDate_dep.getTime(), Calendar.WEEK_OF_YEAR );
 		JSpinner spinner_dep = new JSpinner( model_dep );
 		this.pan_pdv.add( spinner_dep ) ;
+		model_dep.addChangeListener( new ActionSaisieHeureDepart() );
 		
-		JLabel heure_arrivee_prompt = new JLabel( "Heure d'arriv�e:" ) ;
+		JLabel heure_arrivee_prompt = new JLabel( "Heure d'arrivée:" ) ;
 		this.pan_pdv.add( heure_arrivee_prompt ) ;
 		
 		Calendar earliestDate_arr = new GregorianCalendar( 2012 , 1 ,1) ;
 		Calendar latestDate_arr = new GregorianCalendar( 2014 , 12 ,31 ) ;
-		SpinnerModel model_arr = new SpinnerDateModel( now.getTime(), 
+		SpinnerDateModel model_arr = new SpinnerDateModel( now.getTime(), 
 		earliestDate_arr.getTime(), latestDate_arr.getTime(), Calendar.WEEK_OF_YEAR );
 		JSpinner spinner = new JSpinner( model_arr );
 		this.pan_pdv.add( spinner ) ;						
@@ -125,7 +172,7 @@ private InterfaceModele modele ;
 		
 		
 		
-		JLabel depart_prompt = new JLabel( "D�part:" ) ;
+		JLabel depart_prompt = new JLabel( "Départ:" ) ;
 		this.pan_pdv.add( depart_prompt ) ;
 		
 		ButtonGroup chx_dep = new ButtonGroup() ;
@@ -141,10 +188,9 @@ private InterfaceModele modele ;
 		chx_dep_balises.addActionListener( new SelectDepBalises() ); ;
 		
 		this.pan_pdv.add( this.combo_dep ) ;
+	
 		
-		// TODO ADD LISTENER
-		
-		JLabel arrivee_prompt = new JLabel( "Arriv�e:" ) ;
+		JLabel arrivee_prompt = new JLabel( "Arrivée:" ) ;
 		this.pan_pdv.add( arrivee_prompt ) ;
 		
 		ButtonGroup chx_arr = new ButtonGroup() ;
@@ -156,17 +202,16 @@ private InterfaceModele modele ;
 		JRadioButton chx_arr_balises = new JRadioButton( "Balise" ) ;
 		chx_dep.add( chx_arr_balises ) ;
 		this.pan_pdv.add( chx_arr_balises ) ;
-		chx_arr_balises.addActionListener( new SelectArrBalises() ) ;
-		
+		chx_arr_balises.addActionListener( new SelectArrBalises() ) ;	
 		this.pan_pdv.add( combo_arr ) ;	
 		
 		
 		
 		JLabel vitesse_prompt = new JLabel( "Vitesse:" ) ;
 		this.pan_pdv.add( vitesse_prompt ) ;
-		// TODO LISTENER
 		JTextField vitesse_input =new JTextField("vitesse");
 		this.pan_pdv.add( vitesse_input ) ;
+		vitesse_input.addActionListener( new ActionSaisieVitesse() );
 		
 		JButton annuler = new JButton( "Annuler" ) ;
 		this.pan_pdv.add( annuler ) ;
