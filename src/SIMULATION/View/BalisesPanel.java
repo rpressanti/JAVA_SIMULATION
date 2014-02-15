@@ -52,12 +52,12 @@ public class BalisesPanel extends PanelElements {
 			//g.drawString(balise.getIndicatif(), base_x+5, base_y);
 			
 			if( this.afficher_nom )
-				g.drawString(balise.getIndicatif(), base_x+15, base_y);
+				g.drawString(balise.getIndicatif(), base_x - 5 , base_y - 10);
 			
 			if( this.afficher_coordonnees )
 			{
-				g.drawString( balise.getLongitude().toString() , base_x+15, base_y + 30);
-				g.drawString( balise.getLatitude().toString() , base_x+15, base_y + 15);
+				g.drawString( balise.getLongitude().toString() , base_x - 5, base_y - 25 );
+				g.drawString( balise.getLatitude().toString()  , base_x - 5, base_y - 40 );
 			}
 			
 			

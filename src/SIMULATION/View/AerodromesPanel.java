@@ -46,12 +46,12 @@ public class AerodromesPanel extends PanelElements {
 			g.drawLine(base_x+5, base_y, base_x+15, base_y-5);
 			
 			if( this.afficher_nom )
-				g.drawString(aerodrome.get_code_OACI(), base_x+15, base_y);
+				g.drawString(aerodrome.get_code_OACI(), base_x , base_y + 15 );
 			
 			if( this.afficher_coordonnees )
 			{
-				g.drawString( aerodrome.getLongitude().toString() , base_x+15, base_y + 30);
-				g.drawString( aerodrome.getLatitude().toString() , base_x+15, base_y + 15);
+				g.drawString( aerodrome.getLongitude().toString() , base_x , base_y + 30);
+				g.drawString( aerodrome.getLatitude().toString() , base_x , base_y + 45);
 			}
 			
 		}
