@@ -106,14 +106,16 @@ public class Point implements Distance<Point> {
 		return Point.rayon_terre*Math.acos((e*f)+(g*h*i)) / Point.metres_par_NM ; 
 	}
 	
-	public double distanceTo( Point p) {
+	public double distanceCartesian( Point p) {
 		return Math.sqrt(
 			  Math.pow( p.getLongitude().getValue() - this.longitude.getValue() , 2 ) 
 			+ Math.pow( p.getLatitude().getValue()  - this.latitude.getValue() ,2 )
 			) ;
 	}
 	
-	
+	public double distanceTo( Point p) {
+		return distanceLoxo( p ) ;
+	}
 	
 	
 	public void deplacerDe( Vecteur v ) {

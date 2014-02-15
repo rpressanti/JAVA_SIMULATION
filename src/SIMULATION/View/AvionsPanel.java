@@ -2,6 +2,7 @@ package SIMULATION.View;
 
 import SIMULATION.Datatypes.* ;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
@@ -35,14 +36,19 @@ public class AvionsPanel extends PanelElements {
 		for ( Avion avion : this.model.getAvions().values() )
 		   for( Plot plot : avion.getPlots() )
 		   {
+		   	Color color = Color.BLACK;
 		   	
+			 if( avion.getEnConflit() )
+				 color = Color.RED ;
+			   
 			int plot_order = plot.getOrder() ;
 			int taille = Avion.NbPlots - plot_order + 1 ;
 			 
 			dim = this.parent.coordonnees_IHM( plot ) ;
 			int base_x = dim.width ;
 			int base_y = dim.height ;
-			
+
+			g.setColor( color ) ;
 			g.drawRect( base_x - taille , base_y - taille , 2 * taille , 2 * taille);
 				   			   
 		  }

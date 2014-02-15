@@ -4,6 +4,8 @@ import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -54,8 +56,8 @@ private InterfaceModele modele ;
 	
 	private JFrame jf_pdv ;
 	private Container pan_pdv ;
-	private JComboBox combo_dep ;
-	private JComboBox combo_arr ;
+	private JComboBox<Repere> combo_dep ;
+	private JComboBox<Repere> combo_arr ;
 
 	
 	
@@ -65,6 +67,8 @@ private InterfaceModele modele ;
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
+			
+			
 			SaisiePlanDeVol.this.indicatif = ( (JTextField) arg0.getSource() ).getText() ;
 		}
 		
@@ -100,6 +104,40 @@ private InterfaceModele modele ;
 	}
 	
 	
+	private class Effacement implements MouseListener {
+
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
+			( (JTextField) arg0.getSource() ).setText( "" ) ;
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+	
+	
 	
 	public SaisiePlanDeVol( InterfaceModele modele ) {
 		
@@ -120,8 +158,8 @@ private InterfaceModele modele ;
 		this.pan_pdv = jf_pdv.getContentPane();
 		this.pan_pdv.setLayout( new GridLayout( 5 , 4 ) ) ;
 		
-		this.combo_dep = new JComboBox() ;
-		this.combo_arr = new JComboBox() ;
+		this.combo_dep = new JComboBox<Repere>() ;
+		this.combo_arr = new JComboBox<Repere>() ;
 		
 		System.out.println("saisie Plan de vol");
 
@@ -137,14 +175,14 @@ private InterfaceModele modele ;
 		JTextField indicatif_input =new JTextField("Indicatif");
 		this.pan_pdv.add( indicatif_input ) ;
 		indicatif_input.addActionListener(new ActionSaisieIndicatif());
-		
+		indicatif_input.addMouseListener( new Effacement() ) ;
 		
 		JLabel fl_prompt = new JLabel( "Niveau de vol:" ) ;
 		this.pan_pdv.add( fl_prompt ) ;
 		JTextField niveau_vol_input =new JTextField("niveau de vol");
 		this.pan_pdv.add( niveau_vol_input ) ;
 		niveau_vol_input.addActionListener( new ActionSaisieFL() ) ;
-		
+		niveau_vol_input.addMouseListener( new Effacement() ) ;
 		
 		
 		JLabel heure_depart_prompt = new JLabel( "Heure de départ:" ) ;
@@ -168,7 +206,6 @@ private InterfaceModele modele ;
 		earliestDate_arr.getTime(), latestDate_arr.getTime(), Calendar.WEEK_OF_YEAR );
 		JSpinner spinner = new JSpinner( model_arr );
 		this.pan_pdv.add( spinner ) ;						
-		// TODO LISTENER SAISIE DATE 
 		
 		
 		
@@ -212,6 +249,7 @@ private InterfaceModele modele ;
 		JTextField vitesse_input =new JTextField("vitesse");
 		this.pan_pdv.add( vitesse_input ) ;
 		vitesse_input.addActionListener( new ActionSaisieVitesse() );
+		vitesse_input.addMouseListener( new Effacement() ) ;
 		
 		JButton annuler = new JButton( "Annuler" ) ;
 		this.pan_pdv.add( annuler ) ;

@@ -74,6 +74,11 @@ public class Simulation implements InterfaceModele {
 		return true ;
 	}
 	
+	public void setHeureCourante( Calendar courant ) {
+		this.heure_courante = courant ;
+	}
+	
+	
 	
 	public ArrayList<PHASE> phasePossible( PHASE phase ) {
 		
