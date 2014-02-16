@@ -7,8 +7,9 @@ import java.util.HashMap;
 import java.util.PriorityQueue;
 
 
-public class Graphe<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E> {
+public class Graphe<C extends Chemin<C,A,N,E> , A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E> {
 
+	protected Class<C> classeChemin ;
 	protected Class<A> classeArete ;
 	protected Class<N> classeNoeud ;
 	protected Class<E> classeElement ;
@@ -16,7 +17,7 @@ public class Graphe<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E> {
 	
 	protected HashMap<E,N> noeuds ;
 	
-	protected class DestinationFirst implements Comparator<Chemin<A,N,E>> {
+	protected class DestinationFirst implements Comparator<Chemin<C,A,N,E>> {
 		
 		private N destination ;
 		
@@ -25,7 +26,7 @@ public class Graphe<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E> {
 		}
 
 		@Override
-		public int compare(Chemin<A,N,E> chemin_1, Chemin<A,N,E> chemin_2) {
+		public int compare(Chemin<C,A,N,E> chemin_1, Chemin<C,A,N,E> chemin_2) {
 			
 			if( chemin_1 == chemin_2 )
 				return 0 ;
@@ -48,9 +49,10 @@ public class Graphe<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E> {
 	
 	
 	// DONE
-	public Graphe( Class<A> classeArete , Class<N> classeNoeud , Class<E> classeElement) {
+	public Graphe( Class<C> classeChemin , Class<A> classeArete , Class<N> classeNoeud , Class<E> classeElement) {
 		this.noeuds = new HashMap<E,N> () ;
 
+		this.classeChemin = classeChemin ;
 		this.classeArete = classeArete ;
 		this.classeNoeud = classeNoeud ;
 		this.classeElement = classeElement ;
@@ -80,7 +82,7 @@ public class Graphe<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E> {
 			this.noeuds.put( content , node ) ;
 		}
 		catch( Exception e) {
-			System.err.println( "Noaud non crŽŽ: " + content );
+			System.err.println( "Noaud non crï¿½ï¿½: " + content );
 		}
 		
 		return node ;
@@ -126,7 +128,7 @@ public class Graphe<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E> {
 				this.add( arete ) ;
 			}
 			catch( Exception e) {
-				System.err.println( "Arete non crŽŽe" ) ;
+				System.err.println( "Arete non crï¿½ï¿½e" ) ;
 			}
 		
 		return arete ;
@@ -144,39 +146,46 @@ public class Graphe<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E> {
 	
 	
 	// DONE
-	public Chemins<A,N,E> djikstra( N origine , N destination) {
+	public Chemins<C,A,N,E> djikstra( N origine , N destination) {
 
-		Chemins<A,N,E> plus_courts = new Chemins<A,N,E>() ;
 		HashMap<N,Double> distance_connue = new HashMap<N,Double>() ;
+		Chemins<C,A,N,E> plus_courts = new Chemins<C,A,N,E>( this.classeChemin) ;
 		
-		PriorityQueue<Chemin<A,N,E>> a_traiter = new PriorityQueue<Chemin<A,N,E>>( 1 , new DestinationFirst( destination ) ) ;
+		//Chemin<C,A,N,E> chemin_trivial = new Chemin<C,A,N,E>( this.classeChemin ) ;
+		C chemin_trivial = null ;
+		C chemin_courant = null ;
+		PriorityQueue<C> a_traiter = new PriorityQueue<C>( 1 , new DestinationFirst( destination ) ) ;
 		// Initialisation de la Queue de priorite
-		Chemin<A,N,E> chemin_trivial = new Chemin<A,N,E>() ;
+		
 		try {
+			
+			chemin_trivial = this.classeChemin.newInstance() ;
 			A arete_triviale = this.classeArete.getDeclaredConstructor(
 						new Class[] { this.classeNoeud , this.classeNoeud , Double.class }
 					).newInstance( origine , origine , 0.0 ) ;
 			chemin_trivial.add( arete_triviale ) ;
+			chemin_courant = this.classeChemin.newInstance() ; 
+		
 		} catch( Exception e) {
-			System.err.println( "Arete triviale non crŽŽe" ) ;
+			System.err.println( "Arete triviale non crï¿½ï¿½e" ) ;
 		}
 		
 		
 		
 		a_traiter.add( chemin_trivial ) ;
 
-		Chemin<A,N,E> chemin_courant = new Chemin<A,N,E>() ;
+		
 		
 		//System.out.println( "Debut algo" ) ;
 		
 		while ( ! a_traiter.isEmpty() )
 		{	
-			//System.out.println( "EntrŽe dans la boucle" ) ;
+			//System.out.println( "Entrï¿½e dans la boucle" ) ;
 			
 			// On commence par rï¿½cupï¿½rer ceux allant ï¿½ la destination parmi les sous-chemins les plus courts
 			while( (! a_traiter.isEmpty() ) && (chemin_courant = a_traiter.poll()).last().equals( destination ) )
 			{	
-				//System.out.println( "plus court trouvŽ");
+				//System.out.println( "plus court trouvï¿½");
 				if ( chemin_courant.isTrivial() )
 					chemin_courant.untrivial();
 				plus_courts.add( chemin_courant ) ;
@@ -189,7 +198,7 @@ public class Graphe<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E> {
 			//System.out.println( "Last" + chemin_courant.last().getContent() ) ;
 			
 			// Sinon, on itere
-			for( Chemin<A,N,E> nouveau : chemin_courant.successeurs() )
+			for( C nouveau : chemin_courant.successeurs() )
 				if( ! distance_connue.containsKey( nouveau.last() ) )
 					a_traiter.add( nouveau ) ;		
 
@@ -212,22 +221,7 @@ public class Graphe<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E> {
 		return suppression_realisee ;
 	}
 	
-	// DONE
-	public Graphe<A,N,E> clone() {
-		
-		Graphe<A,N,E> result = new Graphe<A,N,E>( this.classeArete , this.classeNoeud , this.classeElement ) ;
-		
-		// Copier les noueds
-		for( N noeud : this.noeuds.values() )
-			result.add( noeud ) ;
 
-		// Recreer les aretes
-		for( N noeud : this.noeuds.values() )
-			for( A arete : noeud.getAretes().values() )
-				result.add( arete.getOrigine().getContent() , arete.getDestination().getContent() , arete.getWeight() ) ;
-		
-		return result ;
-	}
 	
 	
 

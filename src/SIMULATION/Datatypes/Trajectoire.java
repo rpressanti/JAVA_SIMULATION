@@ -6,8 +6,14 @@ import SIMULATION.Graphe.*;
 
 
 @SuppressWarnings("serial")
-public class Trajectoire extends Chemin<Segment,NoeudTrajectoire,Point> {
+public class Trajectoire extends Chemin<Trajectoire,Segment,NoeudTrajectoire,Point> {
 	
+	
+	public Trajectoire() {
+		super( Trajectoire.class ) ;
+	}
+	
+
 	public String toString() {
 
 		String string = "" ;

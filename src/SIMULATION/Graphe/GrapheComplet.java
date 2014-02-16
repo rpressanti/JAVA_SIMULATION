@@ -3,11 +3,11 @@ package SIMULATION.Graphe;
 
 // CLASS DONE
 
-public class GrapheComplet<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E extends Distance<E>> extends Graphe<A,N,E> {
+public class GrapheComplet<C extends Chemin<C,A,N,E> ,A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E extends Distance<E>> extends Graphe<C,A,N,E> {
 
 
-	public GrapheComplet(Class<A> classeArete , Class<N> classeNoeud , Class<E> classeElement) {
-		super(classeArete, classeNoeud, classeElement);
+	public GrapheComplet(Class<C> classeChemin , Class<A> classeArete , Class<N> classeNoeud , Class<E> classeElement) {
+		super(classeChemin , classeArete, classeNoeud, classeElement);
 	}
 
 	public void generer() {
@@ -38,9 +38,28 @@ public class GrapheComplet<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E exte
 	}
 	
 	
+	// DONE
+	public GrapheComplet<C,A,N,E> clone() {
+		
+		GrapheComplet<C,A,N,E> result = new GrapheComplet<C,A,N,E>( this.classeChemin , this.classeArete , this.classeNoeud , this.classeElement ) ;
+		
+		// Copier les noueds
+		for( N noeud : this.noeuds.values() )
+			result.add( noeud ) ;
+
+		// Recreer les aretes
+		for( N noeud : this.noeuds.values() )
+			for( A arete : noeud.getAretes().values() )
+				result.add( arete.getOrigine().getContent() , arete.getDestination().getContent() , arete.getWeight() ) ;
+		
+		return result ;
+	}
+	
+	
+	
 	public static void main( String args[] ) {
 		
-		GrapheComplet<TestArete,TestPoint,TestContent> graphe = new GrapheComplet<TestArete,TestPoint,TestContent>( TestArete.class , TestPoint.class , TestContent.class ) ;
+		GrapheComplet<TestChemin,TestArete,TestPoint,TestContent> graphe = new GrapheComplet<TestChemin,TestArete,TestPoint,TestContent>( TestChemin.class , TestArete.class , TestPoint.class , TestContent.class ) ;
 		
 		TestPoint a0 = new TestPoint( new TestContent()) ;
 		graphe.add( a0 ) ;
@@ -64,9 +83,9 @@ public class GrapheComplet<A extends Arete<A,N,E>,N extends Noeud<A,N,E>, E exte
 		graphe.generer() ;
 		
 		
-		Chemins<TestArete,TestPoint,TestContent> plus_courts = graphe.djikstra( a1 , a7) ;
+		Chemins<TestChemin,TestArete,TestPoint,TestContent> plus_courts = graphe.djikstra( a1 , a7) ;
 		
-		Chemin<TestArete,TestPoint,TestContent> test = plus_courts.random();
+		Chemin<TestChemin,TestArete,TestPoint,TestContent> test = plus_courts.random();
 		System.out.println( test );
 		
 		//System.out.println( graphe ) ;

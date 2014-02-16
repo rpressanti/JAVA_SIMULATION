@@ -7,12 +7,15 @@ import java.util.LinkedList;
 
 @SuppressWarnings("serial")
 
-public class Chemin<A extends Arete<A,N,P> , N extends Noeud<A,N,P>, P> extends LinkedList<A> {
+public class Chemin<C extends Chemin<C,A,N,P> , A extends Arete<A,N,P> , N extends Noeud<A,N,P>, P> extends LinkedList<A> {
+	
+	protected Class<C> classe_chemin ;
 	private Double length ;
 	
 	
-	public Chemin() {
+	public Chemin( Class<C> classe_chemin ) {
 		super() ;
+		this.classe_chemin = classe_chemin ;
 		this.length = new Double( 0.0 ) ;
 	}
 	
@@ -42,13 +45,13 @@ public class Chemin<A extends Arete<A,N,P> , N extends Noeud<A,N,P>, P> extends 
 		return result ;
 	}
 	
-	public Chemins<A,N,P> successeurs() {
+	public Chemins<C,A,N,P> successeurs() {
 		
-		Chemins<A,N,P> result = new Chemins<A,N,P>() ;
+		Chemins<C,A,N,P> result = new Chemins<C,A,N,P>( this.classe_chemin ) ;
 		
 		for( A arete : (Iterable<A>) this.last().getAretes().values() )
 		{
-			Chemin<A,N,P> tmp = this.clone() ;
+			C tmp = this.clone() ;
 			tmp.add( arete ) ;
 			result.add( tmp ) ;
 		}
@@ -76,12 +79,20 @@ public class Chemin<A extends Arete<A,N,P> , N extends Noeud<A,N,P>, P> extends 
 		return result ;
 	}
 	
-	public Chemin<A,N,P> clone() {
+	public C clone() {
 		
-		Chemin<A,N,P> result = new Chemin<A,N,P>() ;
+		C result = null ;
 		
-		for( A arete : this)
-			result.add( arete ) ;
+		try {
+
+			result = (C) this.classe_chemin.newInstance() ;
+			for( A arete : this)
+				result.add( arete ) ;
+		
+		} catch (Exception e ) {
+			System.out.println( "Clonage du chemin échoué" );
+		}
+		
 		
 		return result ;
 	}

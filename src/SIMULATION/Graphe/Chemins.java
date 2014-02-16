@@ -5,18 +5,20 @@ import java.util.PriorityQueue;
 // CLASS DONE
 
 @SuppressWarnings("serial")
-public class Chemins<A extends Arete<A,N,P>, N extends Noeud<A,N,P> ,P> extends PriorityQueue<Chemin<A,N,P>> {
+public class Chemins<C extends Chemin<C,A,N,P> , A extends Arete<A,N,P>, N extends Noeud<A,N,P> ,P> extends PriorityQueue<C> {
 
+	protected Class<C> classe_chemin ;
 	
-	public Chemins() {
-		super( 1 , new OrderByBalisesNb<A,N,P>()) ;
+	public Chemins( Class<C> classe_chemin ) {
+		super( 1 , new OrderByBalisesNb<C,A,N,P>()) ;
+		this.classe_chemin = classe_chemin ;
 	}
 	
 	public String toString() {
 		String string = this.size() + " chemins" + "\n" ;
 		Integer indice_chemin = new Integer( 0 ) ;
 		
-		for( Chemin<A,N,P> chemin : this )
+		for( Chemin<C,A,N,P> chemin : this )
 		{
 			indice_chemin ++ ;
 			string += "Chemin d'indice " + indice_chemin.toString() + "\n" ;
@@ -28,10 +30,10 @@ public class Chemins<A extends Arete<A,N,P>, N extends Noeud<A,N,P> ,P> extends 
 	}
 	
 		
-	public Chemins<A,N,P> minimizeNbBalises() {	
-		Chemins<A,N,P> result = new Chemins<A,N,P>() ;
+	public Chemins<C,A,N,P> minimizeNbBalises() {	
+		Chemins<C,A,N,P> result = new Chemins<C,A,N,P>( this.classe_chemin) ;
 
-		Chemin<A,N,P> current_elem =this.poll()  ;
+		C current_elem =this.poll()  ;
 		double length = current_elem.getLength() ;
 		
 		while( (current_elem = this.poll() ).getLength() == length )
@@ -40,16 +42,25 @@ public class Chemins<A extends Arete<A,N,P>, N extends Noeud<A,N,P> ,P> extends 
 		return result ;
 	}
 	
-	public Chemin<A,N,P> random() {
+
+	public C random() {
 		
-		Chemin<A,N,P> result = new Chemin<A,N,P>() ;
-		int nb_iter = (int) ( Math.random() * this.size()) , i = 0 ;
-		System.out.println( "Random:" + nb_iter ) ;
+		C result = null ;
 		
-		for( i = 0 ; i < nb_iter ; i++ )
-			result = this.poll() ;
+		try {
+			result = (C) this.classe_chemin.newInstance() ;
+			int nb_iter = (int) ( Math.random() * this.size()) , i = 0 ;
+			System.out.println( "Random:" + nb_iter ) ;
+			
+			for( i = 0 ; i < nb_iter ; i++ )
+				result = (C) this.poll() ;
+		
+		} catch( Exception e) {
+			System.out.println( "Erreur sélection chemin aléatoire" );
+		}
 
 		return result ;
+
 	}
 	
 	

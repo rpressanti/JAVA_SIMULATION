@@ -36,8 +36,8 @@ public class Simulation implements InterfaceModele {
 	private HashMap<String,Balise> balises ;
 	private HashMap<String , Aerodrome> aerodromes ;
 	
-	private GrapheComplet<Segment,NoeudTrajectoire,Point> grapheComplet ;
-	private Graphe<Segment,NoeudTrajectoire,Point> grapheFiltre ;
+	private GrapheComplet<Trajectoire,Segment,NoeudTrajectoire,Point> grapheComplet ;
+	private GrapheComplet<Trajectoire,Segment,NoeudTrajectoire,Point> grapheFiltre ;
 	
 	private HashMap<String,Avion> avions ;
 	private HashMap<Avion,Trajectoire> trajectoires ;
@@ -63,8 +63,8 @@ public class Simulation implements InterfaceModele {
 		this.avions = new HashMap<String,Avion>() ;
 		this.trajectoires = new HashMap<Avion,Trajectoire>() ;
 		
-		this.grapheComplet = new GrapheComplet<Segment,NoeudTrajectoire,Point>( Segment.class , NoeudTrajectoire.class , Point.class) ;
-		this.grapheFiltre = new Graphe<Segment,NoeudTrajectoire,Point> ( Segment.class , NoeudTrajectoire.class , Point.class ) ;
+		this.grapheComplet = new GrapheComplet<Trajectoire,Segment,NoeudTrajectoire,Point>( Trajectoire.class , Segment.class , NoeudTrajectoire.class , Point.class) ;
+		this.grapheFiltre = new GrapheComplet<Trajectoire,Segment,NoeudTrajectoire,Point> ( Trajectoire.class , Segment.class , NoeudTrajectoire.class , Point.class ) ;
 		
 		this.distance_max = 0 ;
 		
@@ -518,21 +518,32 @@ public class Simulation implements InterfaceModele {
 	}
 	
 	public Trajectoire calculer_trajectoire( Repere origine , Repere destination ) {
+
+		//boolean regen_need = false ;
 		
-		Graphe<Segment,NoeudTrajectoire,Point> graphe_buffer = this.grapheFiltre.clone() ;
-		if ( ! this.genererGrapheTotal() )
-			return null ;
+		GrapheComplet<Trajectoire,Segment,NoeudTrajectoire,Point> graphe_buffer = ( GrapheComplet<Trajectoire,Segment,NoeudTrajectoire,Point> ) this.grapheFiltre.clone() ;
 	
 		NoeudTrajectoire noeud_depart  = this.grapheComplet.getNoeud( (Point) origine  ) ;
 		NoeudTrajectoire noeud_arrivee = this.grapheComplet.getNoeud( (Point) destination ) ;
 		
 		if( origine instanceof Aerodrome)
+		{
 			this.ajouterAerodrome( graphe_buffer , noeud_depart );
+
+		}
 		if( destination instanceof Aerodrome)
+		{
 			this.ajouterAerodrome( graphe_buffer , noeud_arrivee );
+
+		}
 		
-		// TODO Rajouter Polymorphisme 
-		return (Trajectoire) graphe_buffer.djikstra( noeud_depart , noeud_arrivee ).minimizeNbBalises().random() ;
+		graphe_buffer.generer() ;
+		
+		Chemins<Trajectoire,Segment,NoeudTrajectoire,Point> test = graphe_buffer.djikstra( noeud_depart , noeud_arrivee ) ;
+		System.out.println( "Avant filtrage:" + test) ;
+		
+		
+		return (Trajectoire) graphe_buffer.djikstra( noeud_depart , noeud_arrivee )/*.minimizeNbBalises()*/.random() ;
 	}
 	
 	
@@ -557,7 +568,7 @@ public class Simulation implements InterfaceModele {
 	}
 
 	// DONE
-	private void ajouterAerodrome( Graphe<Segment,NoeudTrajectoire,Point> graphe_buffer , NoeudTrajectoire aerodrome ) {
+	private void ajouterAerodrome( Graphe<Trajectoire,Segment,NoeudTrajectoire,Point> graphe_buffer , NoeudTrajectoire aerodrome ) {
 		
 		NoeudTrajectoire copie = aerodrome.clone() ;
 		graphe_buffer.add( copie ) ;
@@ -590,11 +601,12 @@ public class Simulation implements InterfaceModele {
 		simulation.charger_avions( "fichiers/avions.txt") ;
 		System.out.println( simulation.getAvions().size() + "Avions chargés" ) ;
 		for( Avion avion : simulation.getAvions().values() )
-			System.out.println( avion ) ;
+			System.out.println( avion.getNom() ) ;
 	
-		simulation.setDistanceMax( 2000 ) ;
-		Trajectoire test = simulation.calculer_trajectoire( simulation.getAerodromes().get("LFOI") , simulation.getAerodromes().get("LFBA")) ;
-		System.out.println( test ) ;
+		simulation.setDistanceMax( 200 ) ;
+		//Trajectoire test = simulation.calculer_trajectoire( simulation.getAerodromes().get("LFOI") , simulation.getAerodromes().get("LFBA")) ;
+		Trajectoire test = simulation.calculer_trajectoire( simulation.getBalises().get("ABB") , simulation.getBalises().get("ABB")) ;
+		System.out.println( "Traj:" + test ) ;
 		//simulation.calculer_trajectoires() ;
 		System.out.println("Nb traj:" + simulation.trajectoires.size() ) ;
 	}

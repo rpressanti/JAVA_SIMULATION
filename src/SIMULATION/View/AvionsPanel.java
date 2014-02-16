@@ -32,7 +32,7 @@ public class AvionsPanel extends PanelElements {
 		
 		Dimension dim = null ;
 		
-		/*
+		
 		for ( Avion avion : this.model.getAvions().values() )
 		   for( Plot plot : avion.getPlots() )
 		   {
@@ -52,7 +52,7 @@ public class AvionsPanel extends PanelElements {
 			g.drawRect( base_x - taille , base_y - taille , 2 * taille , 2 * taille);
 				   			   
 		  }
-		  */ 
+		   
 		  
 	}
 			
