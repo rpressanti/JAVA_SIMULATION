@@ -511,7 +511,7 @@ public class Simulation implements InterfaceModele {
 		this.distance_max = distance_max ;
 		this.grapheFiltre = this.grapheComplet.clone() ;
 		this.grapheFiltre.filtrer( this.distance_max ) ;
-		
+		// TODO CORRECT this.calculer_trajectoires();
 		return true ;
 	}
 	

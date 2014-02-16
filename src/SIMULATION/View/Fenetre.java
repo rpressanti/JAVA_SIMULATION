@@ -21,7 +21,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import javax.print.DocFlavor.URL;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -171,6 +173,14 @@ public class Fenetre extends JFrame implements ViewSimulation
 		
 		JFrame jf= new JFrame("simulation");
 		this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);
+		
+		// tentative pour mettre une icone a la fenetre
+		ImageIcon icon = new ImageIcon(" /images/enac_logo.png");
+		jf.setIconImage(icon.getImage());
+				
+		
+		//this.setIconImage(new ImageIcon("image.gif"));
+		
 		/*
 		 * On fixe la taille de la fenêtre comme étant la somme de celles du panel principal et du panel des boutons
 		 * pour éviter que le panel principal n'apparaisse pas. 
@@ -324,13 +334,22 @@ public class Fenetre extends JFrame implements ViewSimulation
 	public void quitter()
 	{
 		 System.out.println("Fin ...");
+		
+	// pour mettre licone aviation civil
+	//	 ImageIcon img = new ImageIcon("images/enac.png");
+	//	 JOptionPane jop1 = new JOptionPane();
+		 
+		 
+	//	 if (jop1.showConfirmDialog(this, "Désirez-vous quitter l'application ?",img)
+	      //        == jop1.YES_OPTION) System.exit(0); 
 		 if (JOptionPane.showConfirmDialog(this, "Désirez-vous quitter l'application ?")
 	              == JOptionPane.YES_OPTION) System.exit(0); 
-		 setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		 setVisible(true);
-		 //System.exit(0);
+		
+		Fenetre.this.dispose();
+		
 	}
 	
+		
 	/**
 	 * 
 	 * @param must_exist 
