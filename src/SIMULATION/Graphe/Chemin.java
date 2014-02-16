@@ -49,8 +49,9 @@ public class Chemin<C extends Chemin<C,A,N,P> , A extends Arete<A,N,P> , N exten
 		
 		Chemins<C,A,N,P> result = new Chemins<C,A,N,P>( this.classe_chemin ) ;
 		
-		for( A arete : (Iterable<A>) this.last().getAretes().values() )
+		for( A arete : this.last().getAretes().values() )
 		{
+			//System.out.println( "Succ" + arete.getDestination().getContent()) ;
 			C tmp = this.clone() ;
 			tmp.add( arete ) ;
 			result.add( tmp ) ;
@@ -59,8 +60,14 @@ public class Chemin<C extends Chemin<C,A,N,P> , A extends Arete<A,N,P> , N exten
 		return result ;
 	}
 	
+	
 	public N last() {
-		return this.get( this.size() -1 ).getDestination() ;
+		N result = null ;
+		
+		if( ! this.isEmpty() )
+			result = this.get( this.size() -1 ).getDestination() ;
+	
+		return result ;
 	}
 	
 	
@@ -68,15 +75,8 @@ public class Chemin<C extends Chemin<C,A,N,P> , A extends Arete<A,N,P> , N exten
 		return ( this.size() == 1 ) && this.get( 0 ).isTrivial() ;
 	}
 	
-	public boolean untrivial() {
-		
-		boolean result = false ;
-		
-		for( A arete : this )
-			if( arete.isTrivial() ) 
-				this.remove( arete ) ;
-		
-		return result ;
+	public void untrivial() {
+		this.remove( this.get(0) ) ;
 	}
 	
 	public C clone() {

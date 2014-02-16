@@ -18,7 +18,7 @@ public class Trajectoire extends Chemin<Trajectoire,Segment,NoeudTrajectoire,Poi
 
 		String string = "" ;
 		
-		if( this.isTrivial() )
+		if( this.isEmpty() )
 			return "" ;
 		else
 			string = this.get( 0 ).getOrigine().getContent().toString() ;

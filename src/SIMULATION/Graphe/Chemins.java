@@ -24,7 +24,8 @@ public class Chemins<C extends Chemin<C,A,N,P> , A extends Arete<A,N,P>, N exten
 			string += "Chemin d'indice " + indice_chemin.toString() + "\n" ;
 			string += chemin.toString() ;
 		}
-			
+		
+		string += "\n" ;
 	
 		return string ;
 	}
@@ -45,22 +46,13 @@ public class Chemins<C extends Chemin<C,A,N,P> , A extends Arete<A,N,P>, N exten
 
 	public C random() {
 		
-		C result = null ;
+		int nb_iter = (int) ( Math.random() * this.size() ) ;
+		System.out.println( "Random:" + nb_iter ) ;			
+		@SuppressWarnings("unchecked")
+		C result = (C) this.toArray()[0] ; //[nb_iter] ;	
 		
-		try {
-			result = (C) this.classe_chemin.newInstance() ;
-			int nb_iter = (int) ( Math.random() * this.size()) , i = 0 ;
-			System.out.println( "Random:" + nb_iter ) ;
-			
-			for( i = 0 ; i < nb_iter ; i++ )
-				result = (C) this.poll() ;
-		
-		} catch( Exception e) {
-			System.out.println( "Erreur sélection chemin aléatoire" );
-		}
-
 		return result ;
-
+		 
 	}
 	
 	

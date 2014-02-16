@@ -332,8 +332,7 @@ public class Simulation implements InterfaceModele {
 						//System.out.println( "result:" + code_OACI );
 						
 						new_ad = new Aerodrome( nom , code_OACI , longitude , latitude ) ;
-						this.aerodromes.put( nom , new_ad ) ;
-						this.grapheComplet.add( new_ad ) ;
+						this.aerodromes.put( code_OACI , new_ad ) ;
 					
 					} catch ( Exception e) {
 						System.out.println( "Erreur cr�ation a�rodrome:" + tmp_line );
@@ -513,37 +512,32 @@ public class Simulation implements InterfaceModele {
 		this.grapheFiltre = this.grapheComplet.clone() ;
 		this.grapheFiltre.filtrer( this.distance_max ) ;
 		
-		//return this.calculer_trajectoires() ;
 		return true ;
 	}
 	
 	public Trajectoire calculer_trajectoire( Repere origine , Repere destination ) {
 
-		//boolean regen_need = false ;
-		
 		GrapheComplet<Trajectoire,Segment,NoeudTrajectoire,Point> graphe_buffer = ( GrapheComplet<Trajectoire,Segment,NoeudTrajectoire,Point> ) this.grapheFiltre.clone() ;
-	
-		NoeudTrajectoire noeud_depart  = this.grapheComplet.getNoeud( (Point) origine  ) ;
-		NoeudTrajectoire noeud_arrivee = this.grapheComplet.getNoeud( (Point) destination ) ;
-		
+		NoeudTrajectoire noeud_depart  = null ;
+		NoeudTrajectoire noeud_arrivee = null ;
+
 		if( origine instanceof Aerodrome)
-		{
-			this.ajouterAerodrome( graphe_buffer , noeud_depart );
-
-		}
+			noeud_depart = this.ajouterAerodrome( graphe_buffer , new NoeudTrajectoire( (Point) origine ) );
+		else
+			noeud_depart  = graphe_buffer.getNoeud( (Point) origine  ) ;
+		
 		if( destination instanceof Aerodrome)
-		{
-			this.ajouterAerodrome( graphe_buffer , noeud_arrivee );
-
-		}
+			noeud_arrivee = this.ajouterAerodrome( graphe_buffer , new NoeudTrajectoire( (Point) destination ) );
+		else
+			noeud_arrivee = graphe_buffer.getNoeud( (Point) destination ) ;
+		
 		
 		graphe_buffer.generer() ;
+		graphe_buffer.filtrer( this.distance_max ) ;
+
+				
 		
-		Chemins<Trajectoire,Segment,NoeudTrajectoire,Point> test = graphe_buffer.djikstra( noeud_depart , noeud_arrivee ) ;
-		System.out.println( "Avant filtrage:" + test) ;
-		
-		
-		return (Trajectoire) graphe_buffer.djikstra( noeud_depart , noeud_arrivee )/*.minimizeNbBalises()*/.random() ;
+		return (Trajectoire) graphe_buffer.djikstra( noeud_depart , noeud_arrivee ).random() ; //.minimizeNbBalises().random() ;
 	}
 	
 	
@@ -568,7 +562,7 @@ public class Simulation implements InterfaceModele {
 	}
 
 	// DONE
-	private void ajouterAerodrome( Graphe<Trajectoire,Segment,NoeudTrajectoire,Point> graphe_buffer , NoeudTrajectoire aerodrome ) {
+	private NoeudTrajectoire ajouterAerodrome( Graphe<Trajectoire,Segment,NoeudTrajectoire,Point> graphe_buffer , NoeudTrajectoire aerodrome ) {
 		
 		NoeudTrajectoire copie = aerodrome.clone() ;
 		graphe_buffer.add( copie ) ;
@@ -581,6 +575,7 @@ public class Simulation implements InterfaceModele {
 			if ( arete.getWeight() < this.distance_max )
 				graphe_buffer.add( arete.getOrigine().getContent() , aerodrome.getContent() , arete.getWeight() ) ;
 		
+		return copie ;
 	}
 	
 	
@@ -590,25 +585,27 @@ public class Simulation implements InterfaceModele {
 		Simulation simulation = new Simulation() ;
 		
 		simulation.charger_aerodromes( "fichiers/aerodromes_fr.txt" ) ;
-		System.out.println( simulation.getAerodromes().values().size() ) ;
+		//System.out.println( simulation.getAerodromes().values().size() ) ;
 		
 		simulation.charger_balises( "fichiers/balises_fr.txt" ) ;
-		System.out.println( simulation.getBalises().values().size() ) ;
+		//System.out.println( simulation.getBalises().values().size() ) ;
+
+		
+		
+		//System.out.println( "Chargement avions" );
+		simulation.charger_avions( "fichiers/avions.txt") ;
+		//System.out.println( simulation.getAvions().size() + "Avions chargés" ) ;
+		//for( Avion avion : simulation.getAvions().values() )
+		//	System.out.println( avion.getNom() ) ;
+	
 
 		simulation.genererGrapheTotal() ;
-		
-		System.out.println( "Chargement avions" );
-		simulation.charger_avions( "fichiers/avions.txt") ;
-		System.out.println( simulation.getAvions().size() + "Avions chargés" ) ;
-		for( Avion avion : simulation.getAvions().values() )
-			System.out.println( avion.getNom() ) ;
-	
-		simulation.setDistanceMax( 200 ) ;
-		//Trajectoire test = simulation.calculer_trajectoire( simulation.getAerodromes().get("LFOI") , simulation.getAerodromes().get("LFBA")) ;
-		Trajectoire test = simulation.calculer_trajectoire( simulation.getBalises().get("ABB") , simulation.getBalises().get("ABB")) ;
+		simulation.setDistanceMax( 2000 ) ;
+		Trajectoire test = simulation.calculer_trajectoire( simulation.getAerodromes().get("LFOI") , simulation.getAerodromes().get("LFBA")) ;
+		//Trajectoire test = simulation.calculer_trajectoire( simulation.getBalises().get("AGN") , simulation.getBalises().get("ABB")) ;
 		System.out.println( "Traj:" + test ) ;
 		//simulation.calculer_trajectoires() ;
-		System.out.println("Nb traj:" + simulation.trajectoires.size() ) ;
+		//System.out.println("Nb traj:" + simulation.trajectoires.size() ) ;
 	}
 	
 	

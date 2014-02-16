@@ -149,17 +149,20 @@ public class Graphe<C extends Chemin<C,A,N,E> , A extends Arete<A,N,E>,N extends
 	public Chemins<C,A,N,E> djikstra( N origine , N destination) {
 
 		HashMap<N,Double> distance_connue = new HashMap<N,Double>() ;
+		HashMap<N,Double> distance_provisoire = new HashMap<N,Double>() ;
 		Chemins<C,A,N,E> plus_courts = new Chemins<C,A,N,E>( this.classeChemin) ;
 		
 		//Chemin<C,A,N,E> chemin_trivial = new Chemin<C,A,N,E>( this.classeChemin ) ;
 		C chemin_trivial = null ;
 		C chemin_courant = null ;
-		PriorityQueue<C> a_traiter = new PriorityQueue<C>( 1 , new DestinationFirst( destination ) ) ;
 		// Initialisation de la Queue de priorite
+		PriorityQueue<C> a_traiter = new PriorityQueue<C>( 1 , new DestinationFirst( destination ) ) ;
+		
 		
 		try {
 			
 			chemin_trivial = this.classeChemin.newInstance() ;
+			System.out.println( "Création chemin trivial" );
 			A arete_triviale = this.classeArete.getDeclaredConstructor(
 						new Class[] { this.classeNoeud , this.classeNoeud , Double.class }
 					).newInstance( origine , origine , 0.0 ) ;
@@ -167,7 +170,8 @@ public class Graphe<C extends Chemin<C,A,N,E> , A extends Arete<A,N,E>,N extends
 			chemin_courant = this.classeChemin.newInstance() ; 
 		
 		} catch( Exception e) {
-			System.err.println( "Arete triviale non cr��e" ) ;
+			System.err.println( "Arete triviale non créée" ) ;
+			e.printStackTrace();
 		}
 		
 		
@@ -176,32 +180,56 @@ public class Graphe<C extends Chemin<C,A,N,E> , A extends Arete<A,N,E>,N extends
 
 		
 		
-		//System.out.println( "Debut algo" ) ;
+		System.out.println( "Debut algo" ) ;
 		
 		while ( ! a_traiter.isEmpty() )
 		{	
-			//System.out.println( "Entr�e dans la boucle" ) ;
+			//System.out.println( "Entrée dans la boucle|A_triater:" + a_traiter.size() + "|Connue:" + distance_connue.size() ) ;
 			
-			// On commence par r�cup�rer ceux allant � la destination parmi les sous-chemins les plus courts
-			while( (! a_traiter.isEmpty() ) && (chemin_courant = a_traiter.poll()).last().equals( destination ) )
+			// On commence par récupérer ceux allant à la destination parmi les sous-chemins les plus courts
+			while( (! a_traiter.isEmpty() ) && (chemin_courant = a_traiter.remove()).last().getContent() == destination.getContent() )
 			{	
-				//System.out.println( "plus court trouv�");
-				if ( chemin_courant.isTrivial() )
+				System.out.println( "plus court trouvé" ) ;
+				System.out.println( chemin_courant );
+				
+				// TODO CORRECT
+				if ( ! chemin_courant.isTrivial() )
 					chemin_courant.untrivial();
+				
 				plus_courts.add( chemin_courant ) ;
 			}
+			
+			//System.out.println( chemin_courant.last().getContent() ) ;
+			
 			// S'il y en a, le traitement est fini
 			if( ! plus_courts.isEmpty() )
 				return plus_courts ;
 	
-			distance_connue.put( chemin_courant.last() , chemin_courant.getLength() ) ;
-			//System.out.println( "Last" + chemin_courant.last().getContent() ) ;
-			
 			// Sinon, on itere
-			for( C nouveau : chemin_courant.successeurs() )
-				if( ! distance_connue.containsKey( nouveau.last() ) )
-					a_traiter.add( nouveau ) ;		
-
+			distance_connue.put( chemin_courant.last() , chemin_courant.getLength() ) ;				
+			
+			
+			
+			if( ! distance_provisoire.containsKey( chemin_courant.last() )
+					|| 
+				distance_provisoire.get( chemin_courant.last() ) >= chemin_courant.getLength() 
+					)
+			{
+				distance_provisoire.put( chemin_courant.last() , chemin_courant.getLength() ) ;				
+				//System.out.println( "Mise à jour distance provisoire" );
+				//System.out.println( "Last" + chemin_courant.last().getContent() ) ;
+ 
+				for( C nouveau : chemin_courant.successeurs() )
+					if( ! distance_connue.containsKey( nouveau.last() ) )
+					{	
+						a_traiter.add( nouveau ) ;
+						distance_provisoire.put( nouveau.last() , nouveau.getLength() ) ;				
+						//System.out.println( "Ajout de:" + nouveau.last().getContent() );
+					} else {
+						//System.out.println( "Element deja présent" + nouveau.last().getContent() );
+					}
+			}
+			
 		} 
 		
 		return plus_courts ;
