@@ -20,7 +20,7 @@ public class Plot extends Point {
 	
 	public Plot( Point point , int order ) {
 		super( point.getLongitude().getValue() , point.getLatitude().getValue() ) ;
-		this.order = 0 ;
+		this.order = order ;
 	}
 	
 	

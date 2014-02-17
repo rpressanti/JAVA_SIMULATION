@@ -43,7 +43,7 @@ public class Simulation implements InterfaceModele {
 	private HashMap<Avion,Trajectoire> trajectoires ;
 	
 	private double distance_max ;
-	private static final int intervalle_d_iteration = 0 ;
+	public static final int intervalle_d_iteration = 30 ;
 	private double distanceEntreAvions ;
 	
 	// DONE
@@ -200,12 +200,15 @@ public class Simulation implements InterfaceModele {
 		
 		// On bouge les avions
 		for( Avion avion : this.avions.values() )
-			result &= avion.iterer( Simulation.intervalle_d_iteration , this.heure_courante.getTime() ) ;
-	
+			if( ! avion.iterer( Simulation.intervalle_d_iteration , this.heure_courante.getTime() ) )
+				this.avions.remove( avion.getNom() ) ;
+
 		// On detecte les conflits
 		result &= this.detecter_conflits() ;
 		// On rafraichit les vues
 		result &= this.rafraichir() ;
+		
+		//System.out.println( this.heure_courante.getTime() );
 		
 		return result ;
 	}
@@ -557,9 +560,11 @@ public class Simulation implements InterfaceModele {
 		for( Avion avion : this.avions.values() )
 		{
 			Trajectoire trajectoire = calculer_trajectoire( avion.getDepart() , avion.getArrivee() ) ;
-			avion.setTrajectoire( trajectoire ) ;
+			avion.setTrajectoire( trajectoire.clone() ) ;
 			this.trajectoires.put( avion , trajectoire ) ;
 		}
+		
+		this.phase_prete = PHASE.DEMARRAGE ;
 		
 		return result ;
 	}

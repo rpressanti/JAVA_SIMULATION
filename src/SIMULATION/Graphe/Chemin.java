@@ -10,7 +10,7 @@ import java.util.LinkedList;
 public class Chemin<C extends Chemin<C,A,N,P> , A extends Arete<A,N,P> , N extends Noeud<A,N,P>, P> extends LinkedList<A> {
 	
 	protected Class<C> classe_chemin ;
-	private Double length ;
+	protected Double length ;
 	
 	
 	public Chemin( Class<C> classe_chemin ) {
@@ -18,6 +18,9 @@ public class Chemin<C extends Chemin<C,A,N,P> , A extends Arete<A,N,P> , N exten
 		this.classe_chemin = classe_chemin ;
 		this.length = new Double( 0.0 ) ;
 	}
+	
+
+	
 	
 	public String toString() {
 		String string = "Chemin de longueur " + this.getLength().toString() + "\n" ;
@@ -88,6 +91,8 @@ public class Chemin<C extends Chemin<C,A,N,P> , A extends Arete<A,N,P> , N exten
 			result = (C) this.classe_chemin.newInstance() ;
 			for( A arete : this)
 				result.add( arete ) ;
+			result.classe_chemin = this.classe_chemin ;
+			result.length = this.length ;
 		
 		} catch (Exception e ) {
 			System.out.println( "Clonage du chemin échoué" );

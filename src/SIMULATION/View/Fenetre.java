@@ -619,7 +619,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 			
 			if ( Fenetre.this.execution_automatique )
 			{
-				System.out.println( "Execution du timer" ) ;
+				//System.out.println( "Execution du timer" ) ;
 				Fenetre.this.modele.iterer() ;
 			}
 			
@@ -637,6 +637,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 	 */
 	public boolean rafraichir() {
 		
+		this.pan_principal.rafraichir() ; 
 		this.pan_principal.revalidate();
 		this.pan_principal.repaint();
 		
@@ -647,13 +648,16 @@ public class Fenetre extends JFrame implements ViewSimulation
 		
 		Simulation modele = new Simulation() ;
 		
+		modele.setHeureCourante( new GregorianCalendar( 2014 , 02 , 15 , 7 , 59 ) );
+		
 		modele.charger_balises( "./fichiers/balises_fr.txt" ) ;
 		modele.charger_aerodromes( "./fichiers/aerodromes_fr.txt" ) ;
 		
 		Fenetre fen_1 = new Fenetre( modele );
-		Fenetre fen_2 = new Fenetre( modele );
+		//Fenetre fen_2 = new Fenetre( modele );
 		
 		modele.charger_avions( "fichiers/avions.txt") ;
-		modele.calculer_trajectoires() ;
+		modele.setDistanceMax( 5 ) ;
+
 	}
 		}// end class

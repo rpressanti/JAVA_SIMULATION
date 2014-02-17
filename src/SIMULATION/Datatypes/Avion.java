@@ -3,6 +3,8 @@ package SIMULATION.Datatypes ;
 import java.util.ArrayList;
 import java.util.Date;
 
+import SIMULATION.Modele.Simulation;
+
 
 public class Avion {
 	
@@ -58,21 +60,35 @@ public class Avion {
 	// DONE
 	public boolean iterer( double intervalle_de_temps , Date heure_courante) 
 	{
+		//System.out.println( "Iteration d'un avion" );
+		
 		int plots_restants = Avion.NbPlots , indice_segment = 0 ;
-		Segment segment = this.trajectoire.element() ;
 		
-		if ( this.heure_depart.before( heure_courante ))
+		if ( this.heure_depart.after( heure_courante ))
 			return false ;
-
-		segment = this.trajectoire.element() ;
-
-		if( segment.totalement_parcourue() )
-			this.trajectoire.remove();
 		
-		while( ( plots_restants >= 0) &&( indice_segment < this.trajectoire.size() ) )
+		if( this.trajectoire.isEmpty() )
+		{
+			//System.out.println( "Fin du trajet" );
+			return false ;
+		}
+		
+		Segment segment = this.trajectoire.element() ;
+
+		if( segment.totalement_parcouru() )
+		{
+			//System.out.println( "Suppression d'un segment" );
+			this.trajectoire.remove();
+		} else {
+			System.out.println( "DistanceRestante : " + segment.getDistanceRestante() );
+		}
+		
+		
+		while( ( plots_restants >= 0) && ( indice_segment < this.trajectoire.size() ) )
 		{	
 			segment = this.trajectoire.get( indice_segment++ ) ;
 			plots_restants = segment.iterer(plots_restants , this.vitesse , intervalle_de_temps ) ;
+			//System.out.println( "Plots_restants:" + plots_restants) ;
 		}
 				
 		return true ;
@@ -90,7 +106,7 @@ public class Avion {
 			return false ;
 		
 		for( Segment segment : this.trajectoire )
-			segment.setVitesse( this.vitesse ) ;
+			segment.setVitesse( this.vitesse , Simulation.intervalle_d_iteration ) ;
 		
 		return true ;
 
@@ -103,9 +119,12 @@ public class Avion {
 		ArrayList<Plot> plots = new ArrayList<Plot>() ;
 
 		if( this.trajectoire.isEmpty() )
+		{
+			System.out.println( "Trajectoire vide!" );
 			return plots ;
+		}
 		
-		Segment current_segment = this.trajectoire.get( 0 ) ;
+		Segment current_segment = null ; //this.trajectoire.get( 0 ) ;
 		
 		for( indice_segment = 0 , nb_plots = 0 ; ( nb_plots < Avion.NbPlots) && ( indice_segment < this.trajectoire.size() ) ; indice_segment++)
 		{
@@ -117,6 +136,8 @@ public class Avion {
 			}
 		} 
 		
+		
+		//System.out.println( "Nb de plots:" + plots.size() ) ;
 		return plots ;
 	}
 	

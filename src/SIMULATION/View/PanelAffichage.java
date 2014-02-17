@@ -26,7 +26,7 @@ public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 /**
  * affichage du nom d'un repère (balise ou aérodrome) si l'echelle est supérieur à cette valeur.
  */
-	public static final Double echelle_min_aff_nom = 75.0 ;
+	public static final Double echelle_min_aff_nom = 100.0 ;
 	/**
 	 * affichage des coordonnées d'un repère (balise ou aérodrome) si l'echelle est supérieur à cette valeur.
 	 */
@@ -295,6 +295,8 @@ public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 	
 	
 	public void rafraichir() {
+		
+		//System.out.println( "Rafraichissement du PanelAffichage" );
 		
 		boolean afficher_nom = false ;
 		boolean afficher_coord = false ;

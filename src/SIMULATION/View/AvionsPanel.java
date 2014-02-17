@@ -30,13 +30,17 @@ public class AvionsPanel extends PanelElements {
 	{
 		super.paintComponent( g ) ;
 		
+		//System.out.println( "Rafraichissement des avions" );
+		
 		Dimension dim = null ;
 		
 		
 		for ( Avion avion : this.model.getAvions().values() )
 		   for( Plot plot : avion.getPlots() )
 		   {
-		   	Color color = Color.BLACK;
+			//System.out.println( "Affichage d'un plot d'ordre:" + plot.getOrder() ) ;   
+			   
+		   	Color color = Color.GREEN;
 		   	
 			 if( avion.getEnConflit() )
 				 color = Color.RED ;
@@ -49,7 +53,7 @@ public class AvionsPanel extends PanelElements {
 			int base_y = dim.height ;
 
 			g.setColor( color ) ;
-			g.drawRect( base_x - taille , base_y - taille , 2 * taille , 2 * taille);
+			g.fillRect( base_x - taille , base_y - taille , 2 * taille , 2 * taille);
 				   			   
 		  }
 		   
