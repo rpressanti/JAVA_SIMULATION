@@ -34,13 +34,16 @@ public class Chemins<C extends Chemin<C,A,N,P> , A extends Arete<A,N,P>, N exten
 	public Chemins<C,A,N,P> minimizeNbBalises() {	
 		Chemins<C,A,N,P> result = new Chemins<C,A,N,P>( this.classe_chemin) ;
 
+		if( this.isEmpty() )
+			return result ;
+		
 		C current_elem =this.poll()  ;
 		double length = current_elem.getLength() ;
 		
 		do {
 			result.add( current_elem ) ;
 		}
-		while( (current_elem = this.poll() ).getLength() == length ) ;
+		while( !this.isEmpty() && (current_elem = this.poll() ).getLength() == length ) ;
 			
 		//System.out.println( "Taille apres min:" + result.size() ) ;
 		

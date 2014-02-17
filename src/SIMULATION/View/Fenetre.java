@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.print.DocFlavor.URL;
 import javax.swing.ButtonGroup;
@@ -67,6 +69,13 @@ public class Fenetre extends JFrame implements ViewSimulation
 	 */
 	// Modele
 	private InterfaceModele modele ;
+	
+	/**
+	 * Booléen servant à activer ou désactiver l'itération automatique via un timer
+	 */
+	private boolean execution_automatique ;
+	private Timer timer_iteration ;
+	
 	
 	/**
 	 * barre du menu principal compose de 
@@ -166,6 +175,12 @@ public class Fenetre extends JFrame implements ViewSimulation
 		
 		this.modele =  modele ;
 		this.modele.enregistrer( this ) ;
+		
+		this.execution_automatique = false ;
+		this.timer_iteration = new Timer() ;
+		this.timer_iteration.scheduleAtFixedRate( new IterationAutomatique() , 500 , 500 );
+		
+		
 		/**
 		 *  niveau de zoom
 		 */
@@ -292,16 +307,16 @@ public class Fenetre extends JFrame implements ViewSimulation
 		jb_execution=new JButton("Execution Automatique");
 		pan_button.add(jb_execution);
 		// TODO  Listener ActionExecuter()
-		//jb_execution.addActionListener(new ActionExecuter());
+		jb_execution.addActionListener(new ActionExecuter());
 		
 		jb_iterer=new JButton("Pas à Pas");
 		pan_button.add(jb_iterer);
 		// TODO  Listener ActionIterer()
-		//jb_iterer.addActionListener(new ActionIterer());
+		jb_iterer.addActionListener(new ActionIterer());
 		
 		jb_stop=new JButton("Pause");
 		pan_button.add(jb_stop);
-		//jb_stop.addActionListener(new ActionStop());
+		jb_stop.addActionListener(new ActionStop());
 		
 				
 		JLabel jl_dbmax=new JLabel("Distance Maximale ");
@@ -569,6 +584,53 @@ public class Fenetre extends JFrame implements ViewSimulation
 			}
 	}
 	
+	private class ActionExecuter implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Fenetre.this.execution_automatique = true ;
+		}
+		
+	}
+	
+	private class ActionIterer implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Fenetre.this.modele.iterer() ;
+		}
+		
+	}
+	
+	private class ActionStop implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Fenetre.this.execution_automatique = false ;
+		}
+		
+	}
+	
+	
+	private class IterationAutomatique extends TimerTask {
+
+		@Override
+		public void run() {
+			
+			if ( Fenetre.this.execution_automatique )
+			{
+				System.out.println( "Execution du timer" ) ;
+				Fenetre.this.modele.iterer() ;
+			}
+			
+		}
+		
+	}
+	
+	
+	
+	
+	
 	
 	/**
 	 * rafraichit les différents panels spécifiques aux objets
@@ -589,7 +651,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 		modele.charger_aerodromes( "./fichiers/aerodromes_fr.txt" ) ;
 		
 		Fenetre fen_1 = new Fenetre( modele );
-		//Fenetre fen_2 = new Fenetre( modele );
+		Fenetre fen_2 = new Fenetre( modele );
 		
 		modele.charger_avions( "fichiers/avions.txt") ;
 		modele.calculer_trajectoires() ;

@@ -78,6 +78,9 @@ public class Simulation implements InterfaceModele {
 		this.heure_courante = courant ;
 	}
 	
+	public Calendar getHeureCourante() {
+		return this.heure_courante ;
+	}
 	
 	
 	public ArrayList<PHASE> phasePossible( PHASE phase ) {
@@ -182,9 +185,6 @@ public class Simulation implements InterfaceModele {
 		return this.trajectoires ;
 	}
 	
-	public Calendar getHeureCourante() {
-		return this.heure_courante ;
-	}
 	
 	
 	
