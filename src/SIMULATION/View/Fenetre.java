@@ -300,18 +300,15 @@ public class Fenetre extends JFrame implements ViewSimulation
 		//jaff_traj.addActionListener(new ActionAfficherTrajectoire());
 		this.jsave_traj= new JMenuItem("Sauvegarder");
 		trajectoire.add(jsave_traj);
-		//TODO  Listener ActionSauvegarderTrajectoire()
-		//jaff_traj.addActionListener(new ActionSauvegarderTrajectoire());
+		this.jsave_traj.addActionListener(new ActionSauvegarderTrajectoire());
 		
 		//boutons
 		jb_execution=new JButton("Execution Automatique");
 		pan_button.add(jb_execution);
-		// TODO  Listener ActionExecuter()
 		jb_execution.addActionListener(new ActionExecuter());
 		
 		jb_iterer=new JButton("Pas à Pas");
 		pan_button.add(jb_iterer);
-		// TODO  Listener ActionIterer()
 		jb_iterer.addActionListener(new ActionIterer());
 		
 		jb_stop=new JButton("Pause");
@@ -327,11 +324,10 @@ public class Fenetre extends JFrame implements ViewSimulation
 		jtf_dbmax.addActionListener(new ActionDistanceDbmax());
 		jtf_dbmax.addMouseListener( new Eff_DBMAX() );
 				
-		// TODO fusionner avec pause
+		
 		jb_recommencer=new JButton("Recommencer");
 		pan_button.add(jb_recommencer);
-		// TODO  Listener ActionRecommencer
-		//	jb.addActionListener(new ActionRecommencer());
+		jb_recommencer.addActionListener(new ActionRecommencer());
 		
 	 
 		// visualisation de la fenetre
@@ -628,6 +624,26 @@ public class Fenetre extends JFrame implements ViewSimulation
 	}
 	
 	
+	private class ActionRecommencer implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Fenetre.this.modele.reinitialiser() ;
+		}
+		
+	}
+	
+	private class ActionSauvegarderTrajectoire implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			String ficname = Fenetre.this.demander_nom_fichier( false) ;
+			Fenetre.this.modele.exporter_trajectoires( ficname ) ;
+			
+		}
+		
+	}
 	
 	
 	

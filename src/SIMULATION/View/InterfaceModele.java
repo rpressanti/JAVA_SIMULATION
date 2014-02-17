@@ -25,6 +25,7 @@ public interface InterfaceModele {
 	
 	public Trajectoire calculer_trajectoire( Repere origine , Repere destination ) ;
 	public boolean calculer_trajectoires() ;
+	public boolean exporter_trajectoires( String ficname ) ;
 	
 	public boolean iterer() ;
 	
