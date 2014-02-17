@@ -37,8 +37,12 @@ public class Chemins<C extends Chemin<C,A,N,P> , A extends Arete<A,N,P>, N exten
 		C current_elem =this.poll()  ;
 		double length = current_elem.getLength() ;
 		
-		while( (current_elem = this.poll() ).getLength() == length )
+		do {
 			result.add( current_elem ) ;
+		}
+		while( (current_elem = this.poll() ).getLength() == length ) ;
+			
+		//System.out.println( "Taille apres min:" + result.size() ) ;
 		
 		return result ;
 	}

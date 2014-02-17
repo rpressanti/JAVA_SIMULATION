@@ -182,6 +182,10 @@ public class Simulation implements InterfaceModele {
 		return this.trajectoires ;
 	}
 	
+	public Calendar getHeureCourante() {
+		return this.heure_courante ;
+	}
+	
 	
 	
 	// DONE
@@ -511,8 +515,7 @@ public class Simulation implements InterfaceModele {
 		this.distance_max = distance_max ;
 		this.grapheFiltre = this.grapheComplet.clone() ;
 		this.grapheFiltre.filtrer( this.distance_max ) ;
-		// TODO CORRECT this.calculer_trajectoires();
-		return true ;
+		return this.calculer_trajectoires();
 	}
 	
 	public Trajectoire calculer_trajectoire( Repere origine , Repere destination ) {
@@ -537,7 +540,7 @@ public class Simulation implements InterfaceModele {
 
 				
 		
-		return (Trajectoire) graphe_buffer.djikstra( noeud_depart , noeud_arrivee ).random() ; //.minimizeNbBalises().random() ;
+		return (Trajectoire) graphe_buffer.djikstra( noeud_depart , noeud_arrivee ).minimizeNbBalises().random() ;
 	}
 	
 	
