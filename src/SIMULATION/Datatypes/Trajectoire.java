@@ -10,7 +10,7 @@ public class Trajectoire extends Chemin<Trajectoire,Segment,NoeudTrajectoire,Poi
 	
 	
 	public Trajectoire() {
-		super( Trajectoire.class ) ;
+		super( Trajectoire.class , Segment.class , NoeudTrajectoire.class ) ;
 	}
 	
 

@@ -190,9 +190,9 @@ public class Fenetre extends JFrame implements ViewSimulation
 		this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);
 		
 		// tentative pour mettre une icone a la fenetre
-		ImageIcon icon = new ImageIcon(" /images/enac_logo.png");
-		jf.setIconImage(icon.getImage());
-				
+		//ImageIcon icon = new ImageIcon("./images/enac_logo.png");
+		//jf.setIconImage(icon.getImage());
+		jf.setIconImage( getToolkit().getImage("./images/enac_logo.png"));
 		
 		//this.setIconImage(new ImageIcon("image.gif"));
 		
@@ -673,7 +673,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 		//Fenetre fen_2 = new Fenetre( modele );
 		
 		modele.charger_avions( "fichiers/avions.txt") ;
-		modele.setDistanceMax( 5 ) ;
+		modele.setDistanceMax( 500 ) ;
 
 	}
 		}// end class

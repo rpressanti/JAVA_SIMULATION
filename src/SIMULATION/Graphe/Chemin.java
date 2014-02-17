@@ -10,12 +10,16 @@ import java.util.LinkedList;
 public class Chemin<C extends Chemin<C,A,N,P> , A extends Arete<A,N,P> , N extends Noeud<A,N,P>, P> extends LinkedList<A> {
 	
 	protected Class<C> classe_chemin ;
+	protected Class<A> classe_arete ;
+	protected Class<N> classe_noeud ;
 	protected Double length ;
 	
 	
-	public Chemin( Class<C> classe_chemin ) {
+	public Chemin( Class<C> classe_chemin , Class<A> classe_arete , Class<N> classe_noeud ) {
 		super() ;
 		this.classe_chemin = classe_chemin ;
+		this.classe_arete = classe_arete ;
+		this.classe_noeud = classe_noeud ;
 		this.length = new Double( 0.0 ) ;
 	}
 	
@@ -85,12 +89,30 @@ public class Chemin<C extends Chemin<C,A,N,P> , A extends Arete<A,N,P> , N exten
 	public C clone() {
 		
 		C result = null ;
+		N noeud_origine = null , noeud_destination = null ;
+		A arete_tmp = null ;
 		
 		try {
-
+		
 			result = (C) this.classe_chemin.newInstance() ;
+			
+			if( this.isEmpty() )
+				return result ;
+			
+			noeud_origine = this.get(0).getOrigine().clone();
+			
 			for( A arete : this)
-				result.add( arete ) ;
+			{
+				noeud_destination = arete.getDestination().clone();
+				arete_tmp = this.classe_arete.getDeclaredConstructor( 
+						new Class[] { this.classe_noeud , this.classe_noeud , Double.class } 
+					).newInstance( noeud_origine , noeud_destination , arete.weight ) ;
+
+				noeud_origine = noeud_destination ;
+
+				result.add( arete_tmp ) ;
+			}
+			
 			result.classe_chemin = this.classe_chemin ;
 			result.length = this.length ;
 		

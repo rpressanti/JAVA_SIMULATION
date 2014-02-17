@@ -29,7 +29,7 @@ public abstract class Arete<A extends Arete<A,N,E> , N extends Noeud<A,N,E> , E>
 		this.destination.enregistrer_inverse( (A) this );
 			
 	}
-	
+		
 	
 	public String toString() {
 		return this.getWeight().toString() + " : " + this.getOrigine().getContent().toString() + " => " + this.getDestination().getContent().toString() ;

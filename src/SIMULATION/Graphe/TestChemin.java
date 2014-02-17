@@ -4,6 +4,6 @@ package SIMULATION.Graphe;
 public class TestChemin extends Chemin<TestChemin,TestArete,TestPoint,TestContent>{
 
 	public TestChemin() {
-		super( TestChemin.class ) ;
+		super( TestChemin.class , TestArete.class , TestPoint.class ) ;
 	}
 }

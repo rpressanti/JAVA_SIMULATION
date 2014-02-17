@@ -82,10 +82,15 @@ public abstract class Noeud<A extends Arete<A,N,E> , N extends Noeud<A,N,E> , E>
 
 	
 	public N clone() {
+
+		N result = null ;
+		
 		try {
-		return this.classeNoeud.getDeclaredConstructor( new Class[] { this.classeElement} ).newInstance( this.content) ;
+			result = this.classeNoeud.getDeclaredConstructor( new Class[] { this.classeElement} ).newInstance( this.content) ;
 		} catch( Exception e) {
-			return null ;
+			System.out.println( "Echec clonage noeud" );
 		}
+	
+		return result ;
 	}
 }

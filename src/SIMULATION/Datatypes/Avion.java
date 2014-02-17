@@ -80,7 +80,7 @@ public class Avion {
 			//System.out.println( "Suppression d'un segment" );
 			this.trajectoire.remove();
 		} else {
-			System.out.println( "DistanceRestante : " + segment.getDistanceRestante() );
+			//System.out.println( "DistanceRestante : " + segment.getDistanceRestante() );
 		}
 		
 		
@@ -100,7 +100,7 @@ public class Avion {
 	// DONE
 	public boolean setTrajectoire( Trajectoire trajectoire ) {
 
-		this.trajectoire = trajectoire ;
+		this.trajectoire = trajectoire.clone() ;
 		
 		if( this.trajectoire.isEmpty() )
 			return false ;
@@ -124,7 +124,7 @@ public class Avion {
 			return plots ;
 		}
 		
-		Segment current_segment = null ; //this.trajectoire.get( 0 ) ;
+		Segment current_segment = null ;
 		
 		for( indice_segment = 0 , nb_plots = 0 ; ( nb_plots < Avion.NbPlots) && ( indice_segment < this.trajectoire.size() ) ; indice_segment++)
 		{

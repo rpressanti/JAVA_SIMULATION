@@ -17,7 +17,10 @@ public class Segment extends Arete<Segment,NoeudTrajectoire,Point> {
 	public Segment( NoeudTrajectoire origine , NoeudTrajectoire destination , Double weight) {
 		
 		super( Segment.class , NoeudTrajectoire.class , Point.class , origine , destination , weight ) ;
-		this.position_courante = origine.getContent() ;
+		this.position_courante = new Point( 
+				origine.getContent().getLongitude().getValue() ,
+				origine.getContent().getLatitude().getValue()
+			) ;
 		this.totalement_parcouru = false ;
 		this.plots = new ArrayList<Plot>() ;
 		//this.distance_totale = this.getOrigine().getContent().distanceTo( this.getDestination().getContent() ) ; 
