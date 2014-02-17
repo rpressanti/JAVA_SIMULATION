@@ -321,8 +321,8 @@ public class Fenetre extends JFrame implements ViewSimulation
 	 
 		// visualisation de la fenetre
 		jf.pack();
-		jf.setVisible(true);   
-	
+		jf.setVisible(true);
+		
 	
 	} // fin constructeur       fenetre 		
 		
@@ -592,6 +592,6 @@ public class Fenetre extends JFrame implements ViewSimulation
 		//Fenetre fen_2 = new Fenetre( modele );
 		
 		modele.charger_avions( "fichiers/avions.txt") ;
-		modele.calculer_trajectoires() ;
+		//modele.calculer_trajectoires() ;
 	}
 		}// end class

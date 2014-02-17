@@ -165,20 +165,39 @@ public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 		public void componentResized(ComponentEvent e) {
 			
 			Dimension dim = ( (Component) e.getSource()).getSize() ;
+			int marge_largeur = 0 ;
+			int marge_hauteur = 0 ;
+			int min = 0 ;
 			
-			// On rend les panels carr�s
-			int min = dim.width ;
+			// On rend les panels carrés et on calcule les marges
+			if( dim.height > dim.width)
+			{
+				min = dim.width ;
+				marge_hauteur = ( dim.height - dim.width ) / 2 ;
+			}
+			
+			
 			if ( dim.height < dim.width )
+			{
 				min = dim.height ;
+				marge_largeur = ( dim.width - dim.height ) / 2 ;
+			}
 			
 			PanelAffichage.this.dimension  = new Dimension( min , min ) ;  
 		
 	
 			PanelAffichage.this.balises.setSize( PanelAffichage.this.dimension  );
+			PanelAffichage.this.balises.setLocation( marge_largeur, marge_hauteur );
+			
 			PanelAffichage.this.aerodromes.setSize( PanelAffichage.this.dimension  ) ;
+			PanelAffichage.this.aerodromes.setLocation( marge_largeur, marge_hauteur );
+			
 			PanelAffichage.this.trajectoires.setSize( PanelAffichage.this.dimension  ) ;
+			PanelAffichage.this.trajectoires.setLocation( marge_largeur, marge_hauteur );
+			
 			PanelAffichage.this.avions.setSize( PanelAffichage.this.dimension  );
-
+			PanelAffichage.this.avions.setLocation( marge_largeur, marge_hauteur );
+			
 			
 			PanelAffichage.this.rafraichir() ;
 			
