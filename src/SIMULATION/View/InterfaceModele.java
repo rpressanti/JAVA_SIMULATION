@@ -1,3 +1,6 @@
+/**
+ * @author Pressanti Richard
+ */
 package SIMULATION.View;
 
 import java.util.Date;

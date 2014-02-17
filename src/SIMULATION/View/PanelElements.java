@@ -1,3 +1,6 @@
+/**
+ * @author Pressanti Richard
+ */
 package SIMULATION.View;
 
 import javax.swing.JPanel;
@@ -16,8 +19,7 @@ public class PanelElements extends JPanel {
 		this.afficher_coordonnees = false ;
 
 	}
-	
-	
+		
 	public void setAffichage( boolean afficher_nom , boolean afficher_coordonnees ) {
 
 		this.afficher_nom = afficher_nom ;

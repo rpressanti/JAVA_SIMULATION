@@ -209,7 +209,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 		 * ce container contiendra
 		 * 1  panel de taille fixe pour les boutons en position haute
 		 * 1 JlayeredPanel pour la partie graphique
-		 * 1 panel pour les noutons en position basse 
+		 * 1 panel pour les boutons en position basse 
 		 */
 		Container pan = jf.getContentPane();
 		pan.setLayout( new BorderLayout() );
@@ -360,7 +360,6 @@ public class Fenetre extends JFrame implements ViewSimulation
 		
 	}
 	
-		
 	/**
 	 * 
 	 * @param must_exist 
@@ -471,8 +470,6 @@ public class Fenetre extends JFrame implements ViewSimulation
 			}			
 		}
 	}
-	
-
 	
 	/**
 	 * 
@@ -645,9 +642,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 		
 	}
 	
-	
-	
-	
+		
 	/**
 	 * rafraichit les différents panels spécifiques aux objets
 	 */

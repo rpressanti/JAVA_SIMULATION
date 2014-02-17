@@ -1,5 +1,6 @@
 /**
- * @author nora
+ * @author Nora
+ * @author Richard
  * cette classe permet l'affichage des objets aerodrome,balise,avion ,trajectoire .
  * cette classe permet de redimensionner les panels lors des differents zooms et lors du redimensionnement de la fenêtre principale.
  */

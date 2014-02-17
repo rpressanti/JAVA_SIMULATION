@@ -1,3 +1,11 @@
+/**
+ * @author Nora Gasmi
+ * @author Richard Pressanti
+ * Cette classe permet de symboliser un aérodrome par 2 pistes.
+ * Elle permet aussi de les placer dans l'IHM.
+ * Elle permet d'afficher le nom et les coordonnées d'un aérodrome
+ */
+
 package SIMULATION.View;
 
 
@@ -22,10 +30,8 @@ public class AerodromesPanel extends PanelElements {
 		
 		this.setOpaque( false ) ;
 	}
-	
-	
-	
 
+	
 	public void paintComponent(Graphics g) 
 	{
 		super.paintComponent( g ) ;
