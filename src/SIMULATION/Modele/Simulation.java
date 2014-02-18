@@ -3,6 +3,7 @@ package SIMULATION.Modele;
 
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.ObjectOutputStream;
@@ -244,7 +245,7 @@ public class Simulation implements InterfaceModele {
 
 	
 	// DONE
-	public boolean charger_balises( String ficname ) {
+	public boolean charger_balises( File ficname ) {
 				
 		Scanner scan_balise = null ;
 		String indicatif = "" , coord = "" , tmp_line = "";
@@ -298,7 +299,7 @@ public class Simulation implements InterfaceModele {
 	}
 	
 	// DONE
-	public boolean charger_aerodromes( String ficname ) {
+	public boolean charger_aerodromes( File ficname ) {
 		
 		Scanner scan_ad = null ;
 		String tmp_line = "" , nom = "" , code_OACI = "" ;
@@ -369,7 +370,7 @@ public class Simulation implements InterfaceModele {
 	
 	
 	// TODO IMPORT AVIONS
-	public boolean charger_avions( String ficname) {
+	public boolean charger_avions( File ficname) {
 	
 
 		Scanner scan_avion = null ;
@@ -453,7 +454,7 @@ public class Simulation implements InterfaceModele {
 	
 	
 	//DONE
-	public boolean exporter_trajectoires( String ficname ) {
+	public boolean exporter_trajectoires( File ficname ) {
 		
 		ObjectOutputStream os = null ;
     	String line = null ;
@@ -592,16 +593,16 @@ public class Simulation implements InterfaceModele {
 		
 		Simulation simulation = new Simulation() ;
 		
-		simulation.charger_aerodromes( "fichiers/aerodromes_fr.txt" ) ;
+		simulation.charger_aerodromes( new File( "fichiers/aerodromes_fr.txt" ) ) ;
 		//System.out.println( simulation.getAerodromes().values().size() ) ;
 		
-		simulation.charger_balises( "fichiers/balises_fr.txt" ) ;
+		simulation.charger_balises( new File("fichiers/balises_fr.txt" ) );
 		//System.out.println( simulation.getBalises().values().size() ) ;
 
 		
 		
 		//System.out.println( "Chargement avions" );
-		simulation.charger_avions( "fichiers/avions.txt") ;
+		simulation.charger_avions( new File( "fichiers/avions.txt") );
 		//System.out.println( simulation.getAvions().size() + "Avions chargés" ) ;
 		//for( Avion avion : simulation.getAvions().values() )
 		//	System.out.println( avion.getNom() ) ;

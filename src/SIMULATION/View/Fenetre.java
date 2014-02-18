@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Calendar;
@@ -28,6 +29,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -377,32 +379,38 @@ public class Fenetre extends JFrame implements ViewSimulation
 	 * @param must_exist 
 	 * @return le nom du fichier à charger
 	 */
-	private String demander_nom_fichier( boolean must_exist )
+	private File demander_nom_fichier( boolean must_exist )
 	{
-		   String nomFichier = JOptionPane.showInputDialog(Fenetre.this, "Entrez le nom du fichier a charger","Nom du Fichier",-1);	
+		//String nomFichier = JOptionPane.showInputDialog(Fenetre.this, "Entrez le nom du fichier a charger","Nom du Fichier",-1);	
+		File fichier = null ;
+		JFileChooser fc = new JFileChooser( new File( "." ) ) ;
+		int returnval = fc.showOpenDialog( this ) ;	
         
-        if( must_exist )
+        if ( returnval == JFileChooser.APPROVE_OPTION)
+        	fichier = fc.getSelectedFile() ;
+        
+        if( must_exist && ( fichier != null) )
         {
         	try {
         		JTextArea document = new JTextArea();
         		document.setBackground(Color.ORANGE);
-        		document.read(new FileReader(nomFichier), null);
-        		JFrame fichier = new JFrame(nomFichier);
-        		fichier.add(new JScrollPane(document));
-        		fichier.setSize(400, 300);
-        		fichier.setVisible(true);
+        		document.read(new FileReader( fichier), null);
+        		JFrame fichier_frame = new JFrame( fichier.getName() );
+        		fichier_frame.add(new JScrollPane(document));
+        		fichier_frame.setSize(400, 300);
+        		fichier_frame.setVisible(true);
         		}   
         	catch (IOException ex) 
         	{
         		JOptionPane.showMessageDialog(null, 
-        			"ATTENTION, le fichier " +nomFichier+ " n'existe pas", 
+        			"ATTENTION, le fichier " + fichier.getName() + " n'existe pas", 
         			"Alerte", 
-        			JOptionPane.ERROR_MESSAGE);
-        			nomFichier= null ;
+        			JOptionPane.ERROR_MESSAGE) ;
+        			fichier = null ;
         	}
         }
         
-		return (nomFichier) ;
+		return fichier ;
 	} 
 				 
 
@@ -449,7 +457,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 		{
 			System.out.println("chargt ad");
 			
-			String ficname = Fenetre.this.demander_nom_fichier( true ) ;
+			File ficname = Fenetre.this.demander_nom_fichier( true ) ;
 			System.err.println( ficname ) ;
 
 			if( ficname != null)
@@ -472,7 +480,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 		{
 			System.out.println("chargt balises");
 			
-			String ficname = Fenetre.this.demander_nom_fichier( true ) ;
+			File ficname = Fenetre.this.demander_nom_fichier( true ) ;
 			System.err.println( ficname ) ;
 			
 			if( ficname != null)
@@ -493,7 +501,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 		public void actionPerformed(ActionEvent e)
 		{
 			System.out.println("chargt Plan de vol");
-			String ficname = Fenetre.this.demander_nom_fichier( true ) ;
+			File ficname = Fenetre.this.demander_nom_fichier( true ) ;
 			System.err.println( ficname ) ;		
 			
 			Fenetre.this.modele.charger_avions( ficname ) ;
@@ -660,7 +668,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
-			String ficname = Fenetre.this.demander_nom_fichier( false) ;
+			File ficname = Fenetre.this.demander_nom_fichier( false) ;
 			Fenetre.this.modele.exporter_trajectoires( ficname ) ;
 			
 		}

@@ -3,6 +3,7 @@
  */
 package SIMULATION.View;
 
+import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -22,13 +23,13 @@ public interface InterfaceModele {
 	public boolean setDistanceMax( double distance ) ;
 	public boolean creer_avion( String name , Repere depart , Repere arrivee , int FLightLevel , double vitesse, Date heure_depart ) ;
 	
-	public boolean charger_balises( String ficname ) ;
-	public boolean charger_aerodromes( String ficname ) ;
-	public boolean charger_avions( String ficname ) ; 
+	public boolean charger_balises( File ficname ) ;
+	public boolean charger_aerodromes( File ficname ) ;
+	public boolean charger_avions( File ficname ) ; 
 	
 	public Trajectoire calculer_trajectoire( Repere origine , Repere destination ) ;
 	public boolean calculer_trajectoires() ;
-	public boolean exporter_trajectoires( String ficname ) ;
+	public boolean exporter_trajectoires( File ficname ) ;
 	
 	public boolean iterer() ;
 	
