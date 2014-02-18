@@ -498,6 +498,10 @@ public class Simulation implements InterfaceModele {
 		
 		this.avions.put( nom , new_avion ) ;
 		
+		Trajectoire new_traj = calculer_trajectoire( depart , arrivee) ;
+		new_avion.setTrajectoire( new_traj.clone() ) ;
+		this.trajectoires.put( new_avion, new_traj ) ;
+		
 		return true ;
 	}
 	

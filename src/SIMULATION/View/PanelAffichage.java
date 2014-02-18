@@ -100,12 +100,6 @@ public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 
-			System.out.println("Clicked" + arg0.getX() + "|" + arg0.getY() );
-			
-			//this.x = arg0.getX() ;
-			//this.y = arg0.getY();
-
-		
 		}
 
 		@Override
