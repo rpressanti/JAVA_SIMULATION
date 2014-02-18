@@ -32,7 +32,12 @@ public class BalisesPanel extends PanelElements {
 	{
 		super.paintComponent( g ) ;
 		
-		//System.out.println( "Size" +  this.model.getBalises().values().size() ) ;
+		// TODO RM
+		//System.out.println( "Size Balises" +  this.model.getBalises().values().size() ) ;
+		
+		if( this.model.getBalises().isEmpty() )
+			return ;
+		
 		
 		for( Balise balise : this.model.getBalises().values() )
 		{

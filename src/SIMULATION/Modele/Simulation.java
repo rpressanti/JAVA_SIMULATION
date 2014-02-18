@@ -149,7 +149,7 @@ public class Simulation implements InterfaceModele {
 	// DONE
 	@SuppressWarnings("unchecked")
 	public HashMap<String,Balise> getBalises() {
-		return ( HashMap<String,Balise> ) this.balises.clone() ;
+		return ( HashMap<String,Balise> ) this.balises.clone()  ;
 	}
 	
 	// DONE

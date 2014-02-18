@@ -14,7 +14,8 @@ public class PanelElements extends JPanel {
 	public PanelElements() {
 
 		super() ;
-		
+
+
 		this.afficher_nom = false ;
 		this.afficher_coordonnees = false ;
 

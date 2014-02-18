@@ -25,8 +25,11 @@ public class AerodromesPanel extends PanelElements {
 	
 	public AerodromesPanel( PanelAffichage parent ) {
 		super() ;
+
 		this.parent = parent ;
 		this.model = this.parent.modele() ;
+		
+		this.setSize( this.parent.getSize() );
 		
 		this.setOpaque( false ) ;
 	}
@@ -35,8 +38,9 @@ public class AerodromesPanel extends PanelElements {
 	public void paintComponent(Graphics g) 
 	{
 		super.paintComponent( g ) ;
-				
-		if( this.model.getAerodromes().values().isEmpty() )
+		
+		
+		if( this.model.getAerodromes().isEmpty() )
 			return ;
 		
 		for ( Aerodrome aerodrome : this.model.getAerodromes().values() )

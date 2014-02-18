@@ -6,8 +6,10 @@
  */
 package SIMULATION.View;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
@@ -233,7 +235,7 @@ public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 	public PanelAffichage( InterfaceModele modele) {
 
 		this.modele = modele ;
-		// TODO IMPLEMENTER CADRE DANS MODELE
+
 		this.gauche_haut = new Point( -10 , 55 ) ;
 		this.droit_bas =   new Point(  15 , 40 ) ;
 		this.centre = new Point(
@@ -242,9 +244,11 @@ public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 				( this.droit_bas.getLatitude().getValue() + this.gauche_haut.getLatitude().getValue() ) / 2
 				) ;
 		
-		this.setPreferredSize( 
-				new Dimension( Fenetre.width_panel , Fenetre.height_panel )
-			);
+		this.setBackground( Color.BLUE ) ;
+		
+		
+		this.dimension = new Dimension( Fenetre.width_panel , Fenetre.height_panel ) ;
+		this.setSize( this.dimension );
 
 		this.echelle = this.getSize().width / ( this.droit_bas.getLongitude().getValue() - this.gauche_haut.getLongitude().getValue() ) ;
 		
@@ -252,19 +256,27 @@ public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 		this.aerodromes = new AerodromesPanel( this ) ;
 		this.setLayer( this.aerodromes , JLayeredPane.DEFAULT_LAYER ) ;
 		this.add( this.aerodromes , JLayeredPane.DEFAULT_LAYER ) ;
-				
+		this.aerodromes.setLocation(0, 0) ;
+		this.aerodromes.setSize( new Dimension( Fenetre.width_panel, Fenetre.height_panel) );
+		
 		this.balises = new BalisesPanel( this ) ;
 		this.setLayer( this.balises , new Integer(1) ) ;
 		this.add( this.balises , new Integer( 1) ) ;
+		this.balises.setLocation(0, 0) ;
+		this.balises.setSize( new Dimension( Fenetre.width_panel, Fenetre.height_panel) );
 				
 		this.trajectoires = new TrajectoiresPanel( this ) ;
 		this.setLayer( this.trajectoires , new Integer(2) );
 		this.add( this.trajectoires , new Integer( 2) ) ;
-				
+		this.trajectoires.setLocation(0, 0) ;
+		this.trajectoires.setSize( new Dimension( Fenetre.width_panel, Fenetre.height_panel) );
+		
 		this.avions = new AvionsPanel( this ) ;
 		this.setLayer( this.avions , new Integer( 3) ) ;
 		this.add( this.avions ,new Integer( 3 ) ) ;
-				
+		this.avions.setLocation(0, 0) ;
+		this.avions.setSize( new Dimension( Fenetre.width_panel, Fenetre.height_panel) );
+		
 		this.addComponentListener( new Resizer() );
 		this.addMouseWheelListener( this );
 		ActionSouris action_souris = new ActionSouris() ;
@@ -273,6 +285,8 @@ public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 		
 		this.revalidate();
 		this.repaint();
+		
+		this.rafraichir();
 		
 	}
 	
@@ -283,8 +297,6 @@ public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 	
 	public void deplacerDe( Vecteur v ) {
 		
-		//System.out.println( v ) ;
-		
 		this.gauche_haut.deplacerDe( v ) ;
 		this.droit_bas.deplacerDe( v ) ;
 		this.centre.deplacerDe( v ) ;
@@ -292,7 +304,13 @@ public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 		this.rafraichir() ;
 	}
 	
+	// TODO RM
 	
+	public void paint( Graphics g ) {
+		super.paint( g ) ;
+		//System.out.println( "Dessin panel Affichge: " + this.getSize() ) ;
+		this.rafraichir() ;
+	}
 	
 	
 	public void rafraichir() {
@@ -369,6 +387,9 @@ public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 	public Dimension coordonnees_IHM( Point p ) {
 
 		Dimension dim = this.dimension ;
+		
+		// TODO RM
+		//System.out.println( "Dimension: " + dim ) ;
 		
 		int x = ( int ) ( dim.width *
 				( p.getLongitude().getValue() - this.gauche_haut.getLongitude().getValue() ) 

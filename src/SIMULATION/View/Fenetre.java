@@ -61,8 +61,13 @@ public class Fenetre extends JFrame implements ViewSimulation
 	 * taille des boutons  ds le panel associe aux boutons
 	 * pan_button
 	 */
-	static final int height_buttons = 150 ;
-	static final int width_buttons = 150 ;
+	static final int height_buttons = 50 ;
+	static final int width_buttons = 600 ;
+	
+	static final int height_state_bar = 50 ;
+	static final int width_state_bar  = 600 ;
+	
+	
 	
 	/**
 	 * InterfaceModel est l'interface a laquelle répond le modéle sur lequel on agit et que l'on visualise
@@ -200,8 +205,10 @@ public class Fenetre extends JFrame implements ViewSimulation
 		 * On fixe la taille de la fenêtre comme étant la somme de celles du panel principal et du panel des boutons
 		 * pour éviter que le panel principal n'apparaisse pas. 
 		 */
-		jf.setSize(Fenetre.width_panel + Fenetre.width_buttons ,
-				Fenetre.height_panel + Fenetre.height_buttons );
+		
+		// TODO UNCOMMENT
+		jf.setSize(Fenetre.width_panel , // + Fenetre.width_buttons + Fenetre.width_state_bar ,
+				Fenetre.height_panel + Fenetre.height_buttons + Fenetre.height_state_bar );
 		
 		// conteneur pan
 		/**
@@ -235,7 +242,9 @@ public class Fenetre extends JFrame implements ViewSimulation
 		 * Ce panel contient les boutons zooms et quitter
 		 */
 		JPanel pan_secondaire= new JPanel();
-		pan_secondaire.setBackground(Color.GREEN);  
+		pan_secondaire.setBackground(Color.GREEN);
+		// TODO UNCOMMENT
+		pan_secondaire.setSize( new Dimension( Fenetre.width_state_bar , Fenetre.height_state_bar ) ) ;
 		pan.add(pan_secondaire,BorderLayout.SOUTH );
 		
 		JButton jb_zoom_p = new JButton( "+" ) ;
@@ -292,12 +301,15 @@ public class Fenetre extends JFrame implements ViewSimulation
 		JMenu trajectoire=new JMenu("Trajectoire");
 		jmenubar.add(trajectoire);
 		
-		//	JMenuItem calc_traj= new JMenuItem("Calculer");
-		//trajectoire.add(calc_traj);
+		JMenuItem calc_traj= new JMenuItem("Calculer");
+		trajectoire.add(calc_traj);
+		calc_traj.addActionListener( new ActionCalculTrajectoires() ) ;
 		
-		this.aff_traj= new JMenuItem("Afficher");
-		trajectoire.add(aff_traj);
+		// TODO  RM
+		//this.aff_traj= new JMenuItem("Afficher");
+		//trajectoire.add(aff_traj);
 		//jaff_traj.addActionListener(new ActionAfficherTrajectoire());
+		
 		this.jsave_traj= new JMenuItem("Sauvegarder");
 		trajectoire.add(jsave_traj);
 		this.jsave_traj.addActionListener(new ActionSauvegarderTrajectoire());
@@ -332,9 +344,9 @@ public class Fenetre extends JFrame implements ViewSimulation
 	 
 		// visualisation de la fenetre
 		jf.pack();
+		this.rafraichir() ;
 		jf.setVisible(true);
 		
-	
 	} // fin constructeur       fenetre 		
 		
 		 
@@ -630,6 +642,19 @@ public class Fenetre extends JFrame implements ViewSimulation
 		
 	}
 	
+	private class ActionCalculTrajectoires implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Fenetre.this.modele.calculer_trajectoires() ;
+		}
+		
+	}
+	
+	
+	
+	
+	
 	private class ActionSauvegarderTrajectoire implements ActionListener {
 
 		@Override
@@ -648,6 +673,9 @@ public class Fenetre extends JFrame implements ViewSimulation
 	 */
 	public boolean rafraichir() {
 		
+		this.revalidate();
+		this.repaint();
+		
 		this.pan_principal.rafraichir() ; 
 		this.pan_principal.revalidate();
 		this.pan_principal.repaint();
@@ -659,16 +687,16 @@ public class Fenetre extends JFrame implements ViewSimulation
 		
 		Simulation modele = new Simulation() ;
 		
-		modele.setHeureCourante( new GregorianCalendar( 2014 , 02 , 15 , 7 , 59 ) );
-		
-		modele.charger_balises( "./fichiers/balises_fr.txt" ) ;
-		modele.charger_aerodromes( "./fichiers/aerodromes_fr.txt" ) ;
-		
 		Fenetre fen_1 = new Fenetre( modele );
 		//Fenetre fen_2 = new Fenetre( modele );
 		
-		modele.charger_avions( "fichiers/avions.txt") ;
+		modele.setHeureCourante( new GregorianCalendar( 2014 , 02 , 15 , 7 , 59 ) );
 		modele.setDistanceMax( 500 ) ;
+		
+		//modele.charger_balises( "./fichiers/balises_fr.txt" ) ;
+		//modele.charger_aerodromes( "./fichiers/aerodromes_fr.txt" ) ;
+		//modele.charger_avions( "fichiers/avions.txt") ;
+		
 
 	}
 		}// end class
