@@ -372,7 +372,8 @@ public class Simulation implements InterfaceModele {
 	// TODO IMPORT AVIONS
 	public boolean charger_avions( File ficname) {
 	
-
+		System.out.println( "Chargement avions" );
+		
 		Scanner scan_avion = null ;
 		String indicatif = "" , coord = "" , tmp_line = "";
 		
@@ -561,7 +562,8 @@ public class Simulation implements InterfaceModele {
 		//if( ( this.phase_prete != PHASE.CALCUL_TRAJECTOIRES ) || ( ! this.genererGrapheTotal() ) )
 		//	return false ;
 		
-			
+		System.out.println( "Calcul des trajectoires" );
+	
 		for( Avion avion : this.avions.values() )
 		{
 			Trajectoire trajectoire = calculer_trajectoire( avion.getDepart() , avion.getArrivee() ) ;

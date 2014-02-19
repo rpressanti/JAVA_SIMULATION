@@ -120,7 +120,7 @@ public class Avion {
 
 		if( this.trajectoire.isEmpty() )
 		{
-			System.out.println( "Trajectoire vide!" );
+			//System.out.println( "Trajectoire vide!" );
 			return plots ;
 		}
 		

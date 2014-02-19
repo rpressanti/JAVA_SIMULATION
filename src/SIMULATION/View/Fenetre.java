@@ -701,10 +701,11 @@ public class Fenetre extends JFrame implements ViewSimulation
 		modele.setHeureCourante( new GregorianCalendar( 2014 , 02 , 15 , 7 , 59 ) );
 		modele.setDistanceMax( 500 ) ;
 		
-		//modele.charger_balises( "./fichiers/balises_fr.txt" ) ;
-		//modele.charger_aerodromes( "./fichiers/aerodromes_fr.txt" ) ;
-		//modele.charger_avions( "fichiers/avions.txt") ;
+		//modele.charger_balises( new File("./fichiers/balises_fr.txt" ) ) ;
+		//modele.charger_aerodromes( new File( "./fichiers/aerodromes_fr.txt" ) );
+		//modele.charger_avions( new File("fichiers/avions.txt")) ;
 		
+		//modele.calculer_trajectoires() ;
 
 	}
 		}// end class
