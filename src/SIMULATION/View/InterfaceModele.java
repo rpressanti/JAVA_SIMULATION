@@ -21,6 +21,7 @@ public interface InterfaceModele {
 	public HashMap< Avion , Trajectoire > getTrajectoires() ;
 
 	public boolean setDistanceMax( double distance ) ;
+	public void setHeureCourante( Date date) ;
 	public boolean creer_avion( String name , Repere depart , Repere arrivee , int FLightLevel , double vitesse, Date heure_depart ) ;
 	
 	public boolean charger_balises( File ficname ) ;

@@ -75,8 +75,8 @@ public class Simulation implements InterfaceModele {
 		return true ;
 	}
 	
-	public void setHeureCourante( Calendar courant ) {
-		this.heure_courante = courant ;
+	public void setHeureCourante( Date date ) {
+		this.heure_courante.setTime( date ) ;
 	}
 	
 	public Calendar getHeureCourante() {
@@ -557,8 +557,8 @@ public class Simulation implements InterfaceModele {
 	// DONE
 	public boolean calculer_trajectoires() {
 		
-		boolean result = true ;
-			
+
+		// TODO CORRECT
 		//if( ( this.phase_prete != PHASE.CALCUL_TRAJECTOIRES ) || ( ! this.genererGrapheTotal() ) )
 		//	return false ;
 		

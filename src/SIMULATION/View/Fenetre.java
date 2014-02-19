@@ -44,6 +44,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SpinnerModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import SIMULATION.Datatypes.Repere;
 import SIMULATION.Modele.Simulation;
@@ -245,9 +247,22 @@ public class Fenetre extends JFrame implements ViewSimulation
 		 */
 		JPanel pan_secondaire= new JPanel();
 		pan_secondaire.setBackground(Color.GREEN);
-		// TODO UNCOMMENT
+		
 		pan_secondaire.setSize( new Dimension( Fenetre.width_state_bar , Fenetre.height_state_bar ) ) ;
 		pan.add(pan_secondaire,BorderLayout.SOUTH );
+		
+		Calendar now = Calendar.getInstance() ;
+		Calendar earliestDate_hc = new GregorianCalendar( 2012 , 1 ,1) ;
+		Calendar latestDate_hc = new GregorianCalendar( 2014 , 12 ,31 ) ;
+		SpinnerDateModel model_heure_courante = new SpinnerDateModel( now.getTime(), 
+		earliestDate_hc.getTime(), latestDate_hc.getTime(), Calendar.WEEK_OF_YEAR );
+		JSpinner spinner = new JSpinner( model_heure_courante );
+		model_heure_courante.addChangeListener( new ActionSaisieHeureCourante() ) ;
+		pan_secondaire.add( spinner ) ;						
+		
+		
+		
+		
 		
 		JButton jb_zoom_p = new JButton( "+" ) ;
 		jb_zoom_p.addActionListener( new ActionZoomP() );
@@ -675,7 +690,20 @@ public class Fenetre extends JFrame implements ViewSimulation
 		
 	}
 	
+	
+	
+	private class ActionSaisieHeureCourante implements ChangeListener {
+
+		@Override
+		public void stateChanged(ChangeEvent arg0) {
+			Fenetre.this.modele.setHeureCourante( ( (SpinnerDateModel) arg0.getSource() ).getDate() ) ;
+		}
 		
+	}
+	
+	
+	
+	
 	/**
 	 * rafraichit les différents panels spécifiques aux objets
 	 */
@@ -698,7 +726,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 		Fenetre fen_1 = new Fenetre( modele );
 		//Fenetre fen_2 = new Fenetre( modele );
 		
-		modele.setHeureCourante( new GregorianCalendar( 2014 , 02 , 15 , 7 , 59 ) );
+		modele.setHeureCourante( new GregorianCalendar( 2014 , 02 , 15 , 7 , 59 ).getTime() );
 		modele.setDistanceMax( 500 ) ;
 		
 		//modele.charger_balises( new File("./fichiers/balises_fr.txt" ) ) ;
