@@ -726,8 +726,8 @@ public class Fenetre extends JFrame implements ViewSimulation
 		Fenetre fen_1 = new Fenetre( modele );
 		//Fenetre fen_2 = new Fenetre( modele );
 		
-		modele.setHeureCourante( new GregorianCalendar( 2014 , 02 , 15 , 7 , 59 ).getTime() );
-		modele.setDistanceMax( 500 ) ;
+		//modele.setHeureCourante( new GregorianCalendar( 2014 , 02 , 15 , 7 , 59 ).getTime() );
+		//modele.setDistanceMax( 500 ) ;
 		
 		//modele.charger_balises( new File("./fichiers/balises_fr.txt" ) ) ;
 		//modele.charger_aerodromes( new File( "./fichiers/aerodromes_fr.txt" ) );
