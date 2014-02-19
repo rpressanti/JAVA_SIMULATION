@@ -7,15 +7,14 @@ import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class PanelElements extends JPanel {
-
+	
 	protected boolean afficher_nom ;
 	protected boolean afficher_coordonnees ;
 
 	public PanelElements() {
 
 		super() ;
-
-
+		
 		this.afficher_nom = false ;
 		this.afficher_coordonnees = false ;
 

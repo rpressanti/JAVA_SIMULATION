@@ -24,6 +24,7 @@ public class AerodromesPanel extends PanelElements {
 	private InterfaceModele model ;
 	
 	public AerodromesPanel( PanelAffichage parent ) {
+		
 		super() ;
 
 		this.parent = parent ;

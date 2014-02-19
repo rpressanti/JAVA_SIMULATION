@@ -573,7 +573,7 @@ public class Simulation implements InterfaceModele {
 		
 		this.phase_prete = PHASE.DEMARRAGE ;
 		
-		return result ;
+		return this.rafraichir() ;
 	}
 
 	// DONE
