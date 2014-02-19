@@ -20,15 +20,10 @@ import java.awt.Graphics;
 @SuppressWarnings({ "serial"})
 public class AerodromesPanel extends PanelElements {
 
-	private PanelAffichage parent ;
-	private InterfaceModele model ;
 	
 	public AerodromesPanel( PanelAffichage parent ) {
 		
-		super() ;
-
-		this.parent = parent ;
-		this.model = this.parent.modele() ;
+		super( parent) ;
 		
 		this.setSize( this.parent.getSize() );
 		

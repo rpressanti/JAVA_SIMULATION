@@ -16,9 +16,7 @@ public class TrajectoiresPanel extends PanelElements {
 	private InterfaceModele model ;
 	
 	public TrajectoiresPanel( PanelAffichage parent ) {
-		super() ;
-		this.parent = parent ;
-		this.model = this.parent.modele() ;
+		super( parent ) ;
 		
 		this.setOpaque( false ) ;
 	}

@@ -20,10 +20,8 @@ public class AvionsPanel extends PanelElements {
 	private InterfaceModele model ;
 	
 	public AvionsPanel( PanelAffichage parent) {
-		super() ;
-		this.parent = parent ;
-		this.model = this.parent.modele() ;
-		
+		super( parent ) ;
+
 		this.setOpaque( false );
 	}
 	
