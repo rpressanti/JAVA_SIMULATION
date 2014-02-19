@@ -6,7 +6,7 @@ package SIMULATION.View;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public abstract class PanelElements extends JPanel {
+public class PanelElements extends JPanel {
 	
 	protected PanelAffichage parent ;
 	protected InterfaceModele model ;
@@ -14,12 +14,14 @@ public abstract class PanelElements extends JPanel {
 	protected boolean afficher_nom ;
 	protected boolean afficher_coordonnees ;
 
-	public PanelElements( PanelAffichage parent) {
+	public PanelElements( /*PanelAffichage parent*/ ) {
 
 		super() ;
 	
-		this.parent = parent ;
-		this.model = this.parent.modele() ;
+		//this.parent = parent ;
+		//this.model = this.parent.modele() ;
+		
+		//this.setSize( this.parent.getSize() ) ;
 		
 		this.afficher_nom = false ;
 		this.afficher_coordonnees = false ;

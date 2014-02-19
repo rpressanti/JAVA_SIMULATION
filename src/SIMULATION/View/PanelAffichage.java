@@ -298,7 +298,6 @@ public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 		this.rafraichir() ;
 	}
 	
-	// TODO RM
 	
 	public void paint( Graphics g ) {
 		super.paint( g ) ;

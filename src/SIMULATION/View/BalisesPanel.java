@@ -15,9 +15,12 @@ public class BalisesPanel extends PanelElements {
 	private InterfaceModele model ;
 	
 	public BalisesPanel( PanelAffichage parent ) {
-		super( parent ) ;
+		//super( parent ) ;
+		super() ;
+		this.parent = parent ;
+		this.model = this.parent.modele() ;
 		
-		this.setSize( this.parent.getSize() );
+		//this.setSize( this.parent.getSize() );
 		
 		this.setOpaque( false ) ;
 	}
