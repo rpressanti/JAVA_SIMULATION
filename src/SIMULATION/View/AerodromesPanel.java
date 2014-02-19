@@ -27,14 +27,11 @@ public class AerodromesPanel extends PanelElements {
 	
 	public AerodromesPanel( PanelAffichage parent ) {
 		
-		//super( parent) ;
 		super() ;
 		this.parent = parent ;
 		this.model = this.parent.modele() ;
 
-		System.out.println( "Taille:" + this.parent.getSize() ) ;
-		
-		//this.setSize( this.parent.getSize() );
+		//System.out.println( "Taille:" + this.parent.getSize() ) ;
 		
 		this.setOpaque( false ) ;
 	}

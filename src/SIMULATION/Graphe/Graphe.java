@@ -192,7 +192,6 @@ public class Graphe<C extends Chemin<C,A,N,E> , A extends Arete<A,N,E>,N extends
 				System.out.println( "plus court trouvé" ) ;
 				System.out.println( chemin_courant );
 				
-				// TODO CORRECT
 				if ( ! chemin_courant.isTrivial() )
 					chemin_courant.untrivial();
 				

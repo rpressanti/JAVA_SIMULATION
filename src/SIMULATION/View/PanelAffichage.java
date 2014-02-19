@@ -134,7 +134,7 @@ public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 					PanelAffichage.this.coordonnees_GPS( this.x - e.getX() , this.y - e.getY() )		
 				) ;
 			
-			System.out.println( deplacement ) ;
+			System.out.println( "deplacement" ) ;
 			
 			PanelAffichage.this.deplacerDe( deplacement ) ;			
 		}
@@ -381,7 +381,6 @@ public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 
 		Dimension dim = this.dimension ;
 		
-		// TODO RM
 		//System.out.println( "Dimension: " + dim ) ;
 		
 		int x = ( int ) ( dim.width *

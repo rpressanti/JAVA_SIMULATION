@@ -210,7 +210,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 		 * pour éviter que le panel principal n'apparaisse pas. 
 		 */
 		
-		// TODO UNCOMMENT
+		
 		jf.setSize(Fenetre.width_panel , // + Fenetre.width_buttons + Fenetre.width_state_bar ,
 				Fenetre.height_panel + Fenetre.height_buttons + Fenetre.height_state_bar );
 		
@@ -322,10 +322,6 @@ public class Fenetre extends JFrame implements ViewSimulation
 		trajectoire.add(calc_traj);
 		calc_traj.addActionListener( new ActionCalculTrajectoires() ) ;
 		
-		// TODO  RM
-		//this.aff_traj= new JMenuItem("Afficher");
-		//trajectoire.add(aff_traj);
-		//jaff_traj.addActionListener(new ActionAfficherTrajectoire());
 		
 		this.jsave_traj= new JMenuItem("Sauvegarder");
 		trajectoire.add(jsave_traj);

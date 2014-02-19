@@ -18,11 +18,6 @@ public class PanelElements extends JPanel {
 
 		super() ;
 	
-		//this.parent = parent ;
-		//this.model = this.parent.modele() ;
-		
-		//this.setSize( this.parent.getSize() ) ;
-		
 		this.afficher_nom = false ;
 		this.afficher_coordonnees = false ;
 
