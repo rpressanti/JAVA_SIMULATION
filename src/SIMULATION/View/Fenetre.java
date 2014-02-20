@@ -365,7 +365,7 @@ public class Fenetre extends JFrame implements ViewSimulation
 		 
 	// methodes
 	/**
-	 * @param quitter quitte l'application avec confirmation
+	 * quitter quitte l'application avec confirmation
 	 */
 	public void quitter()
 	{
@@ -717,7 +717,8 @@ public class Fenetre extends JFrame implements ViewSimulation
 	
 	public static void main(String[] args) {
 		
-		System.setProperty("file.encoding","UTF-8");
+		System.setProperty("file.encoding", "UTF-8");
+		
 		Simulation modele = new Simulation() ;
 		
 		Fenetre fen_1 = new Fenetre( modele );

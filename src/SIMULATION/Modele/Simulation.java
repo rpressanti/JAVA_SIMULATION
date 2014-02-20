@@ -593,6 +593,8 @@ public class Simulation implements InterfaceModele {
 	
 	public static void main( String args[] ) {
 		
+		System.setProperty("file.encoding", "UTF-8");
+		
 		Simulation simulation = new Simulation() ;
 		
 		simulation.charger_aerodromes( new File( "fichiers/aerodromes_fr.txt" ) ) ;

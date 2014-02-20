@@ -34,10 +34,9 @@ import SIMULATION.Datatypes.Aerodrome;
 import SIMULATION.Datatypes.Balise;
 import SIMULATION.Datatypes.Repere;
 
-public class SaisiePlanDeVol extends JFrame implements ActionListener {
+public class SaisiePlanDeVol implements ActionListener {
 
-	
-	private static final long serialVersionUID = 1L;
+
 
 private InterfaceModele modele ;
 	

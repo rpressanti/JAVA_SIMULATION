@@ -8,9 +8,6 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class PanelElements extends JPanel {
 	
-	protected PanelAffichage parent ;
-	protected InterfaceModele model ;
-	
 	protected boolean afficher_nom ;
 	protected boolean afficher_coordonnees ;
 
