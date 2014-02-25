@@ -4,8 +4,10 @@ package SIMULATION.Modele;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,11 +16,20 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map.Entry;
-import java.util.Scanner ;
+import java.util.Scanner;
 import java.util.regex.MatchResult;
 
-import SIMULATION.Datatypes.*;
-import SIMULATION.Graphe.* ;
+import SIMULATION.Datatypes.Aerodrome;
+import SIMULATION.Datatypes.Avion;
+import SIMULATION.Datatypes.Balise;
+import SIMULATION.Datatypes.NoeudTrajectoire;
+import SIMULATION.Datatypes.Plot;
+import SIMULATION.Datatypes.Point;
+import SIMULATION.Datatypes.Repere;
+import SIMULATION.Datatypes.Segment;
+import SIMULATION.Datatypes.Trajectoire;
+import SIMULATION.Graphe.Graphe;
+import SIMULATION.Graphe.GrapheComplet;
 import SIMULATION.View.InterfaceModele;
 
 
@@ -253,7 +264,9 @@ public class Simulation implements InterfaceModele {
 		
 		try {
 			
-			FileReader fr = new FileReader( ficname ) ;
+			InputStreamReader fr = new InputStreamReader(
+					new FileInputStream(ficname), "UTF-8");
+
 			//System.out.println( "Fichier ouvert: "  + ficname ) ;
 			BufferedReader is = new BufferedReader( fr ) ;
 			//System.out.println( "Buffer ouvert: "  + ficname ) ;
@@ -281,7 +294,7 @@ public class Simulation implements InterfaceModele {
 					
 					} catch( Exception e)
 					{
-						System.out.println( "Erreur cr�ation balise:" + indicatif + coord );
+						System.out.println( "Erreur création balise:" + indicatif + coord );
 					}
 				}
 				
@@ -294,7 +307,7 @@ public class Simulation implements InterfaceModele {
 			e.printStackTrace() ;
 		}
 		
-		System.out.println( "Chargement balises termin�." );
+		System.out.println( "Chargement balises terminé." );
 		return this.rafraichir() ;
 	}
 	
@@ -308,8 +321,9 @@ public class Simulation implements InterfaceModele {
 		
 		try {
 			
-			BufferedReader is = new BufferedReader( new FileReader( ficname ) ) ;
-		
+			BufferedReader is = new BufferedReader( new InputStreamReader(
+					new FileInputStream(ficname), "Cp1252"));
+	
 			
 			
 			// On ignore l'en-tete et les lignes vides suivantes
@@ -343,7 +357,7 @@ public class Simulation implements InterfaceModele {
 						this.aerodromes.put( code_OACI , new_ad ) ;
 					
 					} catch ( Exception e) {
-						System.out.println( "Erreur cr�ation a�rodrome:" + tmp_line );
+						System.out.println( "Erreur création aérodrome:" + tmp_line );
 					}
 					
 					
@@ -592,8 +606,6 @@ public class Simulation implements InterfaceModele {
 	
 	
 	public static void main( String args[] ) {
-		
-		System.setProperty("file.encoding", "UTF-8");
 		
 		Simulation simulation = new Simulation() ;
 		

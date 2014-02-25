@@ -1,5 +1,6 @@
 package SIMULATION.Datatypes;
 
+
 // CLASS DONE
 
 public class Vecteur extends Point{

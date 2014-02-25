@@ -71,7 +71,7 @@ public class Coordonnees {
 	     value_res = minute + value_res / 60 ;
 	     value_res = degre + value_res / 60 ;
 	     
-	     if( (direction.compareTo("S") == 0) || ( direction.compareTo("O") == 0)  )
+	     if( (direction.compareTo("S") == 0) || ( direction.compareTo("O") == 0) || ( direction.compareTo("W") == 0)  )
 	     {
 	    	 //System.out.println( "Changement de signe :" + direction ) ;
 	    	 value_res *= -1  ;

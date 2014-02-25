@@ -1,5 +1,6 @@
 package SIMULATION.Datatypes;
 
+
 // INTERFACE DONE
 
 /** Balise ou aérodrome

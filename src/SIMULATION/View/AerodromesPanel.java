@@ -13,6 +13,7 @@ package SIMULATION.View;
 
 import SIMULATION.Datatypes.* ;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
@@ -32,8 +33,8 @@ public class AerodromesPanel extends PanelElements {
 		this.model = this.parent.modele() ;
 
 		//System.out.println( "Taille:" + this.parent.getSize() ) ;
-		
-		this.setOpaque( false ) ;
+		this.setBackground(Color.white);
+		this.setOpaque( true ) ;
 	}
 
 	

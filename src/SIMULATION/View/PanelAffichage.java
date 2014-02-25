@@ -166,7 +166,7 @@ public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 			int marge_hauteur = 0 ;
 			int min = 0 ;
 			
-			// On rend les panels carrés et on calcule les marges
+//			 On rend les panels carrés et on calcule les marges
 			if( dim.height > dim.width)
 			{
 				min = dim.width ;
@@ -238,7 +238,8 @@ public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 				( this.droit_bas.getLatitude().getValue() + this.gauche_haut.getLatitude().getValue() ) / 2
 				) ;
 		
-		this.setBackground( Color.BLUE ) ;
+		this.setBackground( Color.white ) ;
+		this.setOpaque(false); //sinon le background est pris en compte
 		
 		
 		this.dimension = new Dimension( Fenetre.width_panel , Fenetre.height_panel ) ;
@@ -298,9 +299,9 @@ public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 		this.rafraichir() ;
 	}
 	
-	
-	public void paint( Graphics g ) {
-		super.paint( g ) ;
+	@Override
+	public void paintComponent( Graphics g ) {
+		super.paintComponent( g ) ;
 		//System.out.println( "Dessin panel Affichge: " + this.getSize() ) ;
 		this.rafraichir() ;
 	}
