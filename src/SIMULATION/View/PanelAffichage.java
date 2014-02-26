@@ -29,11 +29,11 @@ public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 /**
  * affichage du nom d'un repère (balise ou aérodrome) si l'echelle est supérieur à cette valeur.
  */
-	public static final Double echelle_min_aff_nom = 100.0 ;
+	public static final Double echelle_min_aff_nom = 150.0 ;
 	/**
 	 * affichage des coordonnées d'un repère (balise ou aérodrome) si l'echelle est supérieur à cette valeur.
 	 */
-	public static final Double echelle_min_aff_coord = 250.0 ;
+	public static final Double echelle_min_aff_coord = 800.0 ;
 	
 	/**
 	 * coordonnées GPS de la limite supérieure gauche de la carte  
@@ -424,7 +424,7 @@ public class PanelAffichage extends JLayeredPane implements MouseWheelListener {
 	
 		double zoom = 1.0 ;
 		double rotation = arg0.getWheelRotation() ;
-		if ( rotation > 0 )
+		if ( rotation < 0 )
 			zoom = 1.1 ;
 		else
 			zoom = 0.9 ;
