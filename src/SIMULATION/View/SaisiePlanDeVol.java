@@ -12,6 +12,8 @@ import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Calendar;
@@ -66,6 +68,7 @@ private InterfaceModele modele ;
 			
 			
 			SaisiePlanDeVol.this.indicatif = ( (JTextField) arg0.getSource() ).getText() ;
+			System.out.println( "indiatif:" + SaisiePlanDeVol.this.indicatif ) ;
 		}
 		
 	}
@@ -217,7 +220,7 @@ private InterfaceModele modele ;
 		chx_dep_balises.addActionListener( new SelectDepBalises() ); ;
 		
 		this.pan_pdv.add( this.combo_dep ) ;
-	
+		this.combo_dep.addItemListener( new SelectDep() );
 		
 		JLabel arrivee_prompt = new JLabel( "Arrivée:" ) ;
 		this.pan_pdv.add( arrivee_prompt ) ;
@@ -229,11 +232,11 @@ private InterfaceModele modele ;
 		chx_arr_ad.addActionListener( new SelectArrAd() );
 		
 		JRadioButton chx_arr_balises = new JRadioButton( "Balise" ) ;
-		chx_dep.add( chx_arr_balises ) ;
+		chx_arr.add( chx_arr_balises ) ;
 		this.pan_pdv.add( chx_arr_balises ) ;
 		chx_arr_balises.addActionListener( new SelectArrBalises() ) ;	
 		this.pan_pdv.add( combo_arr ) ;	
-		
+		this.combo_arr.addItemListener( new SelectArr() );
 		
 		
 		JLabel vitesse_prompt = new JLabel( "Vitesse:" ) ;
@@ -334,16 +337,32 @@ private InterfaceModele modele ;
 	public void actionPerformed(ActionEvent e) {
 		
 		this.modele.creer_avion( this.indicatif, this.depart, this.arrivee, this.flight_level, this.vitesse, this.heure_depart ) ;
-		
-		System.out.println( "Avion créé" + this.modele.getAvions().size() ) ;
+		this.jf_pdv.dispose() ;
+		System.out.println( "Avion créé" + this.modele.getAvions().size() + 
+				"|ind:"  + this.indicatif + "|dep:" + this.depart + "|arr" + this.arrivee 
+		);
 		
 	}
 
 	
+	private class SelectDep implements ItemListener {
+
+		@Override
+		public void itemStateChanged(ItemEvent arg0) {
+			SaisiePlanDeVol.this.depart = (Repere) arg0.getItem() ;
+		}
+		
+	}
 	
 	
-	
-	
+	private class SelectArr implements ItemListener {
+
+		@Override
+		public void itemStateChanged(ItemEvent arg0) {
+			SaisiePlanDeVol.this.arrivee = (Repere) arg0.getItem() ;
+		}
+		
+	}
 	
 	
 	

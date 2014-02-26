@@ -34,7 +34,7 @@ public class TrajectoiresPanel extends PanelElements {
 		
 		super.paintComponent( g ) ;
 		
-		g.setColor( Color.YELLOW );
+		g.setColor( Color.BLUE );
 		
 		for( Trajectoire trajectoire : this.model.getTrajectoires().values() )
 		{

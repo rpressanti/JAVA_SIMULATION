@@ -35,6 +35,8 @@ import SIMULATION.View.InterfaceModele;
 
 public class Simulation implements InterfaceModele {
 
+	public static double degres_par_NM = 1/ 60 ;
+	
 	public enum PHASE { INIT ,
 						CHARGEMENT_AD , CHARGEMENT_BALISES , 
 						CHARGEMENT_REPERES , CHARGEMENT_AVION ,
@@ -63,14 +65,19 @@ public class Simulation implements InterfaceModele {
 		
 		this.heure_courante = new GregorianCalendar() ;
 		
+		this.balises    = new HashMap<String,Balise>() ;
+		this.aerodromes = new HashMap<String,Aerodrome>() ;
+		
 		this.reinitialiser() ;
+
+		this.distanceEntreAvions = 30 * Simulation.degres_par_NM ;
 		
 	}
 	
 	public boolean reinitialiser() {
 		
-		this.balises    = new HashMap<String,Balise>() ;
-		this.aerodromes = new HashMap<String,Aerodrome>() ;
+		//this.balises    = new HashMap<String,Balise>() ;
+		//this.aerodromes = new HashMap<String,Aerodrome>() ;
 		
 		this.avions = new HashMap<String,Avion>() ;
 		this.trajectoires = new HashMap<Avion,Trajectoire>() ;
@@ -80,7 +87,7 @@ public class Simulation implements InterfaceModele {
 		
 		this.distance_max = 0 ;
 		
-		this.phase_prete = PHASE.CHARGEMENT_REPERES ;
+		this.phase_prete = PHASE.CHARGEMENT_AVION ;
 		this.vues = new ArrayList<ViewSimulation>() ;
 	
 		return true ;
@@ -88,6 +95,7 @@ public class Simulation implements InterfaceModele {
 	
 	public void setHeureCourante( Date date ) {
 		this.heure_courante.setTime( date ) ;
+		System.out.println( "Heure courante" + this.heure_courante );
 	}
 	
 	public Calendar getHeureCourante() {
@@ -483,7 +491,7 @@ public class Simulation implements InterfaceModele {
 		
 		for( Entry<Avion, Trajectoire> entry : this.trajectoires.entrySet() )
 		{
-			line = entry.getKey().getNom() + "|" ;
+			line = entry.getKey().getNom() + ":" ;
 			line += entry.getValue().toString();
 			line += "\n" ;
 			
@@ -513,9 +521,9 @@ public class Simulation implements InterfaceModele {
 		
 		this.avions.put( nom , new_avion ) ;
 		
-		Trajectoire new_traj = calculer_trajectoire( depart , arrivee) ;
-		new_avion.setTrajectoire( new_traj.clone() ) ;
-		this.trajectoires.put( new_avion, new_traj ) ;
+		//Trajectoire new_traj = calculer_trajectoire( depart , arrivee) ;
+		//new_avion.setTrajectoire( new_traj.clone() ) ;
+		//this.trajectoires.put( new_avion, new_traj ) ;
 		
 		return true ;
 	}
@@ -538,7 +546,11 @@ public class Simulation implements InterfaceModele {
 		this.distance_max = distance_max ;
 		this.grapheFiltre = this.grapheComplet.clone() ;
 		this.grapheFiltre.filtrer( this.distance_max ) ;
-		return this.calculer_trajectoires();
+		
+		if( ! this.trajectoires.isEmpty() )
+			this.calculer_trajectoires();
+		
+		return true ;
 	}
 	
 	public Trajectoire calculer_trajectoire( Repere origine , Repere destination ) {

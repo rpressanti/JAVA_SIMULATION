@@ -166,8 +166,11 @@ public class Graphe<C extends Chemin<C,A,N,E> , A extends Arete<A,N,E>,N extends
 			A arete_triviale = this.classeArete.getDeclaredConstructor(
 						new Class[] { this.classeNoeud , this.classeNoeud , Double.class }
 					).newInstance( origine , origine , 0.0 ) ;
+			System.out.println( "Arete créée" ) ;
 			chemin_trivial.add( arete_triviale ) ;
-			chemin_courant = this.classeChemin.newInstance() ; 
+			System.out.println( "Arete ajoutée" ) ;
+			chemin_courant = this.classeChemin.newInstance() ;
+			System.out.println( "Chemin créé" ) ;
 		
 		} catch( Exception e) {
 			System.err.println( "Arete triviale non créée" ) ;
